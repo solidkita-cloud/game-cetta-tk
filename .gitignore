@@ -1,0 +1,11 @@
+# Dokumentasi PDF & File Besar
+*.pdf
+
+# File Backup Lama
+*_backup*.html
+Fix-Klik-Suara-Taman.html
+GAME TK BELAJAR.html
+
+# Temporary files
+.DS_Store
+Thumbs.db

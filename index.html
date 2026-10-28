@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Taman Petualangan Ceria Cetta TK</title>
+  
+  <!-- PWA & Mobile Web App Capabilities -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4CAF50">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Cetta TK">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+  <div id="app-viewport">
+    
+    <!-- Floating Soap Bubble Layer (Anti-Boredom) -->
+    <div id="floating-bubbles-container" class="bubble-layer"></div>
+
+    <!-- ======================================================= -->
+    <!-- SCENE 1: TITLE / PINTU GERBANG                          -->
+    <!-- ======================================================= -->
+    <div id="scene-title" class="scene-view active-scene">
+      <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; text-align:center; gap:16px;">
+        
+        <div style="font-size:14px; font-weight:800; color:#5C6F4D; background:rgba(255,255,255,0.85); padding:6px 16px; border-radius:20px;">
+          TAMAN PENDIDIKAN ANAK USIA DINI (PAUD & TK)
+        </div>
+
+        <h1 style="font-size:32px; font-weight:900; color:#2E7D32; text-shadow:0 3px 6px rgba(0,0,0,0.1); line-height:1.2;">
+          PETUALANGAN CERIA<br><span style="color:#FF6F00;">CETTA & SAHABAT</span>
+        </h1>
+
+        <!-- Mascot Podium -->
+        <div style="display:flex; align-items:center; justify-content:center; gap:24px; margin:8px 0;">
+          <div class="squish-btn" style="padding:12px; border-radius:24px; background:#FFF; border:3px solid #E0E0E0;" onclick="switchMascot('pandi')" title="Pilih Pandi si Panda">
+            <span style="font-size:54px;">🐼</span><br>
+            <span style="font-size:12px; font-weight:800; color:#2E3A23;">Pandi</span>
+          </div>
+          <div class="squish-btn" style="padding:12px; border-radius:24px; background:#FFF; border:3px solid #E0E0E0;" onclick="switchMascot('miko')" title="Pilih Miko si Kucing">
+            <span style="font-size:54px;">🐱</span><br>
+            <span style="font-size:12px; font-weight:800; color:#2E3A23;">Miko</span>
+          </div>
+        </div>
+
+        <!-- Roleplay Selector -->
+        <div style="display:flex; gap:8px;">
+          <button class="squish-btn btn-pill" style="background:#FFF9C4; color:#F57F17; font-size:13px;" onclick="setPlayerRole('bu_guru')">👩‍🏫 Bu Guru</button>
+          <button class="squish-btn btn-pill" style="background:#E1F5FE; color:#0288D1; font-size:13px;" onclick="setPlayerRole('pak_guru')">👨‍🏫 Pak Guru</button>
+          <button class="squish-btn btn-pill" style="background:#E8F5E9; color:#2E7D32; font-size:13px;" onclick="setPlayerRole('murid')">🎒 Murid Pintar</button>
+        </div>
+
+        <!-- Player Name Card -->
+        <div class="squish-btn" style="padding:6px 18px; background:rgba(255,255,255,0.9); border:2px solid #C8E6C9; border-radius:20px; font-size:14px;" onclick="editPlayerName()">
+          Pemain: <b class="player-name-text" style="color:#2E7D32;">ALI</b> ✏️
+        </div>
+
+        <!-- Big Start Play Button -->
+        <button class="squish-btn btn-primary" style="font-size:24px; padding:18px 48px; border-radius:32px; margin-top:8px;" onclick="goToScene('map')">
+          MULAI BERMAIN! 🚀
+        </button>
+
+        <!-- Bottom Action Buttons (Reward + Install) -->
+        <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
+          <button class="squish-btn btn-reward btn-pill" style="font-size:14px;" onclick="openMotherRewardModal()">
+            🎁 Peti Hadiah Ibu
+          </button>
+          <button id="btn-install-app" class="squish-btn btn-pill" style="font-size:14px; background:#E8F5E9; color:#2E7D32; border:2px solid #81C784;" onclick="triggerAppInstall()">
+            📲 Pasang di HP/Tablet
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- SCENE 2: PETA PETUALANGAN (11 WAHANA + VS)             -->
+    <!-- ======================================================= -->
+    <div id="scene-map" class="scene-view">
+      
+      <!-- Header -->
+      <div class="game-header">
+        <div class="header-left">
+          <button class="squish-btn btn-icon" onclick="goToScene('title')" title="Kembali ke Depan">🚪</button>
+          <span style="font-weight:800; font-size:16px; color:#2E7D32;">Peta Cetta</span>
+        </div>
+        <div class="header-right">
+          <button id="btn-install-map" class="squish-btn btn-pill" style="font-size:12px; padding:5px 12px; background:#E8F5E9; color:#2E7D32; border:1.5px solid #81C784;" onclick="triggerAppInstall()" title="Pasang Aplikasi ke Layar Utama HP">
+            📲 Pasang
+          </button>
+          <div class="squish-btn btn-star-badge" onclick="openMotherRewardModal()">
+            ⭐ <span id="hud-star-count">18</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Living World Status Bar (Anti-Boredom) -->
+      <div class="world-status-bar">
+        <div class="world-status-item" id="world-garden-status" onclick="tapGarden()">🌸 Kebun Lv.2</div>
+        <div class="world-status-item" id="world-egg-status" onclick="tapLivingEgg()">🥚 Telur Rahasia</div>
+        <div class="world-status-item" onclick="tapTreehouse()">🛖 Rumah Pohon</div>
+      </div>
+
+      <!-- Active Reward Banner -->
+      <div style="margin: 0 16px 8px; font-size:12px; font-weight:700; color:#E65100; text-align:center; background:#FFF3E0; padding:4px 10px; border-radius:12px;">
+        🎯 Janji Ibu: <span id="active-reward-display">🍦 Makan Es Krim Bareng</span>
+      </div>
+
+      <!-- Scrollable Wahana Grid -->
+      <div class="map-scroll-area">
+        <div class="landmark-card" onclick="startWahana('huruf', 'Kebun Huruf Fonik')">
+          <div class="landmark-icon">🔤</div>
+          <div class="landmark-title">Huruf Fonik</div>
+          <div class="landmark-count">A-Z Balon</div>
+        </div>
+
+        <div class="landmark-card" onclick="startWahana('suku', 'Kereta Suku Kata')">
+          <div class="landmark-icon">🚂</div>
+          <div class="landmark-title">Suku Kata</div>
+          <div class="landmark-count">10 Level SAS</div>
+        </div>
+
+        <div class="landmark-card" onclick="startWahana('hitung', 'Pohon Berhitung')">
+          <div class="landmark-icon">🍎</div>
+          <div class="landmark-title">Pohon Hitung</div>
+          <div class="landmark-count">50 Soal Apel</div>
+        </div>
+
+        <div class="landmark-card" onclick="startWahana('warna', 'Istana Warna Soft')">
+          <div class="landmark-icon">🎨</div>
+          <div class="landmark-title">Warna Soft</div>
+          <div class="landmark-count">16 Warna</div>
+        </div>
+
+        <div class="landmark-card" onclick="startWahana('bentuk', 'Bentuk Geometri')">
+          <div class="landmark-icon">📐</div>
+          <div class="landmark-title">Bentuk Kue</div>
+          <div class="landmark-count">7 Bentuk</div>
+        </div>
+
+        <div class="landmark-card" onclick="startWahana('hewan', 'Kebun Sahabat Hewan')">
+          <div class="landmark-icon">🦁</div>
+          <div class="landmark-title">Tebak Hewan</div>
+          <div class="landmark-count">45 Suara</div>
+        </div>
+
+        <div class="landmark-card" onclick="startWahana('makan', 'Dapur Hewan Makan Apa')">
+          <div class="landmark-icon">🥕</div>
+          <div class="landmark-title">Makan Apa?</div>
+          <div class="landmark-count">10 Hewan</div>
+        </div>
+
+        <div class="landmark-card" onclick="startWahana('kendaraan', 'Terminal Kendaraan')">
+          <div class="landmark-icon">✈️</div>
+          <div class="landmark-title">Kendaraan</div>
+          <div class="landmark-count">Darat & Udara</div>
+        </div>
+
+        <div class="landmark-card" onclick="startWahana('sayur', 'Sahabat Sayur Sehat')">
+          <div class="landmark-icon">🥦</div>
+          <div class="landmark-title">Sayur Sehat</div>
+          <div class="landmark-count">Pasar Cilik</div>
+        </div>
+
+        <div class="landmark-card" onclick="startWahana('islam', 'Bintang Islam Ceria')">
+          <div class="landmark-icon">🕌</div>
+          <div class="landmark-title">Islam Ceria</div>
+          <div class="landmark-count">Rukun & Doa</div>
+        </div>
+
+        <div class="landmark-card" onclick="startWahana('langit', 'Teropong Benda Langit')">
+          <div class="landmark-icon">🌙</div>
+          <div class="landmark-title">Benda Langit</div>
+          <div class="landmark-count">Siang & Malam</div>
+        </div>
+      </div>
+
+      <!-- Big VS Arena Button at Bottom of Map -->
+      <div style="padding: 0 16px 12px; display:flex; justify-content:center;">
+        <button class="squish-btn btn-primary" style="background:linear-gradient(180deg, #FF5252, #D32F2F); border-color:#B71C1C; width:100%; max-width:400px; padding:14px; font-size:18px;" onclick="startVsBattle()">
+          ⚔️ TANDING GELUD VS BOT KIKO! 🤖
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- SCENE 3: PANGGUNG WAHANA (DRIVEN BY STAGES.JS)          -->
+    <!-- ======================================================= -->
+    <div id="scene-play" class="scene-view">
+      
+      <div class="game-header">
+        <div class="header-left">
+          <button class="squish-btn btn-icon" onclick="goToScene('map')" title="Kembali ke Peta">🗺️</button>
+          <span id="play-title-display" class="header-title">Wahana</span>
+        </div>
+        <div class="header-right">
+          <div class="squish-btn btn-star-badge" onclick="openMotherRewardModal()">
+            ⭐ <span class="hud-stars-clone">18</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Play Stage Canvas -->
+      <div id="play-arena-content" class="stage-main-canvas">
+        <!-- Content dynamically injected by stages.js -->
+      </div>
+
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- SCENE 4: ARENA TANDING VS (DRIVEN BY ARENA.JS)         -->
+    <!-- ======================================================= -->
+    <div id="scene-vs" class="scene-view" style="background:#1A237E; color:#FFF;">
+      
+      <div class="game-header" style="background:rgba(26,35,126,0.95); border-color:rgba(255,255,255,0.1);">
+        <div class="header-left">
+          <button class="squish-btn btn-icon" onclick="goToScene('map')">🗺️</button>
+          <span style="color:#FFF; font-weight:800; font-size:16px;">⚔️ Arena Tanding Gelud</span>
+        </div>
+        <div class="header-right">
+          <span id="vs-round-badge" class="stage-progress-badge" style="background:#3949AB; color:#FFF;">RONDE 1 / 5</span>
+        </div>
+      </div>
+
+      <!-- Bot Kiko Score Banner -->
+      <div style="background:rgba(255,255,255,0.1); margin:10px 16px; padding:10px 16px; border-radius:18px; display:flex; align-items:center; justify-content:space-between;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span style="font-size:36px;">🤖</span>
+          <div>
+            <div style="font-weight:800; font-size:15px;">Bot Kiko</div>
+            <div style="font-size:11px; opacity:0.8;">Lawan Komputer Ramah</div>
+          </div>
+        </div>
+        <div style="font-size:26px; font-weight:900; color:#FFD54F;">
+          Skor: <span id="vs-bot-score">0</span>
+        </div>
+      </div>
+
+      <!-- Timer Bar -->
+      <div style="width:calc(100% - 32px); height:8px; background:rgba(255,255,255,0.2); border-radius:4px; margin:0 16px; overflow:hidden;">
+        <div id="vs-timer-bar" style="width:100%; height:100%; background:#00E676;"></div>
+      </div>
+
+      <!-- Question Card -->
+      <div class="stage-main-canvas">
+        <div class="stage-question-card" style="background:#283593; border-color:#3949AB; color:#FFF;">
+          <div id="vs-question-text" style="font-size:22px; font-weight:800; text-align:center;">
+            MA ditambah TA dibaca apa?
+          </div>
+          <div id="vs-answers-grid" class="options-grid" style="margin-top:10px;">
+            <!-- Rendered by arena.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Player Score Banner -->
+      <div style="background:rgba(255,255,255,0.1); margin:10px 16px 14px; padding:10px 16px; border-radius:18px; display:flex; align-items:center; justify-content:space-between;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span style="font-size:36px;">🐼</span>
+          <div>
+            <div id="vs-player-name-hud" style="font-weight:800; font-size:15px;">ALI</div>
+            <div style="font-size:11px; opacity:0.8;">Pemain Juara 🏆</div>
+          </div>
+        </div>
+        <div style="font-size:26px; font-weight:900; color:#00E676;">
+          Skor: <span id="vs-player-score">0</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- MASCOT DIALOGUE BOTTOM BAR (SHARED ACROSS ALL SCENES)   -->
+    <!-- ======================================================= -->
+    <div class="mascot-bottom-bar">
+      <!-- Clickable Mascot Avatar for Tickle/Giggle Physics -->
+      <div id="main-mascot-avatar" class="mascot-avatar" onclick="tickleMascot()" title="Colek Pandi/Miko!">
+        🐼
+      </div>
+      <div id="mascot-speech-text" class="mascot-speech-bubble">
+        Halo anak pintar! Yuk mulai bermain petualangan ceria bersama Pandi! 🎈
+      </div>
+      <button class="squish-btn btn-icon" style="width:40px; height:40px; font-size:18px;" onclick="speakNatural(document.getElementById('mascot-speech-text').textContent)" title="Ulangi Suara">
+        🔊
+      </button>
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- MODALS                                                  -->
+    <!-- ======================================================= -->
+    
+    <!-- Modal: Janji Hadiah Ibu -->
+    <div id="modal-mother-reward" class="game-modal-overlay">
+      <div class="game-modal-card">
+        <div style="font-size:48px;">🎁</div>
+        <h2 style="font-size:22px; color:#E65100;">Peti Janji Hadiah Ibu</h2>
+        <p style="font-size:14px; color:#5C6F4D;">
+          Pilih hadiah nyata yang disepakati bersama Ibu saat bintangmu penuh:
+        </p>
+
+        <div style="display:flex; flex-direction:column; gap:10px; margin:8px 0;">
+          <button class="squish-btn" style="padding:12px; font-size:15px; background:#FFF3E0; border:2px solid #FFE0B2; text-align:left;" onclick="selectMotherReward('🍦 Makan Es Krim Bareng Ibu')">
+            🍦 Makan Es Krim Bareng Ibu
+          </button>
+          <button class="squish-btn" style="padding:12px; font-size:15px; background:#E8F5E9; border:2px solid #C8E6C9; text-align:left;" onclick="selectMotherReward('🚴 Naik Sepeda Sore Hari Bareng Ayah')">
+            🚴 Naik Sepeda Sore Bareng Ayah
+          </button>
+          <button class="squish-btn" style="padding:12px; font-size:15px; background:#E1F5FE; border:2px solid #B3E5FC; text-align:left;" onclick="selectMotherReward('📖 Dibacakan 1 Buku Dongeng Favorit')">
+            📖 Dibacakan 1 Buku Dongeng
+          </button>
+          <button class="squish-btn" style="padding:12px; font-size:15px; background:#FCE4EC; border:2px solid #F8BBD0; text-align:left;" onclick="selectMotherReward('🤗 Pelukan Hangat & Cium Sayang 10 Detik')">
+            🤗 Pelukan Hangat 10 Detik
+          </button>
+        </div>
+
+        <button class="squish-btn btn-pill" style="background:#EEE;" onclick="closeMotherRewardModal()">Tutup</button>
+      </div>
+    </div>
+
+    <!-- Modal: Victory Round Complete -->
+    <div id="modal-victory" class="game-modal-overlay">
+      <div class="game-modal-card">
+        <div style="font-size:62px;">🎉 ⭐⭐⭐</div>
+        <h2 style="font-size:24px; color:#2E7D32;">HEBAT SEKALI!</h2>
+        <p style="font-size:16px; color:#2E3A23;">
+          Kamu berhasil menyelesaikan wahana ini dan mendapatkan <b style="color:#F57F17;">3 Bintang Emas</b>!
+        </p>
+        <div style="display:flex; gap:12px; justify-content:center; margin-top:8px;">
+          <button class="squish-btn btn-pill" style="background:#E1F5FE; color:#0288D1;" onclick="replayCurrentWahana()">Main Lagi 🔄</button>
+          <button class="squish-btn btn-primary btn-pill" onclick="exitWahanaToMap()">Peta Wahana 🗺️</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: VS Battle Finish -->
+    <div id="modal-vs-finish" class="game-modal-overlay">
+      <div class="game-modal-card">
+        <div style="font-size:62px;">🏆 🎆</div>
+        <h2 id="vs-finish-title" style="font-size:24px; color:#FF6F00;">KAMU JUARANYA!</h2>
+        <p id="vs-finish-sub" style="font-size:16px; color:#2E3A23; font-weight:800;"></p>
+        <div style="display:flex; gap:12px; justify-content:center; margin-top:8px;">
+          <button class="squish-btn btn-pill" style="background:#E1F5FE; color:#0288D1;" onclick="startVsBattle()">Tanding Lagi ⚔️</button>
+          <button class="squish-btn btn-primary btn-pill" onclick="goToScene('map')">Peta Wahana 🗺️</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Panduan Pasang di HP/Tablet -->
+    <div id="modal-install-guide" class="game-modal-overlay">
+      <div class="game-modal-card">
+        <div style="font-size:52px;">📲 🐼</div>
+        <h2 style="font-size:22px; color:#2E7D32;">Pasang Cetta TK di Layar HP</h2>
+        <div style="font-size:14px; color:#2E3A23; text-align:left; line-height:1.5; background:#F1F8E9; padding:14px; border-radius:18px; border:1.5px solid #C8E6C9;">
+          <b>🤖 Untuk HP & Tablet Android:</b><br>
+          1. Tekan tombol titik tiga (<b>⋮</b>) di pojok kanan atas browser Chrome.<br>
+          2. Pilih menu <b>"Instal Aplikasi"</b> atau <b>"Tambahkan ke Layar Utama"</b>.<br>
+          3. Ikon Pandi Cetta langsung muncul di layar HP dan siap dimainkan tanpa kuota internet!<br><br>
+          <b>🍎 Untuk iPad & iPhone (iOS):</b><br>
+          1. Buka di browser Safari.<br>
+          2. Tekan tombol <b>Bagikan (Share ⎋)</b> di bawah layar.<br>
+          3. Geser ke bawah, pilih <b>"Tambahkan ke Layar Utama ➕"</b>.
+        </div>
+        <button class="squish-btn btn-primary btn-pill" onclick="closeInstallGuide()">Siap, Saya Paham! 👍</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- JavaScript Modular Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/stages.js"></script>
+  <script src="js/arena.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- PWA Install & Service Worker Registration Script -->
+  <script>
+    let pwaInstallPrompt = null;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      pwaInstallPrompt = e;
+      console.log('[PWA] beforeinstallprompt event caught!');
+      // Highlight install buttons
+      const btnTitle = document.getElementById('btn-install-app');
+      if (btnTitle) {
+        btnTitle.style.animation = 'pulseGlow 1.5s infinite';
+      }
+    });
+
+    window.addEventListener('appinstalled', () => {
+      console.log('[PWA] Application successfully installed!');
+      pwaInstallPrompt = null;
+      if (typeof speakNatural === 'function') {
+        speakNatural('Horeee! Aplikasi Cetta TK berhasil dipasang di layar HP kamu!');
+      }
+    });
+
+    function triggerAppInstall() {
+      if (pwaInstallPrompt) {
+        pwaInstallPrompt.prompt();
+        pwaInstallPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('[PWA] User accepted install');
+          }
+          pwaInstallPrompt = null;
+        });
+      } else {
+        // Show gentle modal instructions for Android / iOS
+        openInstallGuide();
+      }
+    }
+
+    function openInstallGuide() {
+      playTonePop();
+      const m = document.getElementById('modal-install-guide');
+      if (m) m.classList.add('modal-active');
+    }
+
+    function closeInstallGuide() {
+      playTonePop();
+      const m = document.getElementById('modal-install-guide');
+      if (m) m.classList.remove('modal-active');
+    }
+
+    // Register Service Worker for 100% Offline Play
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then((reg) => console.log('[PWA] SW registered:', reg.scope))
+          .catch((err) => console.warn('[PWA] SW registration failed:', err));
+      });
+    }
+  </script>
+</body>
+</html>

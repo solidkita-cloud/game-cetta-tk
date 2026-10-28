@@ -1,0 +1,405 @@
+/* =========================================================
+   STYLE.CSS - TAMAN PETUALANGAN CERIA CETTA TK
+   Clean, Viewport-Locked, Child-Friendly Pastel Theme
+   ========================================================= */
+
+:root {
+  --bg-sky: #E1F5FE;
+  --bg-grass: #E8F5E9;
+  --primary-green: #4CAF50;
+  --primary-purple: #7E57C2;
+  --primary-pink: #F48FB1;
+  --primary-orange: #FFA726;
+  --primary-blue: #29B6F6;
+  --primary-yellow: #FFEE58;
+  --text-dark: #2E3A23;
+  --text-muted: #5C6F4D;
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --shadow-squish: 0 6px 0 rgba(0, 0, 0, 0.12), 0 10px 20px rgba(0, 0, 0, 0.08);
+  --shadow-active: 0 2px 0 rgba(0, 0, 0, 0.12), 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+html, body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: fixed;
+  font-family: 'Fredoka', 'Quicksand', 'Nunito', 'Comic Sans MS', sans-serif;
+  background: linear-gradient(180deg, var(--bg-sky) 0%, var(--bg-grass) 100%);
+  color: var(--text-dark);
+}
+
+/* App Viewport Root */
+#app-viewport {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Universal Scenes */
+.scene-view {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  bottom: 74px; /* Leaves clear space for mascot bottom bar */
+  display: none;
+  flex-direction: column;
+  background: transparent;
+  z-index: 10;
+}
+
+.scene-view.active-scene {
+  display: flex;
+}
+
+/* Top Header Bar */
+.game-header {
+  height: 64px;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.06);
+  z-index: 50;
+}
+
+.header-left, .header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Squishy Button System */
+.squish-btn {
+  border: none;
+  border-radius: 20px;
+  font-family: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: var(--shadow-squish);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  touch-action: manipulation;
+}
+
+.squish-btn:active {
+  transform: translateY(4px) scale(0.96);
+  box-shadow: var(--shadow-active);
+}
+
+.btn-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  font-size: 24px;
+  background: #FFF;
+  border: 2px solid #E0E0E0;
+}
+
+.btn-pill {
+  padding: 8px 18px;
+  font-size: 16px;
+  border-radius: 24px;
+}
+
+.btn-star-badge {
+  background: #FFF9C4;
+  color: #F57F17;
+  border: 2px solid #FFEE58;
+  padding: 6px 14px;
+  font-size: 18px;
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, #66BB6A, #43A047);
+  color: #FFF;
+  border: 2px solid #388E3C;
+}
+
+.btn-reward {
+  background: linear-gradient(180deg, #FFB74D, #FB8C00);
+  color: #FFF;
+  border: 2px solid #F57C00;
+}
+
+/* Living World Bar */
+.world-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 8px 12px;
+  border-radius: 16px;
+  margin: 8px 16px;
+  border: 2px solid #E8F5E9;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-muted);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.world-status-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+/* Map Grid Container */
+.map-scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 10px 16px 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 14px;
+  align-content: start;
+}
+
+@media (min-width: 600px) {
+  .map-scroll-area {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    padding: 16px 28px;
+  }
+}
+
+/* Wahana Landmark Card */
+.landmark-card {
+  background: #FFF;
+  border-radius: 22px;
+  padding: 14px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 3px solid #FFF;
+  box-shadow: var(--shadow-squish);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+  position: relative;
+}
+
+.landmark-card:active {
+  transform: scale(0.93);
+}
+
+.landmark-icon {
+  font-size: 42px;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+}
+
+.landmark-title {
+  font-size: 13px;
+  font-weight: 800;
+  text-align: center;
+  color: var(--text-dark);
+  line-height: 1.2;
+}
+
+.landmark-count {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+  background: #F1F8E9;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+/* Arena / Play Stage */
+.stage-main-canvas {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  position: relative;
+  overflow-y: auto;
+}
+
+.stage-question-card {
+  width: 100%;
+  max-width: 520px;
+  background: #FFF;
+  border-radius: 28px;
+  padding: 20px 16px;
+  box-shadow: var(--shadow-squish);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  border: 3px solid #FFF;
+  position: relative;
+  z-index: 30;
+}
+
+.stage-progress-badge {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text-muted);
+  background: #F5F5F5;
+  padding: 4px 14px;
+  border-radius: 12px;
+}
+
+/* Option Buttons Grid */
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  width: 100%;
+}
+
+.option-btn {
+  background: #FFF;
+  border: 3px solid #E0E0E0;
+  border-radius: 20px;
+  padding: 16px 12px;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-dark);
+  cursor: pointer;
+  box-shadow: var(--shadow-squish);
+  transition: all 0.1s ease;
+  min-height: 64px;
+  position: relative;
+  z-index: 40;
+}
+
+.option-btn:active {
+  transform: scale(0.94);
+}
+
+.option-btn.opt-correct {
+  background: #C8E6C9 !important;
+  border-color: #4CAF50 !important;
+  color: #1B5E20 !important;
+}
+
+.option-btn.opt-wrong {
+  background: #FFCDD2 !important;
+  border-color: #E57373 !important;
+  color: #B71C1C !important;
+}
+
+/* Mascot Dialogue Bottom Bar */
+.mascot-bottom-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 74px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border-top: 2px solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  gap: 12px;
+  z-index: 100;
+}
+
+.mascot-avatar {
+  font-size: 42px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+}
+
+.mascot-avatar:active {
+  transform: scale(1.2) rotate(10deg);
+}
+
+.mascot-speech-bubble {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1.3;
+}
+
+/* Soap Bubble Layer */
+.bubble-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.interactive-bubble {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(179,229,252,0.3) 60%, rgba(129,212,250,0.6));
+  border: 1.5px solid rgba(255,255,255,0.7);
+  border-radius: 50%;
+  box-shadow: inset -4px -4px 8px rgba(0,0,0,0.06), 0 6px 14px rgba(41,182,246,0.15);
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/* Modals */
+.game-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.game-modal-overlay.modal-active {
+  display: flex;
+}
+
+.game-modal-card {
+  width: 100%;
+  max-width: 440px;
+  background: #FFF;
+  border-radius: 30px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border: 4px solid #FFF;
+}
