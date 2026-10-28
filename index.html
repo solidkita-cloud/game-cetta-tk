@@ -222,7 +222,7 @@
       
       <div class="game-header" style="background:rgba(26,35,126,0.95); border-color:rgba(255,255,255,0.1);">
         <div class="header-left">
-          <button class="squish-btn btn-icon" onclick="goToScene('map')">🗺️</button>
+          <button class="squish-btn btn-icon" onclick="exitVsBattleToMap()" title="Kembali ke Peta">🗺️</button>
           <span style="color:#FFF; font-weight:800; font-size:16px;">⚔️ Arena Tanding Gelud</span>
         </div>
         <div class="header-right">
@@ -326,29 +326,29 @@
     </div>
 
     <!-- Modal: Victory Round Complete -->
-    <div id="modal-victory" class="game-modal-overlay">
+    <div id="modal-victory" class="game-modal-overlay" onclick="if(event.target === this) exitWahanaToMap()">
       <div class="game-modal-card">
         <div style="font-size:62px;">🎉 ⭐⭐⭐</div>
         <h2 style="font-size:24px; color:#2E7D32;">HEBAT SEKALI!</h2>
         <p style="font-size:16px; color:#2E3A23;">
           Kamu berhasil menyelesaikan wahana ini dan mendapatkan <b style="color:#F57F17;">3 Bintang Emas</b>!
         </p>
-        <div style="display:flex; gap:12px; justify-content:center; margin-top:8px;">
-          <button class="squish-btn btn-pill" style="background:#E1F5FE; color:#0288D1;" onclick="replayCurrentWahana()">Main Lagi 🔄</button>
-          <button class="squish-btn btn-primary btn-pill" onclick="exitWahanaToMap()">Peta Wahana 🗺️</button>
+        <div style="display:flex; gap:12px; justify-content:center; margin-top:8px; flex-wrap:wrap;">
+          <button class="squish-btn btn-pill" style="background:#E1F5FE; color:#0288D1; font-weight:800; padding:12px 20px; font-size:16px;" onclick="replayCurrentWahana()">Main Lagi 🔄</button>
+          <button class="squish-btn btn-primary btn-pill" style="padding:12px 20px; font-size:16px;" onclick="exitWahanaToMap()">Peta Wahana 🗺️</button>
         </div>
       </div>
     </div>
 
     <!-- Modal: VS Battle Finish -->
-    <div id="modal-vs-finish" class="game-modal-overlay">
+    <div id="modal-vs-finish" class="game-modal-overlay" onclick="if(event.target === this) exitVsBattleToMap()">
       <div class="game-modal-card">
         <div style="font-size:62px;">🏆 🎆</div>
         <h2 id="vs-finish-title" style="font-size:24px; color:#FF6F00;">KAMU JUARANYA!</h2>
         <p id="vs-finish-sub" style="font-size:16px; color:#2E3A23; font-weight:800;"></p>
-        <div style="display:flex; gap:12px; justify-content:center; margin-top:8px;">
-          <button class="squish-btn btn-pill" style="background:#E1F5FE; color:#0288D1;" onclick="startVsBattle()">Tanding Lagi ⚔️</button>
-          <button class="squish-btn btn-primary btn-pill" onclick="goToScene('map')">Peta Wahana 🗺️</button>
+        <div style="display:flex; gap:12px; justify-content:center; margin-top:8px; flex-wrap:wrap;">
+          <button class="squish-btn btn-pill" style="background:#E1F5FE; color:#0288D1; font-weight:800; padding:12px 20px; font-size:16px;" onclick="startVsBattle()">Tanding Lagi ⚔️</button>
+          <button class="squish-btn btn-primary btn-pill" style="padding:12px 20px; font-size:16px;" onclick="exitVsBattleToMap()">Peta Wahana 🗺️</button>
         </div>
       </div>
     </div>

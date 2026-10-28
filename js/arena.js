@@ -45,7 +45,24 @@ var vsQuestionsPoolMaster = [
   { q: "Panda yang lucu suka makan apa?", ans: "Bambu 🎋", opts: ["Bambu 🎋", "Burger 🍔", "Permen 🍬", "Es Krim 🍦"] }
 ];
 
+function closeVsModal() {
+  var modal = document.getElementById('modal-vs-finish');
+  if (modal) modal.classList.remove('modal-active');
+}
+
+function exitVsBattleToMap() {
+  closeVsModal();
+  if (typeof closeAllModals === 'function') closeAllModals();
+  vsBattle.active = false;
+  vsBattle.roundLocked = true;
+  clearInterval(vsBattle.timerInterval);
+  clearTimeout(vsBattle.botTimeout);
+  goToScene('map');
+}
+
 function startVsBattle() {
+  closeVsModal();
+  if (typeof closeAllModals === 'function') closeAllModals();
   playTonePop();
   vsBattle.active = true;
   vsBattle.round = 1;

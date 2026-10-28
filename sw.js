@@ -2,7 +2,7 @@
 // SERVICE WORKER - OFFLINE CACHE UNTUK HP & TABLET
 // =========================================================
 
-const CACHE_NAME = 'cetta-tk-offline-v2';
+const CACHE_NAME = 'cetta-tk-offline-v3';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

@@ -2,8 +2,16 @@
 // APP.JS - UI CONTROLLER, SCENE ROUTER & EASTER EGGS
 // =========================================================
 
+function closeAllModals() {
+  var modals = document.querySelectorAll('.game-modal-overlay');
+  modals.forEach(function(m) {
+    m.classList.remove('modal-active');
+  });
+}
+
 function goToScene(sceneName) {
   playTonePop();
+  closeAllModals(); // Automatically dismiss any open modals when navigating scenes!
   var scenes = document.querySelectorAll('.scene-view');
   scenes.forEach(function(s) {
     s.classList.remove('active-scene');
