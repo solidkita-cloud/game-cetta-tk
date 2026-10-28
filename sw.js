@@ -1,8 +1,9 @@
 // =========================================================
-// SERVICE WORKER - OFFLINE CACHE UNTUK HP & TABLET
+// SERVICE WORKER - OFFLINE CACHE UNTUK HP & TABLET (V5)
+// Network-First with Cache Fallback for instant updates & offline play
 // =========================================================
 
-const CACHE_NAME = 'cetta-tk-offline-v3';
+const CACHE_NAME = 'cetta-tk-offline-v5';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -23,7 +24,7 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('[SW] Pre-caching game assets for offline play...');
+      console.log('[SW] Pre-caching game assets for offline play (v5)...');
       return cache.addAll(ASSETS_TO_CACHE);
     }).catch((err) => {
       console.warn('[SW] Cache addAll warning:', err);
@@ -47,14 +48,10 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Cache-First strategy: Return cached files immediately for fast, offline play
+  // Network-First strategy: Always grab latest code when online, fallback to cache when offline
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-      return fetch(event.request).then((networkResponse) => {
-        // Cache dynamic GET requests
+    fetch(event.request)
+      .then((networkResponse) => {
         if (event.request.method === 'GET' && networkResponse && networkResponse.status === 200) {
           const responseToCache = networkResponse.clone();
           caches.open(CACHE_NAME).then((cache) => {
@@ -62,12 +59,16 @@ self.addEventListener('fetch', (event) => {
           });
         }
         return networkResponse;
-      }).catch(() => {
-        // Fallback for navigation requests
-        if (event.request.mode === 'navigate') {
-          return caches.match('./index.html');
-        }
-      });
-    })
+      })
+      .catch(() => {
+        return caches.match(event.request).then((cachedResponse) => {
+          if (cachedResponse) {
+            return cachedResponse;
+          }
+          if (event.request.mode === 'navigate') {
+            return caches.match('./index.html');
+          }
+        });
+      })
   );
 });

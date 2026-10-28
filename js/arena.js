@@ -1,7 +1,16 @@
 // =========================================================
-// ARENA.JS - ARENA TANDING GELUD VS BOT KIKO (REAL 5 ROUNDS)
-// Expanded Question Pool & 100% Shuffled Random Options
+// ARENA.JS - ARENA TANDING GELUD VS BOT KIKO (5 ROUNDS)
+// Dynamic Kid-Friendly Timer (15s Default, 20s, Bebas, 10s, 5s)
+// Bulletproof Modal Dismissal & Instant Map Navigation
 // =========================================================
+
+var VS_DURATIONS = [
+  { val: 15, label: "15s (Santai) 🟢", desc: "Cocok untuk TK / PAUD" },
+  { val: 20, label: "20s (Sangat Santai) 🟢", desc: "Banyak Waktu Berpikir" },
+  { val: 0,  label: "Tanpa Waktu (Bebas) 🧘", desc: "Santai Sepuasnya" },
+  { val: 10, label: "10s (Sedang) 🟡", desc: "Mulai Lancar Membaca" },
+  { val: 5,  label: "5s (Kilat) 🔴", desc: "Tantangan Cepat" }
+];
 
 var vsBattle = {
   active: false,
@@ -9,8 +18,9 @@ var vsBattle = {
   totalRounds: 5,
   playerScore: 0,
   botScore: 0,
+  duration: 15, // Default 15 seconds
+  timeLeft: 15,
   timerInterval: null,
-  timeLeft: 5,
   botTimeout: null,
   roundLocked: false,
   questionPool: [],
@@ -47,48 +57,199 @@ var vsQuestionsPoolMaster = [
 
 function closeVsModal() {
   var modal = document.getElementById('modal-vs-finish');
-  if (modal) modal.classList.remove('modal-active');
+  if (modal) {
+    modal.classList.remove('modal-active');
+    modal.style.display = 'none';
+  }
 }
 
 function exitVsBattleToMap() {
+  // 1. Force close and hide all modals directly
   closeVsModal();
-  if (typeof closeAllModals === 'function') closeAllModals();
+  var allModals = document.querySelectorAll('.game-modal-overlay');
+  allModals.forEach(function(m) {
+    m.classList.remove('modal-active');
+    m.style.display = 'none';
+  });
+
+  // 2. Clear all battle timers and state
   vsBattle.active = false;
   vsBattle.roundLocked = true;
   clearInterval(vsBattle.timerInterval);
+  vsBattle.timerInterval = null;
   clearTimeout(vsBattle.botTimeout);
-  goToScene('map');
+  vsBattle.botTimeout = null;
+
+  // 3. Switch scenes immediately to map
+  var scenes = document.querySelectorAll('.scene-view');
+  scenes.forEach(function(s) {
+    s.classList.remove('active-scene');
+  });
+  var mapScene = document.getElementById('scene-map');
+  if (mapScene) {
+    mapScene.classList.add('active-scene');
+  }
+
+  // 4. Reactivate bubbles on map
+  var bubbleLayer = document.getElementById('floating-bubbles-container');
+  if (bubbleLayer) bubbleLayer.style.display = 'block';
+
+  if (typeof playTonePop === 'function') playTonePop();
+  if (typeof setMascotSpeech === 'function') {
+    setMascotSpeech("Kembali ke Peta Wahana! Pilih permainan lainnya yuk! 🗺️✨");
+  }
 }
 
 function startVsBattle() {
-  closeVsModal();
-  if (typeof closeAllModals === 'function') closeAllModals();
-  playTonePop();
+  // Ensure clean exit from any lingering state
+  exitVsBattleToMap();
+  if (typeof playTonePop === 'function') playTonePop();
+
   vsBattle.active = true;
   vsBattle.round = 1;
   vsBattle.playerScore = 0;
   vsBattle.botScore = 0;
   vsBattle.roundLocked = false;
 
-  // Shuffle entire pool so questions never repeat in a battle
+  // Load saved duration (default 15s)
+  var savedDur = localStorage.getItem('cetta_vs_duration');
+  if (savedDur !== null) {
+    vsBattle.duration = parseInt(savedDur, 10);
+  } else {
+    vsBattle.duration = 15;
+  }
+
+  // Shuffle pool so questions are randomized
   vsBattle.questionPool = shuffleArray(vsQuestionsPoolMaster);
 
-  goToScene('vs');
+  // Switch to VS scene
+  var scenes = document.querySelectorAll('.scene-view');
+  scenes.forEach(function(s) {
+    s.classList.remove('active-scene');
+  });
+  var vsScene = document.getElementById('scene-vs');
+  if (vsScene) vsScene.classList.add('active-scene');
+
+  var bubbleLayer = document.getElementById('floating-bubbles-container');
+  if (bubbleLayer) bubbleLayer.style.display = 'none';
+
   updateVsScoreboard();
-  speakNatural("Arena Tanding dimulai! Siapa yang paling cepat? Satu, dua, tiga, serbuuu!");
+  updateVsDurationBadge();
+  speakNatural("Arena Tanding dimulai! Santai saja ya sayang, pasti bisa!");
   renderVsRound();
+}
+
+function cycleVsDuration() {
+  if (typeof playTonePop === 'function') playTonePop();
+  var currVal = vsBattle.duration;
+  var currIdx = VS_DURATIONS.findIndex(function(d) { return d.val === currVal; });
+  if (currIdx === -1) currIdx = 0;
+  var nextIdx = (currIdx + 1) % VS_DURATIONS.length;
+  var next = VS_DURATIONS[nextIdx];
+
+  vsBattle.duration = next.val;
+  localStorage.setItem('cetta_vs_duration', next.val);
+  updateVsDurationBadge();
+
+  if (typeof speakNatural === 'function') {
+    if (next.val > 0) {
+      speakNatural("Waktu diatur ke " + next.val + " detik!");
+    } else {
+      speakNatural("Mode Santai Bebas tanpa batas waktu!");
+    }
+  }
+
+  // Apply immediately to current round if in battle
+  if (vsBattle.active && !vsBattle.roundLocked) {
+    applyDurationToActiveRound();
+  }
+}
+
+function updateVsDurationBadge() {
+  var b = document.getElementById('vs-duration-badge');
+  if (!b) return;
+  var d = VS_DURATIONS.find(function(item) { return item.val === vsBattle.duration; });
+  b.textContent = d ? d.label : (vsBattle.duration + "s");
+}
+
+function updateVsTimerDisplay() {
+  var t = document.getElementById('vs-timer-text');
+  if (!t) return;
+  if (vsBattle.duration === 0) {
+    t.textContent = "Santai (Tanpa Batas)";
+    t.style.color = "#69F0AE";
+  } else {
+    t.textContent = vsBattle.timeLeft + " Detik";
+    if (vsBattle.timeLeft <= 3) {
+      t.style.color = "#FF5252";
+    } else if (vsBattle.timeLeft <= 7) {
+      t.style.color = "#FFD54F";
+    } else {
+      t.style.color = "#69F0AE";
+    }
+  }
+}
+
+function getBotDelayForDuration(duration) {
+  if (duration === 0) {
+    // Tanpa batas waktu: Bot Kiko will wait 60 seconds (giving child unlimited time)
+    return 60000;
+  }
+  // Bot gives player at least 70% - 88% of total time before answering!
+  var minDelay = duration * 1000 * 0.72;
+  var maxDelay = duration * 1000 * 0.90;
+  return minDelay + Math.random() * (maxDelay - minDelay);
+}
+
+function applyDurationToActiveRound() {
+  clearInterval(vsBattle.timerInterval);
+  clearTimeout(vsBattle.botTimeout);
+
+  var totalSec = vsBattle.duration;
+  vsBattle.timeLeft = (totalSec > 0 ? totalSec : 999);
+  updateVsTimerDisplay();
+
+  var timerBar = document.getElementById('vs-timer-bar');
+  if (timerBar) {
+    timerBar.style.transition = 'none';
+    timerBar.style.width = '100%';
+    if (totalSec > 0) {
+      setTimeout(function() {
+        timerBar.style.transition = 'width ' + totalSec + 's linear';
+        timerBar.style.width = '0%';
+      }, 50);
+    }
+  }
+
+  if (totalSec > 0) {
+    vsBattle.timerInterval = setInterval(function() {
+      vsBattle.timeLeft--;
+      updateVsTimerDisplay();
+      if (vsBattle.timeLeft <= 0) {
+        clearInterval(vsBattle.timerInterval);
+        if (!vsBattle.roundLocked) {
+          onVsRoundTimeout();
+        }
+      }
+    }, 1000);
+  }
+
+  var botDelay = getBotDelayForDuration(totalSec);
+  vsBattle.botTimeout = setTimeout(function() {
+    if (!vsBattle.roundLocked && vsBattle.active) {
+      botAnswersNow();
+    }
+  }, botDelay);
 }
 
 function renderVsRound() {
   vsBattle.roundLocked = false;
-  vsBattle.timeLeft = 5;
-  clearInterval(vsBattle.timerInterval);
-  clearTimeout(vsBattle.botTimeout);
+  var totalSec = vsBattle.duration;
+  vsBattle.timeLeft = (totalSec > 0 ? totalSec : 999);
 
   var pool = vsBattle.questionPool;
   var qItem = pool[(vsBattle.round - 1) % pool.length] || vsQuestionsPoolMaster[0];
 
-  // Shuffle the 4 options so the answer is never locked to option A!
   var shuffledOpts = shuffleArray(qItem.opts);
   vsBattle.currentQuestion = {
     q: qItem.q,
@@ -113,35 +274,8 @@ function renderVsRound() {
     }).join('');
   }
 
-  // Timer Bar Animation
-  var timerBar = document.getElementById('vs-timer-bar');
-  if (timerBar) {
-    timerBar.style.width = '100%';
-    timerBar.style.transition = 'none';
-    setTimeout(function() {
-      timerBar.style.transition = 'width 5s linear';
-      timerBar.style.width = '0%';
-    }, 50);
-  }
-
-  // Timer Countdown
-  vsBattle.timerInterval = setInterval(function() {
-    vsBattle.timeLeft--;
-    if (vsBattle.timeLeft <= 0) {
-      clearInterval(vsBattle.timerInterval);
-      if (!vsBattle.roundLocked) {
-        onVsRoundTimeout();
-      }
-    }
-  }, 1000);
-
-  // Bot Kiko AI Decision (Answers between 2.2s and 3.8s)
-  var botDelay = 2200 + Math.random() * 1600;
-  vsBattle.botTimeout = setTimeout(function() {
-    if (!vsBattle.roundLocked && vsBattle.active) {
-      botAnswersNow();
-    }
-  }, botDelay);
+  updateVsDurationBadge();
+  applyDurationToActiveRound();
 }
 
 function handleVsPlayerAnswer(btn, optIdx) {
@@ -155,14 +289,14 @@ function handleVsPlayerAnswer(btn, optIdx) {
   var isCorrect = (chosen === q.ans);
 
   if (isCorrect) {
-    playToneWhistle();
-    playToneChime();
+    if (typeof playToneWhistle === 'function') playToneWhistle();
+    if (typeof playToneChime === 'function') playToneChime();
     btn.classList.add('opt-correct');
     vsBattle.playerScore++;
     updateVsScoreboard();
     speakNatural("Hebat! " + window.gameState.playerName + " dapat poin!");
   } else {
-    playToneBoing();
+    if (typeof playToneBoing === 'function') playToneBoing();
     btn.classList.add('opt-wrong');
     speakNatural("Kurang tepat sayang, poin untuk Bot Kiko!");
     vsBattle.botScore++;
@@ -177,15 +311,15 @@ function botAnswersNow() {
   vsBattle.roundLocked = true;
   clearInterval(vsBattle.timerInterval);
 
-  // 75% Bot is correct
-  var botCorrect = Math.random() < 0.75;
+  // 70% Bot is correct
+  var botCorrect = Math.random() < 0.70;
   if (botCorrect) {
-    playToneWhistle();
+    if (typeof playToneWhistle === 'function') playToneWhistle();
     vsBattle.botScore++;
     updateVsScoreboard();
     speakNatural("Bot Kiko menjawab duluan!");
   } else {
-    playToneBoing();
+    if (typeof playToneBoing === 'function') playToneBoing();
     speakNatural("Bot Kiko salah menjawab! Kesempatan buat kamu!");
   }
 
@@ -194,7 +328,7 @@ function botAnswersNow() {
 
 function onVsRoundTimeout() {
   vsBattle.roundLocked = true;
-  playToneBoing();
+  if (typeof playToneBoing === 'function') playToneBoing();
   speakNatural("Waktu habis untuk ronde ini!");
   setTimeout(nextVsRound, 1200);
 }
@@ -221,19 +355,20 @@ function nextVsRound() {
 
 function finishVsBattle() {
   vsBattle.active = false;
+  vsBattle.roundLocked = true;
   clearInterval(vsBattle.timerInterval);
   clearTimeout(vsBattle.botTimeout);
 
-  playToneFanfare();
+  if (typeof playToneFanfare === 'function') playToneFanfare();
   var winnerText = "";
   if (vsBattle.playerScore > vsBattle.botScore) {
-    addGameStars(5);
+    if (typeof addGameStars === 'function') addGameStars(5);
     winnerText = "🎉 Horeee! " + window.gameState.playerName + " Juara Tanding Cetta! Kamu dapat 5 Bintang Emas!";
   } else if (vsBattle.playerScore === vsBattle.botScore) {
-    addGameStars(3);
+    if (typeof addGameStars === 'function') addGameStars(3);
     winnerText = "🤝 Seri Hebat! Kamu dan Bot Kiko sama-sama pintar! Dapat 3 Bintang Emas!";
   } else {
-    addGameStars(2);
+    if (typeof addGameStars === 'function') addGameStars(2);
     winnerText = "👏 Pertandingan seru! Bot Kiko menang tipis, yuk tanding lagi!";
   }
 
@@ -241,10 +376,11 @@ function finishVsBattle() {
 
   var modal = document.getElementById('modal-vs-finish');
   if (modal) {
+    modal.style.display = 'flex';
+    modal.classList.add('modal-active');
     var title = document.getElementById('vs-finish-title');
     if (title) title.textContent = (vsBattle.playerScore >= vsBattle.botScore ? "🏆 KAMU JUARANYA!" : "🤝 PERTANDINGAN SERU!");
     var sub = document.getElementById('vs-finish-sub');
     if (sub) sub.textContent = "Skor: " + window.gameState.playerName + " (" + vsBattle.playerScore + ") vs Bot Kiko (" + vsBattle.botScore + ")";
-    modal.classList.add('modal-active');
   }
 }
