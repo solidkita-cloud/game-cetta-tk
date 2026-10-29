@@ -89,13 +89,20 @@
       <div class="game-header">
         <div class="header-left">
           <button class="squish-btn btn-icon" onclick="goToScene('title')" title="Kembali ke Depan">🚪</button>
-          <span style="font-weight:800; font-size:16px; color:#2E7D32;">Peta Cetta</span>
+          <!-- Clickable Kid Profile Card Button -->
+          <div id="btn-profile-card-map" class="squish-btn" style="display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.9); padding:4px 12px; border-radius:18px; border:2px solid #A5D6A7; cursor:pointer;" onclick="openProfileProgressModal()" title="Lihat Rapor Progres Cetta">
+            <span class="player-avatar-hud" style="font-size:22px;">🐼</span>
+            <div style="text-align:left; line-height:1.1;">
+              <div class="player-name-text" style="font-size:13px; font-weight:800; color:#2E7D32;">Cetta</div>
+              <div style="font-size:10px; color:#558B2F;">⭐ <span class="hud-stars-clone">18</span> Bintang</div>
+            </div>
+          </div>
         </div>
         <div class="header-right">
           <button id="btn-install-map" class="squish-btn btn-pill" style="font-size:12px; padding:5px 12px; background:#E8F5E9; color:#2E7D32; border:1.5px solid #81C784;" onclick="triggerAppInstall()" title="Pasang Aplikasi ke Layar Utama HP">
             📲 Pasang
           </button>
-          <div class="squish-btn btn-star-badge" onclick="openMotherRewardModal()">
+          <div class="squish-btn btn-star-badge" onclick="openProfileProgressModal()" title="Buka Rapor Progres">
             ⭐ <span id="hud-star-count">18</span>
           </div>
         </div>
@@ -384,7 +391,7 @@
       <div class="game-header" style="background:rgba(224,247,250,0.95); border-color:rgba(0,0,0,0.06);">
         <div class="header-left">
           <button class="squish-btn btn-icon" onclick="exitStoryToMap()" title="Kembali ke Peta">🗺️</button>
-          <span style="font-weight:800; font-size:16px; color:#00695C;">📖 Dongeng Kiko</span>
+          <span id="story-header-title" style="font-weight:800; font-size:16px; color:#00695C;">📖 Dongeng Sahabat Alam</span>
         </div>
         <div class="header-right">
           <span id="story-page-badge" class="stage-progress-badge" style="background:#00897B; color:#FFF;">BAB 1 / 4</span>
@@ -399,7 +406,7 @@
       </div>
 
       <!-- Narrative Story Text Card -->
-      <div style="background:#FFFFFF; margin:10px 16px; padding:12px 16px; border-radius:20px; box-shadow:0 4px 14px rgba(0,0,0,0.06); border:2px solid #B2EBF2;">
+      <div id="story-narrative-card" style="background:#FFFFFF; margin:10px 16px; padding:12px 16px; border-radius:20px; box-shadow:0 4px 14px rgba(0,0,0,0.06); border:2px solid #B2EBF2;">
         <div id="story-chapter-title" style="font-size:16px; font-weight:800; color:#00695C; margin-bottom:4px;">
           Kiko Meluncur dari Awan
         </div>
@@ -409,12 +416,15 @@
       </div>
 
       <!-- Story Navigation Bar -->
-      <div style="display:flex; align-items:center; justify-content:space-between; padding:0 16px 14px; gap:8px;">
+      <div id="story-nav-bar" style="display:flex; align-items:center; justify-content:space-between; padding:0 16px 14px; gap:8px;">
         <button class="squish-btn btn-pill" style="background:#ECEFF1; color:#455A64; font-size:14px; padding:8px 16px;" onclick="prevStoryChapter()">
           ⬅️ Sebelum
         </button>
+        <button class="squish-btn btn-pill" style="background:#FFF3E0; color:#E65100; font-size:14px; padding:8px 16px; font-weight:800;" onclick="openStoryShelf()">
+          📚 Rak Buku
+        </button>
         <button class="squish-btn btn-pill" style="background:#E0F2F1; color:#00695C; font-size:14px; padding:8px 16px; font-weight:800;" onclick="readStoryAloud()">
-          🔊 Ulangi Suara
+          🔊 Suara
         </button>
         <button id="btn-story-next" class="squish-btn btn-primary btn-pill" style="font-size:14px; padding:8px 18px;" onclick="nextStoryChapter()">
           Lanjut ➡️
@@ -553,17 +563,114 @@
       </div>
     </div>
 
+    <!-- Modal: Rapor Progres Belajar Anak (Login/Profil) -->
+    <div id="modal-profile-report" class="game-modal-overlay" onclick="if(event.target === this) closeProfileProgressModal()">
+      <div class="game-modal-card" style="position:relative; max-width:420px; text-align:center;">
+        <button onclick="closeProfileProgressModal()" style="position:absolute; top:12px; right:12px; width:36px; height:36px; border-radius:50%; background:#FF5252; color:#FFF; font-size:18px; font-weight:900; border:none; cursor:pointer;">✕</button>
+        
+        <!-- Big Avatar & Name -->
+        <div style="margin-top:6px;">
+          <div id="report-avatar-big" style="font-size:68px; filter:drop-shadow(0 4px 8px rgba(0,0,0,0.15));">🐼</div>
+          <h2 id="report-name-big" style="font-size:24px; color:#2E7D32; margin:4px 0 2px;">Cetta</h2>
+          <span id="report-age-tag" style="background:#E8F5E9; color:#2E7D32; font-size:12px; font-weight:800; padding:4px 12px; border-radius:12px;">TK-A (4-5 Tahun)</span>
+        </div>
+
+        <!-- Star Summary Card -->
+        <div style="background:#FFF9C4; padding:12px; border-radius:18px; border:2px solid #FFE082; display:flex; align-items:center; justify-content:space-around; margin:10px 0;">
+          <div>
+            <div style="font-size:11px; font-weight:800; color:#F57F17;">TOTAL BINTANG</div>
+            <div style="font-size:28px; font-weight:900; color:#E65100;">⭐ <span id="report-stars-count">18</span></div>
+          </div>
+          <div>
+            <div style="font-size:11px; font-weight:800; color:#0288D1;">STATUS LEVEL</div>
+            <div style="font-size:16px; font-weight:900; color:#01579B;">Bintang Rajin 🌟</div>
+          </div>
+        </div>
+
+        <!-- Badges Earned -->
+        <div style="text-align:left;">
+          <div style="font-size:12px; font-weight:800; color:#5C6F4D; margin-bottom:6px;">LENCANA PRESTASI:</div>
+          <div id="report-badges-list" style="display:flex; flex-wrap:wrap; gap:6px;">
+            <span style="background:#FFF9C4; color:#F57F17; font-size:12px; font-weight:800; padding:6px 12px; border-radius:14px; border:1px solid #FFE082;">⭐ Bintang Rajin</span>
+          </div>
+        </div>
+
+        <!-- Sibling / Child Switcher -->
+        <div style="text-align:left; margin-top:10px; border-top:1.5px dashed #E0E0E0; padding-top:10px;">
+          <div style="font-size:12px; font-weight:800; color:#5C6F4D; margin-bottom:6px;">GANTI PEMAIN / ANAK:</div>
+          <div id="report-siblings-list" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div style="display:flex; gap:10px; justify-content:center; margin-top:12px; flex-wrap:wrap;">
+          <button class="squish-btn btn-pill" style="background:#E1F5FE; color:#0288D1; font-weight:800; font-size:13px; padding:10px 16px;" onclick="openEditProfileForm()">
+            ✏️ Ubah Nama / Avatar
+          </button>
+          <button class="squish-btn btn-primary btn-pill" style="font-size:13px; padding:10px 20px;" onclick="closeProfileProgressModal()">
+            Tutup 👍
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Modal: Form Ubah / Tambah Profil Anak -->
+    <div id="modal-edit-profile" class="game-modal-overlay" onclick="if(event.target === this) closeEditProfileForm()">
+      <div class="game-modal-card" style="position:relative; max-width:400px; text-align:center;">
+        <button onclick="closeEditProfileForm()" style="position:absolute; top:12px; right:12px; width:36px; height:36px; border-radius:50%; background:#FF5252; color:#FFF; font-size:18px; font-weight:900; border:none; cursor:pointer;">✕</button>
+        
+        <h2 style="font-size:22px; color:#2E7D32; margin-bottom:6px;">Kartu Profil Anak 🌟</h2>
+        <p style="font-size:13px; color:#616161; margin-bottom:12px;">Tulis nama panggilan dan pilih hewan kesukaan:</p>
+
+        <!-- Input Name -->
+        <div style="text-align:left; margin-bottom:12px;">
+          <label style="font-size:12px; font-weight:800; color:#2E7D32;">Nama Anak:</label>
+          <input id="edit-profile-name-input" type="text" maxlength="15" placeholder="Contoh: Cetta" style="width:100%; padding:12px 14px; border-radius:16px; border:2px solid #81C784; font-size:16px; font-weight:800; color:#1B5E20; outline:none; text-align:center; margin-top:4px;">
+        </div>
+
+        <!-- Select Age Group -->
+        <div style="text-align:left; margin-bottom:12px;">
+          <label style="font-size:12px; font-weight:800; color:#2E7D32;">Kelompok Usia:</label>
+          <select id="edit-profile-age-select" style="width:100%; padding:10px; border-radius:14px; border:2px solid #C8E6C9; font-size:14px; font-weight:700; color:#37474F; margin-top:4px;">
+            <option value="PAUD (3-4 Tahun)">PAUD (3-4 Tahun)</option>
+            <option value="TK-A (4-5 Tahun)" selected>TK-A (4-5 Tahun)</option>
+            <option value="TK-B (5-6 Tahun)">TK-B (5-6 Tahun)</option>
+          </select>
+        </div>
+
+        <!-- Choose Avatar -->
+        <div style="text-align:left; margin-bottom:16px;">
+          <label style="font-size:12px; font-weight:800; color:#2E7D32;">Pilih Karakter Avatar:</label>
+          <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:8px; margin-top:6px;">
+            <button class="avatar-option-btn squish-btn" data-avatar="🐼" onclick="selectAvatarOption('🐼')" style="font-size:32px; padding:6px; border-radius:16px; border:2px solid #E0E0E0; background:#FFF; cursor:pointer;">🐼</button>
+            <button class="avatar-option-btn squish-btn" data-avatar="🐱" onclick="selectAvatarOption('🐱')" style="font-size:32px; padding:6px; border-radius:16px; border:2px solid #E0E0E0; background:#FFF; cursor:pointer;">🐱</button>
+            <button class="avatar-option-btn squish-btn" data-avatar="🦁" onclick="selectAvatarOption('🦁')" style="font-size:32px; padding:6px; border-radius:16px; border:2px solid #E0E0E0; background:#FFF; cursor:pointer;">🦁</button>
+            <button class="avatar-option-btn squish-btn" data-avatar="🐰" onclick="selectAvatarOption('🐰')" style="font-size:32px; padding:6px; border-radius:16px; border:2px solid #E0E0E0; background:#FFF; cursor:pointer;">🐰</button>
+            <button class="avatar-option-btn squish-btn" data-avatar="🐻" onclick="selectAvatarOption('🐻')" style="font-size:32px; padding:6px; border-radius:16px; border:2px solid #E0E0E0; background:#FFF; cursor:pointer;">🐻</button>
+            <button class="avatar-option-btn squish-btn" data-avatar="🦊" onclick="selectAvatarOption('🦊')" style="font-size:32px; padding:6px; border-radius:16px; border:2px solid #E0E0E0; background:#FFF; cursor:pointer;">🦊</button>
+            <button class="avatar-option-btn squish-btn" data-avatar="🐨" onclick="selectAvatarOption('🐨')" style="font-size:32px; padding:6px; border-radius:16px; border:2px solid #E0E0E0; background:#FFF; cursor:pointer;">🐨</button>
+            <button class="avatar-option-btn squish-btn" data-avatar="🦄" onclick="selectAvatarOption('🦄')" style="font-size:32px; padding:6px; border-radius:16px; border:2px solid #E0E0E0; background:#FFF; cursor:pointer;">🦄</button>
+          </div>
+        </div>
+
+        <button class="squish-btn btn-primary btn-pill" style="width:100%; font-size:16px; padding:12px;" onclick="saveProfileFormData()">
+          Simpan Profil Anak 👍
+        </button>
+      </div>
+    </div>
+
   </div>
 
   <!-- JavaScript Modular Scripts with Cache-Buster -->
-  <script src="js/data.js?v=6.0"></script>
-  <script src="js/audio.js?v=6.0"></script>
-  <script src="js/state.js?v=6.0"></script>
-  <script src="js/stages.js?v=6.0"></script>
-  <script src="js/arena.js?v=6.0"></script>
-  <script src="js/tracing.js?v=6.0"></script>
-  <script src="js/story.js?v=6.0"></script>
-  <script src="js/app.js?v=6.0"></script>
+  <script src="js/data.js?v=7.0"></script>
+  <script src="js/audio.js?v=7.0"></script>
+  <script src="js/state.js?v=7.0"></script>
+  <script src="js/profile.js?v=7.0"></script>
+  <script src="js/stages.js?v=7.0"></script>
+  <script src="js/arena.js?v=7.0"></script>
+  <script src="js/tracing.js?v=7.0"></script>
+  <script src="js/story.js?v=7.0"></script>
+  <script src="js/app.js?v=7.0"></script>
 
   <!-- PWA Install & Service Worker Registration Script -->
   <script>

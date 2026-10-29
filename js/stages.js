@@ -638,7 +638,7 @@ function handleMakanAnswer(btn, optIdx) {
 }
 
 // ---------------------------------------------------------
-// 7. KENDARAAN (Darat, Laut, Udara - Shuffled)
+// 7. KENDARAAN (Darat, Laut, Udara - Shuffled & Unambiguous)
 // ---------------------------------------------------------
 function renderKendaraanRound(container, progressHtml) {
   var pool = currentStageSession.questionPool;
@@ -662,7 +662,7 @@ function renderKendaraanRound(container, progressHtml) {
   var optionsHtml = shuffledOpts.map(function(v, idx) {
     return `
       <button class="option-btn" onclick="handleKendaraanAnswer(this, ${idx})">
-        <span style="font-size:32px;">${v.e}</span><br>${v.n}
+        <span style="font-size:36px;">${v.e}</span><br><b style="font-size:15px; color:#2E3A23;">${v.n}</b>
       </button>
     `;
   }).join('');
@@ -670,10 +670,16 @@ function renderKendaraanRound(container, progressHtml) {
   container.innerHTML = `
     <div class="stage-question-card">
       ${progressHtml}
-      <div style="font-size:20px; font-weight:800; color:#0288D1; text-align:center;">
-        Kendaraan Jalur <span style="color:#F57C00;">${target.jalur}</span>
+      <div style="font-size:13px; font-weight:800; color:#F57C00; text-transform:uppercase; letter-spacing:1px;">
+        JALUR ${target.jalur}
       </div>
-      <div style="font-size:14px; color:var(--text-muted);">Fungsi: ${target.fungsi} | Bunyi: "${target.bunyi}"</div>
+      <div style="font-size:22px; font-weight:900; color:#0288D1; text-align:center; margin:4px 0;">
+        Tebak Kendaraan! 🚗💨
+      </div>
+      <div style="font-size:15px; color:#37474F; background:#E1F5FE; padding:10px 16px; border-radius:18px; line-height:1.4; border:1.5px solid #B3E5FC; text-align:center;">
+        📢 Bunyi: <b style="color:#D84315;">"${target.bunyi}"</b><br>
+        🎯 Tugas: <b>${target.fungsi}</b>
+      </div>
 
       <div class="options-grid" style="margin-top:12px;">
         ${optionsHtml}
@@ -681,7 +687,7 @@ function renderKendaraanRound(container, progressHtml) {
     </div>
   `;
 
-  speakNatural("Mana kendaraan yang berjalan di jalur " + target.jalur + "?");
+  speakNatural("Tebak kendaraan apakah ini? Bunyinya " + target.bunyi + ", dan bertugas " + target.fungsi + "!");
 }
 
 function handleKendaraanAnswer(btn, optIdx) {
