@@ -115,6 +115,20 @@
 
       <!-- Scrollable Wahana Grid -->
       <div class="map-scroll-area">
+        <!-- New Wahana: Studio Coretan Ceria (Pra-Menulis) -->
+        <div class="landmark-card" style="background:#FFF9C4; border:2.5px solid #FBC02D;" onclick="startTracingStudio('hujan')">
+          <div class="landmark-icon">✍️</div>
+          <div class="landmark-title" style="color:#E65100;">Studio Coretan</div>
+          <div class="landmark-count" style="color:#F57F17;">Pra-Tulis & Gambar</div>
+        </div>
+
+        <!-- New Wahana: Dongeng Kiko Sahabat Alam -->
+        <div class="landmark-card" style="background:#E1F5FE; border:2.5px solid #29B6F6;" onclick="startStoryBook()">
+          <div class="landmark-icon">🌧️</div>
+          <div class="landmark-title" style="color:#0277BD;">Dongeng Kiko</div>
+          <div class="landmark-count" style="color:#0288D1;">Sahabat Alam</div>
+        </div>
+
         <div class="landmark-card" onclick="startWahana('huruf', 'Kebun Huruf Fonik')">
           <div class="landmark-icon">🔤</div>
           <div class="landmark-title">Huruf Fonik</div>
@@ -297,6 +311,119 @@
     </div>
 
     <!-- ======================================================= -->
+    <!-- SCENE 5: STUDIO CORETAN CERIA (PRA-MENULIS & GAMBAR)    -->
+    <!-- ======================================================= -->
+    <div id="scene-tracing" class="scene-view" style="background:#FFFDE7;">
+      
+      <div class="game-header" style="background:rgba(255,253,231,0.95); border-color:rgba(0,0,0,0.06);">
+        <div class="header-left">
+          <button class="squish-btn btn-icon" onclick="exitTracingToMap()" title="Kembali ke Peta">🗺️</button>
+          <span style="font-weight:800; font-size:16px; color:#E65100;">✍️ Studio Coretan</span>
+        </div>
+        <div class="header-right">
+          <button class="squish-btn btn-pill" style="background:#FFE082; color:#E65100; font-size:12px; font-weight:800; padding:5px 12px;" onclick="clearTracingCanvas()">
+            🧹 Bersihkan
+          </button>
+          <div class="squish-btn btn-star-badge" onclick="openMotherRewardModal()">
+            ⭐ <span class="hud-stars-clone">18</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Horizontal Shape/Lesson Tabs -->
+      <div style="display:flex; gap:8px; overflow-x:auto; padding:8px 16px; scrollbar-width:none; -webkit-overflow-scrolling:touch;">
+        <button class="tracing-tab-btn tab-active" data-lesson="hujan" onclick="selectTracingLesson('hujan')">🌧️ Hujan (Tegak)</button>
+        <button class="tracing-tab-btn" data-lesson="jalan" onclick="selectTracingLesson('jalan')">🚗 Mobil (Datar)</button>
+        <button class="tracing-tab-btn" data-lesson="ombak" onclick="selectTracingLesson('ombak')">🐬 Ombak (Lengkung)</button>
+        <button class="tracing-tab-btn" data-lesson="kotak" onclick="selectTracingLesson('kotak')">🎁 Kotak Kado</button>
+        <button class="tracing-tab-btn" data-lesson="segitiga" onclick="selectTracingLesson('segitiga')">🔺 Segitiga</button>
+        <button class="tracing-tab-btn" data-lesson="bintang" onclick="selectTracingLesson('bintang')">⭐ Bintang</button>
+        <button class="tracing-tab-btn" data-lesson="bebas" onclick="selectTracingLesson('bebas')">🎨 Coret Bebas</button>
+      </div>
+
+      <!-- Instruction / Subtitle Bar -->
+      <div style="margin:0 16px 6px; padding:6px 12px; background:rgba(255,255,255,0.85); border-radius:14px; display:flex; align-items:center; justify-content:space-between;">
+        <div style="font-size:13px; font-weight:800; color:#424242;">
+          <span id="tracing-lesson-title">Garis Hujan (Tegak)</span>: <span id="tracing-lesson-sub" style="font-weight:600; color:#757575;">Bantu rintik hujan turun!</span>
+        </div>
+        <button class="squish-btn" style="background:transparent; border:none; font-size:18px; cursor:pointer;" onclick="if(TRACING_LESSONS[tracingState.currentLesson]) speakNatural(TRACING_LESSONS[tracingState.currentLesson].speech)">🔊</button>
+      </div>
+
+      <!-- Canvas Drawing Stage -->
+      <div style="padding:0 16px; flex:1; display:flex; flex-direction:column; min-height:0;">
+        <div id="tracing-canvas-box">
+          <canvas id="tracing-guide-canvas"></canvas>
+          <canvas id="tracing-draw-canvas"></canvas>
+        </div>
+      </div>
+
+      <!-- Color Palette & Tools Bar -->
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:8px 16px 12px; gap:8px;">
+        <div style="display:flex; gap:8px; align-items:center; overflow-x:auto; padding:2px;">
+          <div class="palette-color-btn color-active" style="background:#FF5252;" onclick="selectTracingColor('#FF5252', this)" title="Merah"></div>
+          <div class="palette-color-btn" style="background:#FF9800;" onclick="selectTracingColor('#FF9800', this)" title="Oranye"></div>
+          <div class="palette-color-btn" style="background:#FFEB3B;" onclick="selectTracingColor('#FFEB3B', this)" title="Kuning"></div>
+          <div class="palette-color-btn" style="background:#4CAF50;" onclick="selectTracingColor('#4CAF50', this)" title="Hijau"></div>
+          <div class="palette-color-btn" style="background:#2196F3;" onclick="selectTracingColor('#2196F3', this)" title="Biru"></div>
+          <div class="palette-color-btn" style="background:#9C27B0;" onclick="selectTracingColor('#9C27B0', this)" title="Ungu"></div>
+          <div class="palette-color-btn" style="background:linear-gradient(135deg, red, yellow, green, blue);" onclick="selectTracingColor('rainbow', this)" title="Pelangi Ajaib"></div>
+        </div>
+
+        <button class="squish-btn btn-primary btn-pill" style="font-size:13px; padding:8px 16px; white-space:nowrap;" onclick="nextTracingLesson()">
+          Lanjut ➡️
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- SCENE 6: POJOK DONGENG SAHABAT ALAM (LIVING STORYBOOK)  -->
+    <!-- ======================================================= -->
+    <div id="scene-story" class="scene-view" style="background:#E0F7FA;">
+      
+      <div class="game-header" style="background:rgba(224,247,250,0.95); border-color:rgba(0,0,0,0.06);">
+        <div class="header-left">
+          <button class="squish-btn btn-icon" onclick="exitStoryToMap()" title="Kembali ke Peta">🗺️</button>
+          <span style="font-weight:800; font-size:16px; color:#00695C;">📖 Dongeng Kiko</span>
+        </div>
+        <div class="header-right">
+          <span id="story-page-badge" class="stage-progress-badge" style="background:#00897B; color:#FFF;">BAB 1 / 4</span>
+        </div>
+      </div>
+
+      <!-- Story Interactive Canvas -->
+      <div style="padding:10px 16px 0; flex:1; display:flex; flex-direction:column; min-height:0;">
+        <div id="story-interactive-canvas">
+          <!-- Dynamically populated by js/story.js -->
+        </div>
+      </div>
+
+      <!-- Narrative Story Text Card -->
+      <div style="background:#FFFFFF; margin:10px 16px; padding:12px 16px; border-radius:20px; box-shadow:0 4px 14px rgba(0,0,0,0.06); border:2px solid #B2EBF2;">
+        <div id="story-chapter-title" style="font-size:16px; font-weight:800; color:#00695C; margin-bottom:4px;">
+          Kiko Meluncur dari Awan
+        </div>
+        <div id="story-narrative-text" style="font-size:14px; color:#37474F; line-height:1.5;">
+          Di langit biru yang tinggi, Kiko si Rintik Hujan melambaikan tangan...
+        </div>
+      </div>
+
+      <!-- Story Navigation Bar -->
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:0 16px 14px; gap:8px;">
+        <button class="squish-btn btn-pill" style="background:#ECEFF1; color:#455A64; font-size:14px; padding:8px 16px;" onclick="prevStoryChapter()">
+          ⬅️ Sebelum
+        </button>
+        <button class="squish-btn btn-pill" style="background:#E0F2F1; color:#00695C; font-size:14px; padding:8px 16px; font-weight:800;" onclick="readStoryAloud()">
+          🔊 Ulangi Suara
+        </button>
+        <button id="btn-story-next" class="squish-btn btn-primary btn-pill" style="font-size:14px; padding:8px 18px;" onclick="nextStoryChapter()">
+          Lanjut ➡️
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ======================================================= -->
     <!-- MASCOT DIALOGUE BOTTOM BAR (SHARED ACROSS ALL SCENES)   -->
     <!-- ======================================================= -->
     <div class="mascot-bottom-bar">
@@ -393,15 +520,50 @@
       </div>
     </div>
 
+    <!-- Modal: Tracing Lesson Finish -->
+    <div id="modal-tracing-finish" class="game-modal-overlay" onclick="if(event.target === this) closeTracingFinishModal()">
+      <div class="game-modal-card" style="position:relative;">
+        <button onclick="closeTracingFinishModal()" style="position:absolute; top:12px; right:12px; width:36px; height:36px; border-radius:50%; background:#FF5252; color:#FFF; font-size:18px; font-weight:900; border:none; cursor:pointer;">✕</button>
+        <div style="font-size:62px;">✨ 🎨 ✨</div>
+        <h2 id="tracing-finish-title" style="font-size:22px; color:#E65100;">HOREEE! BENTUK SELESAI!</h2>
+        <p style="font-size:15px; color:#2E3A23;">
+          Garismu halus dan rapi sekali! Kamu mendapatkan <b style="color:#F57F17;">3 Bintang Emas</b>!
+        </p>
+        <div style="display:flex; gap:10px; justify-content:center; margin-top:8px; flex-wrap:wrap;">
+          <button class="squish-btn btn-primary btn-pill" style="padding:12px 20px; font-size:15px;" onclick="nextTracingLesson()">Bentuk Berikutnya ➡️</button>
+          <button class="squish-btn btn-pill" style="background:#E8F5E9; color:#2E7D32; padding:12px 20px; font-size:15px;" onclick="closeTracingFinishModal()">Warnai Sendiri 🎨</button>
+          <button class="squish-btn btn-pill" style="background:#ECEFF1; color:#455A64; padding:12px 20px; font-size:15px;" onclick="exitTracingToMap()">Peta Wahana 🗺️</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Story Finish -->
+    <div id="modal-story-finish" class="game-modal-overlay" onclick="if(event.target === this) closeStoryFinishModal()">
+      <div class="game-modal-card" style="position:relative;">
+        <button onclick="closeStoryFinishModal()" style="position:absolute; top:12px; right:12px; width:36px; height:36px; border-radius:50%; background:#FF5252; color:#FFF; font-size:18px; font-weight:900; border:none; cursor:pointer;">✕</button>
+        <div style="font-size:62px;">🏅 🌊 🐬</div>
+        <h2 style="font-size:22px; color:#00695C;">PAHLAWAN PENJAGA ALAM!</h2>
+        <p style="font-size:15px; color:#2E3A23;">
+          Kiko si Rintik Hujan berterima kasih padamu karena sudah menjaga sungai tetap bersih! Kamu mendapatkan <b style="color:#F57F17;">5 Bintang Emas</b>!
+        </p>
+        <div style="display:flex; gap:10px; justify-content:center; margin-top:8px; flex-wrap:wrap;">
+          <button class="squish-btn btn-primary btn-pill" style="padding:12px 20px; font-size:15px;" onclick="startStoryBook()">Baca Lagi dari Awal 🔄</button>
+          <button class="squish-btn btn-pill" style="background:#ECEFF1; color:#455A64; padding:12px 20px; font-size:15px;" onclick="exitStoryToMap()">Peta Wahana 🗺️</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- JavaScript Modular Scripts with Cache-Buster -->
-  <script src="js/data.js?v=4.1"></script>
-  <script src="js/audio.js?v=4.1"></script>
-  <script src="js/state.js?v=4.1"></script>
-  <script src="js/stages.js?v=4.1"></script>
-  <script src="js/arena.js?v=4.1"></script>
-  <script src="js/app.js?v=4.1"></script>
+  <script src="js/data.js?v=6.0"></script>
+  <script src="js/audio.js?v=6.0"></script>
+  <script src="js/state.js?v=6.0"></script>
+  <script src="js/stages.js?v=6.0"></script>
+  <script src="js/arena.js?v=6.0"></script>
+  <script src="js/tracing.js?v=6.0"></script>
+  <script src="js/story.js?v=6.0"></script>
+  <script src="js/app.js?v=6.0"></script>
 
   <!-- PWA Install & Service Worker Registration Script -->
   <script>

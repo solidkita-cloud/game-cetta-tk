@@ -34,6 +34,10 @@ function goToScene(sceneName) {
     setMascotSpeech("Halo " + window.gameState.playerName + "! Pilih wahana bermain yang kamu suka ya! 🗺️✨");
   } else if (sceneName === 'title') {
     setMascotSpeech("Selamat datang di Taman Petualangan Ceria Cetta! 🎈");
+  } else if (sceneName === 'tracing') {
+    setMascotSpeech("Selamat datang di Studio Coretan! Ayo tarik garis dan warnai sesukamu! 🎨✨");
+  } else if (sceneName === 'story') {
+    setMascotSpeech("Dengarkan kisah Kiko si Rintik Hujan yang menyayangi bumi kita! 🌧️💚");
   }
 }
 
