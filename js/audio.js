@@ -319,6 +319,52 @@ function playToothBrushSound() {
   }
 }
 
+// 12. Water Splash / Spray Tone (Garden & Pond)
+function playToneWaterSplash() {
+  try {
+    var ctx = getAudioContext();
+    if (!ctx) return;
+    for (var i = 0; i < 4; i++) {
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(450 + Math.random() * 200, ctx.currentTime + i * 0.05);
+      osc.frequency.exponentialRampToValueAtTime(120, ctx.currentTime + i * 0.05 + 0.1);
+      gain.gain.setValueAtTime(0.18, ctx.currentTime + i * 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.05 + 0.1);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(ctx.currentTime + i * 0.05);
+      osc.stop(ctx.currentTime + i * 0.05 + 0.1);
+    }
+  } catch (e) {
+    console.warn("Audio splash error", e);
+  }
+}
+
+// 13. Gentle Lullaby & Eye-Rest Tone (Peaceful, warm relaxation)
+function playToneLullabyRest() {
+  try {
+    var ctx = getAudioContext();
+    if (!ctx) return;
+    var peacefulNotes = [392.00, 493.88, 587.33, 783.99]; // G4, B4, D5, G5
+    peacefulNotes.forEach(function(freq, idx) {
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.22);
+      gain.gain.setValueAtTime(0.2, ctx.currentTime + idx * 0.22);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + idx * 0.22 + 1.2);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(ctx.currentTime + idx * 0.22);
+      osc.stop(ctx.currentTime + idx * 0.22 + 1.2);
+    });
+  } catch (e) {
+    console.warn("Audio lullaby error", e);
+  }
+}
+
 // Initialize speech voices listener
 if ('speechSynthesis' in window) {
   window.speechSynthesis.onvoiceschanged = function() {

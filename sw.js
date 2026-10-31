@@ -1,9 +1,9 @@
 // =========================================================
-// SERVICE WORKER - OFFLINE CACHE UNTUK HP & TABLET (V8)
+// SERVICE WORKER - OFFLINE CACHE UNTUK HP & TABLET (V9)
 // Network-First with Cache Fallback for instant updates & offline play
 // =========================================================
 
-const CACHE_NAME = 'cetta-tk-offline-v8';
+const CACHE_NAME = 'cetta-tk-offline-v9';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -20,6 +20,9 @@ const ASSETS_TO_CACHE = [
   './js/story.js',
   './js/music.js',
   './js/habits.js',
+  './js/garden.js',
+  './js/print-sheet.js',
+  './js/screentime.js',
   './js/app.js',
   './icons/icon-192.png',
   './icons/icon-512.png'

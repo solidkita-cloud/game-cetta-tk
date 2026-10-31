@@ -99,6 +99,9 @@
           </div>
         </div>
         <div class="header-right">
+          <button id="hud-screen-timer-btn" class="squish-btn btn-pill" style="font-size:12px; padding:5px 10px; background:#E8F5E9; color:#2E7D32; border:1.5px solid #81C784;" onclick="openScreenTimeModal()" title="Pengaturan Sayang Mata (Waktu Layar)">
+            👁️ 15m
+          </button>
           <button id="btn-install-map" class="squish-btn btn-pill" style="font-size:12px; padding:5px 12px; background:#E8F5E9; color:#2E7D32; border:1.5px solid #81C784;" onclick="triggerAppInstall()" title="Pasang Aplikasi ke Layar Utama HP">
             📲 Pasang
           </button>
@@ -141,6 +144,20 @@
           <div class="landmark-icon">🪥</div>
           <div class="landmark-title" style="color:#00695C;">Bina Diri Sehat</div>
           <div class="landmark-count" style="color:#00796B;">Sikat Gigi & Balon Busa</div>
+        </div>
+
+        <!-- New Wahana: Kebun Impian Cetta (Habitat Bintang) -->
+        <div class="landmark-card" style="background:#E8F5E9; border:2.5px solid #4CAF50;" onclick="openGardenScene()">
+          <div class="landmark-icon">🌸</div>
+          <div class="landmark-title" style="color:#2E7D32;">Kebun Impian</div>
+          <div class="landmark-count" style="color:#388E3C;">Bunga, Kelinci & Kolam</div>
+        </div>
+
+        <!-- New Wahana: Lembar Mewarnai Siap Cetak -->
+        <div class="landmark-card" style="background:#FFF8E1; border:2.5px solid #FFB300;" onclick="openPrintSheetsModal()">
+          <div class="landmark-icon">🖨️</div>
+          <div class="landmark-title" style="color:#E65100;">Cetak Gambar</div>
+          <div class="landmark-count" style="color:#F57C00;">Mewarnai Krayon Asli</div>
         </div>
 
         <!-- New Wahana: Dongeng Kiko Sahabat Alam -->
@@ -500,6 +517,44 @@
     </div>
 
     <!-- ======================================================= -->
+    <!-- SCENE 9: KEBUN IMPIAN CETTA (HABITAT REWARD BINTANG)    -->
+    <!-- ======================================================= -->
+    <div id="scene-garden" class="scene-view" style="background:#E8F5E9;">
+      
+      <div class="game-header" style="background:rgba(232,245,233,0.95); border-color:rgba(0,0,0,0.06);">
+        <div class="header-left">
+          <button class="squish-btn btn-icon" onclick="exitGardenToMap()" title="Kembali ke Peta">🗺️</button>
+          <span style="font-weight:800; font-size:16px; color:#2E7D32;">🌸 Kebun Impian Cetta</span>
+        </div>
+        <div class="header-right">
+          <button class="squish-btn btn-pill" style="font-size:12px; padding:5px 10px; background:#FFF3E0; color:#E65100; border:1.5px solid #FFB74D; font-weight:800;" onclick="openPrintSheetsModal()">
+            🖨️ Cetak
+          </button>
+          <div class="squish-btn btn-star-badge" onclick="openProfileProgressModal()" title="Buka Rapor Progres">
+            ⭐ <span class="hud-stars-clone">18</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scrollable Stage Container -->
+      <div style="padding:10px 16px 20px; flex:1; display:flex; flex-direction:column; overflow-y:auto; -webkit-overflow-scrolling:touch;">
+        <div id="garden-stage-container">
+          <!-- Dynamically populated by js/garden.js -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- SCENE 10: SAYANG MATA (SCREEN TIME REST OVERLAY)        -->
+    <!-- ======================================================= -->
+    <div id="scene-eye-rest" class="scene-view" style="background:linear-gradient(180deg, #0D47A1, #1A237E); color:#FFF; overflow-y:auto;">
+      <div id="eye-rest-container" style="flex:1; display:flex; flex-direction:column; justify-content:center; padding:16px;">
+        <!-- Dynamically populated by js/screentime.js -->
+      </div>
+    </div>
+
+    <!-- ======================================================= -->
     <!-- MASCOT DIALOGUE BOTTOM BAR (SHARED ACROSS ALL SCENES)   -->
     <!-- ======================================================= -->
     <div class="mascot-bottom-bar">
@@ -725,20 +780,88 @@
       </div>
     </div>
 
+    <!-- MODAL: LEMBAR MEWARNAI SIAP CETAK (OFFLINE WORKSHEET) -->
+    <div id="modal-print-sheets" class="game-modal-overlay" onclick="if(event.target === this) closePrintSheetsModal()">
+      <div class="game-modal-card" style="max-width:440px; padding:16px 14px; text-align:center;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <div style="font-size:16px; font-weight:900; color:#E65100;">🖨️ Lembar Mewarnai Cetak</div>
+          <button class="squish-btn btn-icon" style="width:34px; height:34px; font-size:16px;" onclick="closePrintSheetsModal()">✕</button>
+        </div>
+
+        <!-- Category Tabs -->
+        <div id="print-sheet-tabs-box" style="display:flex; gap:6px; overflow-x:auto; padding-bottom:8px; margin-bottom:8px; scrollbar-width:none;">
+          <!-- Populated by js/print-sheet.js -->
+        </div>
+
+        <!-- Preview Paper Box -->
+        <div id="print-sheet-preview-box" style="width:100%; height:260px; background:#FFF; border:2.5px solid #E0E0E0; border-radius:16px; box-shadow:inset 0 2px 6px rgba(0,0,0,0.06); margin-bottom:12px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+          <!-- SVG rendered here -->
+        </div>
+
+        <!-- Action Buttons -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px;">
+          <button class="squish-btn btn-primary btn-pill" style="font-size:13px; padding:10px 12px; background:#E65100;" onclick="triggerPrintActiveSheet()">
+            🖨️ Cetak / Print PDF
+          </button>
+          <button class="squish-btn btn-pill" style="font-size:13px; padding:10px 12px; background:#E8F5E9; color:#2E7D32; border:1.5px solid #81C784; font-weight:800;" onclick="downloadSheetAsPng()">
+            📥 Unduh Gambar PNG
+          </button>
+        </div>
+
+        <button class="squish-btn btn-pill" style="width:100%; font-size:12px; padding:8px 0; background:#FFF3E0; color:#E65100; border:1.5px solid #FFE082; font-weight:800;" onclick="openSheetInTracingStudio()">
+          🎨 Atau Warnai di Studio Coretan
+        </button>
+      </div>
+    </div>
+
+    <!-- MODAL: PENGATURAN SAYANG MATA (PARENTAL SCREEN TIME) -->
+    <div id="modal-screen-time" class="game-modal-overlay" onclick="if(event.target === this) closeScreenTimeModal()">
+      <div class="game-modal-card" style="max-width:380px; padding:18px 16px; text-align:left;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:24px;">👁️</span>
+            <div>
+              <div style="font-size:16px; font-weight:900; color:#2E7D32;">Pengingat Sayang Mata</div>
+              <div style="font-size:11px; color:#558B2F;">Jaga kesehatan mata anak bermain</div>
+            </div>
+          </div>
+          <button class="squish-btn btn-icon" style="width:34px; height:34px; font-size:16px;" onclick="closeScreenTimeModal()">✕</button>
+        </div>
+
+        <div style="font-size:13px; color:#424242; margin-bottom:12px; line-height:1.4;">
+          Pilih durasi waktu bermain. Ketika waktu habis, aplikasi akan mengajak anak beristirahat sejenak dengan senam mata ramah anak:
+        </div>
+
+        <!-- Options generated by js/screentime.js -->
+        <div id="screen-time-options" style="display:flex; flex-direction:column; gap:8px; margin-bottom:16px;">
+        </div>
+
+        <button class="squish-btn btn-primary btn-pill" style="width:100%; font-size:14px; padding:10px 0; background:#2E7D32;" onclick="closeScreenTimeModal()">
+          Simpan Pengaturan ✅
+        </button>
+      </div>
+    </div>
+
   </div>
 
+  <!-- Dedicated Print Target Paper (Displayed only during window.print) -->
+  <div id="print-target-paper"></div>
+
   <!-- JavaScript Modular Scripts with Cache-Buster -->
-  <script src="js/data.js?v=8.0"></script>
-  <script src="js/audio.js?v=8.0"></script>
-  <script src="js/state.js?v=8.0"></script>
-  <script src="js/profile.js?v=8.0"></script>
-  <script src="js/stages.js?v=8.0"></script>
-  <script src="js/arena.js?v=8.0"></script>
-  <script src="js/tracing.js?v=8.0"></script>
-  <script src="js/story.js?v=8.0"></script>
-  <script src="js/music.js?v=8.0"></script>
-  <script src="js/habits.js?v=8.0"></script>
-  <script src="js/app.js?v=8.0"></script>
+  <script src="js/data.js?v=9.0"></script>
+  <script src="js/audio.js?v=9.0"></script>
+  <script src="js/state.js?v=9.0"></script>
+  <script src="js/profile.js?v=9.0"></script>
+  <script src="js/stages.js?v=9.0"></script>
+  <script src="js/arena.js?v=9.0"></script>
+  <script src="js/tracing.js?v=9.0"></script>
+  <script src="js/story.js?v=9.0"></script>
+  <script src="js/music.js?v=9.0"></script>
+  <script src="js/habits.js?v=9.0"></script>
+  <script src="js/garden.js?v=9.0"></script>
+  <script src="js/print-sheet.js?v=9.0"></script>
+  <script src="js/screentime.js?v=9.0"></script>
+  <script src="js/app.js?v=9.0"></script>
 
   <!-- PWA Install & Service Worker Registration Script -->
   <script>

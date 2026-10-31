@@ -627,3 +627,51 @@ html, body {
 .bubble-burst-anim {
   animation: popOut 0.2s ease-out forwards;
 }
+
+/* =========================================================
+   KEBUN IMPIAN & LEMBAR MEWARNAI CETAK (OFFLINE WORKSHEET)
+   ========================================================= */
+.garden-slot-card {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.garden-slot-card:hover {
+  transform: translateY(-2px);
+}
+
+.garden-unlocked:hover {
+  border-color: #4CAF50 !important;
+}
+
+#print-target-paper {
+  display: none;
+}
+
+@media print {
+  body {
+    background: #FFF !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  #app-viewport, 
+  .game-modal-overlay, 
+  .mascot-bottom-bar, 
+  .bubble-layer {
+    display: none !important;
+  }
+  #print-target-paper {
+    display: block !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    margin: 0 auto !important;
+    padding: 24px !important;
+    box-sizing: border-box !important;
+  }
+  #print-target-paper svg {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 92vh !important;
+    display: block !important;
+    margin: 0 auto !important;
+  }
+}

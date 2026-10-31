@@ -42,6 +42,10 @@ function goToScene(sceneName) {
     setMascotSpeech("Sentuh tuts Xilofon Pelangi dan buat musik indah sesukamu! 🎵🌈");
   } else if (sceneName === 'habits') {
     setMascotSpeech("Ayo jaga kebersihan! Sikat gigi bersih dan letuskan gelembung sabun! 🪥🫧");
+  } else if (sceneName === 'garden') {
+    setMascotSpeech("Kebun Impian Cetta! Bintang belajarmu membuat bunga mekar dan hewan bahagia! 🌸🥕🍎");
+  } else if (sceneName === 'eye-rest') {
+    setMascotSpeech("Waktunya istirahat sayang mata dulu ya! Hoaaamm... 😴🍵🌳");
   }
 }
 
@@ -133,9 +137,12 @@ function tapLivingEgg() {
 }
 
 function tapGarden() {
-  playToneChime();
-  speakNatural("Kebun Cetta berbunga harum dan indah!");
-  setMascotSpeech("Bunga-bunga tersenyum melihat anak pintar belajar! 🌸");
+  if (typeof openGardenScene === 'function') {
+    openGardenScene();
+  } else {
+    playToneChime();
+    speakNatural("Kebun Cetta berbunga harum dan indah!");
+  }
 }
 
 function tapTreehouse() {
@@ -245,5 +252,10 @@ window.addEventListener('DOMContentLoaded', function() {
   var avatar = document.getElementById('main-mascot-avatar');
   if (avatar) {
     avatar.textContent = (window.gameState.selectedMascot === 'pandi' ? '🐼' : '🐱');
+  }
+
+  // Initialize Parental Screen Time Protection
+  if (typeof initScreenTimeSystem === 'function') {
+    initScreenTimeSystem();
   }
 });
