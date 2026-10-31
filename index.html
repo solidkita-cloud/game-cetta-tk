@@ -129,6 +129,20 @@
           <div class="landmark-count" style="color:#F57F17;">Pra-Tulis & Gambar</div>
         </div>
 
+        <!-- New Wahana: Studio Musik Xilofon Pelangi -->
+        <div class="landmark-card" style="background:#FFF3E0; border:2.5px solid #FF9800;" onclick="openMusicStudio()">
+          <div class="landmark-icon">🎵</div>
+          <div class="landmark-title" style="color:#E65100;">Xilofon Musik</div>
+          <div class="landmark-count" style="color:#F57C00;">Lagu Anak & Do-Re-Mi</div>
+        </div>
+
+        <!-- New Wahana: Bina Diri Sehat (Gigi & Sabun Busa) -->
+        <div class="landmark-card" style="background:#E0F2F1; border:2.5px solid #00897B;" onclick="openHabitsStudio()">
+          <div class="landmark-icon">🪥</div>
+          <div class="landmark-title" style="color:#00695C;">Bina Diri Sehat</div>
+          <div class="landmark-count" style="color:#00796B;">Sikat Gigi & Balon Busa</div>
+        </div>
+
         <!-- New Wahana: Dongeng Kiko Sahabat Alam -->
         <div class="landmark-card" style="background:#E1F5FE; border:2.5px solid #29B6F6;" onclick="startStoryBook()">
           <div class="landmark-icon">🌧️</div>
@@ -434,6 +448,58 @@
     </div>
 
     <!-- ======================================================= -->
+    <!-- SCENE 7: STUDIO MUSIK XILOFON PELANGI                   -->
+    <!-- ======================================================= -->
+    <div id="scene-music" class="scene-view" style="background:#FFFDE7;">
+      
+      <div class="game-header" style="background:rgba(255,253,231,0.95); border-color:rgba(0,0,0,0.06);">
+        <div class="header-left">
+          <button class="squish-btn btn-icon" onclick="exitMusicToMap()" title="Kembali ke Peta">🗺️</button>
+          <span style="font-weight:800; font-size:16px; color:#E65100;">🎵 Xilofon Pelangi</span>
+        </div>
+        <div class="header-right">
+          <div class="squish-btn btn-star-badge" onclick="openProfileProgressModal()" title="Buka Rapor Progres">
+            ⭐ <span class="hud-stars-clone">18</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scrollable Stage Container -->
+      <div style="padding:10px 16px 20px; flex:1; display:flex; flex-direction:column; overflow-y:auto; -webkit-overflow-scrolling:touch;">
+        <div id="music-stage-container">
+          <!-- Dynamically populated by js/music.js -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- SCENE 8: BINA DIRI SEHAT (GIGI & BUSA SABUN)            -->
+    <!-- ======================================================= -->
+    <div id="scene-habits" class="scene-view" style="background:#E0F7FA;">
+      
+      <div class="game-header" style="background:rgba(224,247,250,0.95); border-color:rgba(0,0,0,0.06);">
+        <div class="header-left">
+          <button class="squish-btn btn-icon" onclick="exitHabitsToMap()" title="Kembali ke Peta">🗺️</button>
+          <span style="font-weight:800; font-size:16px; color:#00695C;">🪥 Bina Diri Sehat</span>
+        </div>
+        <div class="header-right">
+          <div class="squish-btn btn-star-badge" onclick="openProfileProgressModal()" title="Buka Rapor Progres">
+            ⭐ <span class="hud-stars-clone">18</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scrollable Stage Container -->
+      <div style="padding:10px 16px 20px; flex:1; display:flex; flex-direction:column; overflow-y:auto; -webkit-overflow-scrolling:touch;">
+        <div id="habits-stage-container">
+          <!-- Dynamically populated by js/habits.js -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ======================================================= -->
     <!-- MASCOT DIALOGUE BOTTOM BAR (SHARED ACROSS ALL SCENES)   -->
     <!-- ======================================================= -->
     <div class="mascot-bottom-bar">
@@ -662,15 +728,17 @@
   </div>
 
   <!-- JavaScript Modular Scripts with Cache-Buster -->
-  <script src="js/data.js?v=7.0"></script>
-  <script src="js/audio.js?v=7.0"></script>
-  <script src="js/state.js?v=7.0"></script>
-  <script src="js/profile.js?v=7.0"></script>
-  <script src="js/stages.js?v=7.0"></script>
-  <script src="js/arena.js?v=7.0"></script>
-  <script src="js/tracing.js?v=7.0"></script>
-  <script src="js/story.js?v=7.0"></script>
-  <script src="js/app.js?v=7.0"></script>
+  <script src="js/data.js?v=8.0"></script>
+  <script src="js/audio.js?v=8.0"></script>
+  <script src="js/state.js?v=8.0"></script>
+  <script src="js/profile.js?v=8.0"></script>
+  <script src="js/stages.js?v=8.0"></script>
+  <script src="js/arena.js?v=8.0"></script>
+  <script src="js/tracing.js?v=8.0"></script>
+  <script src="js/story.js?v=8.0"></script>
+  <script src="js/music.js?v=8.0"></script>
+  <script src="js/habits.js?v=8.0"></script>
+  <script src="js/app.js?v=8.0"></script>
 
   <!-- PWA Install & Service Worker Registration Script -->
   <script>

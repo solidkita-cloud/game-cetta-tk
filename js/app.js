@@ -37,7 +37,11 @@ function goToScene(sceneName) {
   } else if (sceneName === 'tracing') {
     setMascotSpeech("Selamat datang di Studio Coretan! Ayo tarik garis dan warnai sesukamu! 🎨✨");
   } else if (sceneName === 'story') {
-    setMascotSpeech("Dengarkan kisah Kiko si Rintik Hujan yang menyayangi bumi kita! 🌧️💚");
+    setMascotSpeech("Dengarkan kisah 4 Sahabat Alam yang seru dan penuh petualangan! 🌧️🍃🔥🌱");
+  } else if (sceneName === 'music') {
+    setMascotSpeech("Sentuh tuts Xilofon Pelangi dan buat musik indah sesukamu! 🎵🌈");
+  } else if (sceneName === 'habits') {
+    setMascotSpeech("Ayo jaga kebersihan! Sikat gigi bersih dan letuskan gelembung sabun! 🪥🫧");
   }
 }
 

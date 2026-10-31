@@ -210,6 +210,115 @@ function speakNatural(text, callback) {
   }
 }
 
+// 9. Xylophone Note Synthesizer (Bright, tinkly percussive bell tone)
+function playXylophoneKey(freq) {
+  try {
+    var ctx = getAudioContext();
+    if (!ctx) return;
+    
+    // Fundamental tone
+    var osc1 = ctx.createOscillator();
+    var gain1 = ctx.createGain();
+    osc1.type = 'sine';
+    osc1.frequency.setValueAtTime(freq, ctx.currentTime);
+    gain1.gain.setValueAtTime(0.4, ctx.currentTime);
+    gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.9);
+    osc1.connect(gain1);
+    gain1.connect(ctx.destination);
+    osc1.start();
+    osc1.stop(ctx.currentTime + 0.9);
+
+    // Sparkling upper overtone (Xylophone strike mallet sound)
+    var osc2 = ctx.createOscillator();
+    var gain2 = ctx.createGain();
+    osc2.type = 'triangle';
+    osc2.frequency.setValueAtTime(freq * 3, ctx.currentTime);
+    gain2.gain.setValueAtTime(0.18, ctx.currentTime);
+    gain2.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.25);
+    osc2.connect(gain2);
+    gain2.connect(ctx.destination);
+    osc2.start();
+    osc2.stop(ctx.currentTime + 0.25);
+  } catch (e) {
+    console.warn("Audio xylophone error", e);
+  }
+}
+
+// 10. Percussion Sound Effects (Bass Drum, Clap, Triangle)
+function playPercussion(type) {
+  try {
+    var ctx = getAudioContext();
+    if (!ctx) return;
+    
+    if (type === 'bass') {
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(140, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(38, ctx.currentTime + 0.18);
+      gain.gain.setValueAtTime(0.6, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.2);
+    } else if (type === 'clap') {
+      // Snappy double pop
+      for (var i = 0; i < 2; i++) {
+        var oscC = ctx.createOscillator();
+        var gainC = ctx.createGain();
+        oscC.type = 'triangle';
+        oscC.frequency.setValueAtTime(350 + i * 150, ctx.currentTime + i * 0.03);
+        oscC.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + i * 0.03 + 0.08);
+        gainC.gain.setValueAtTime(0.3, ctx.currentTime + i * 0.03);
+        gainC.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + i * 0.03 + 0.08);
+        oscC.connect(gainC);
+        gainC.connect(ctx.destination);
+        oscC.start(ctx.currentTime + i * 0.03);
+        oscC.stop(ctx.currentTime + i * 0.03 + 0.08);
+      }
+    } else if (type === 'triangle') {
+      var oscT = ctx.createOscillator();
+      var gainT = ctx.createGain();
+      oscT.type = 'sine';
+      oscT.frequency.setValueAtTime(1864, ctx.currentTime);
+      gainT.gain.setValueAtTime(0.25, ctx.currentTime);
+      gainT.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.2);
+      oscT.connect(gainT);
+      gainT.connect(ctx.destination);
+      oscT.start();
+      oscT.stop(ctx.currentTime + 1.2);
+    }
+  } catch (e) {
+    console.warn("Audio percussion error", e);
+  }
+}
+
+// 11. Toothbrushing Friction Sound
+var lastBrushSoundTime = 0;
+function playToothBrushSound() {
+  var now = Date.now();
+  if (now - lastBrushSoundTime < 80) return; // throttle
+  lastBrushSoundTime = now;
+  try {
+    var ctx = getAudioContext();
+    if (!ctx) return;
+    var osc = ctx.createOscillator();
+    var gain = ctx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(260 + Math.random() * 80, ctx.currentTime);
+    osc.frequency.linearRampToValueAtTime(180 + Math.random() * 50, ctx.currentTime + 0.06);
+    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.005, ctx.currentTime + 0.06);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.06);
+  } catch (e) {
+    // Ignore sound throttle errors
+  }
+}
+
 // Initialize speech voices listener
 if ('speechSynthesis' in window) {
   window.speechSynthesis.onvoiceschanged = function() {
