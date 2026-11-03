@@ -675,3 +675,40 @@ html, body {
     margin: 0 auto !important;
   }
 }
+
+/* =========================================================
+   DAPUR MATEMATIKA & JAM DINDING KUKUK
+   ========================================================= */
+.math-tab-btn {
+  padding: 8px 16px;
+  border-radius: 16px;
+  background: #FFF;
+  border: 2px solid #FFE082;
+  color: #E65100;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.math-tab-btn.tab-active {
+  background: #FF9800;
+  color: #FFF;
+  border-color: #F57C00;
+  box-shadow: 0 4px 10px rgba(255, 152, 0, 0.35);
+}
+
+.clock-tab-btn {
+  padding: 8px 16px;
+  border-radius: 16px;
+  background: #FFF;
+  border: 2px solid #C5CAE9;
+  color: #3F51B5;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.clock-tab-btn.tab-active {
+  background: #3F51B5;
+  color: #FFF;
+  border-color: #303F9F;
+  box-shadow: 0 4px 10px rgba(63, 81, 181, 0.35);
+}

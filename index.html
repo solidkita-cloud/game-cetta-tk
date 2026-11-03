@@ -160,6 +160,20 @@
           <div class="landmark-count" style="color:#F57C00;">Mewarnai Krayon Asli</div>
         </div>
 
+        <!-- New Wahana: Dapur Tambah Kurang (Matematika Konkret) -->
+        <div class="landmark-card" style="background:#FFF9C4; border:2.5px solid #FBC02D;" onclick="openMathOpsStudio()">
+          <div class="landmark-icon">➕➖</div>
+          <div class="landmark-title" style="color:#E65100;">Tambah Kurang</div>
+          <div class="landmark-count" style="color:#F57F17;">Buah & Donat Lezat</div>
+        </div>
+
+        <!-- New Wahana: Jam Dinding Kukuk (Membaca Jam & Rutinitas) -->
+        <div class="landmark-card" style="background:#E8EAF6; border:2.5px solid #5C6BC0;" onclick="openClockStudio()">
+          <div class="landmark-icon">⏰</div>
+          <div class="landmark-title" style="color:#283593;">Jam Dinding</div>
+          <div class="landmark-count" style="color:#3949AB;">Kukuk & Rutinitas</div>
+        </div>
+
         <!-- New Wahana: Dongeng Kiko Sahabat Alam -->
         <div class="landmark-card" style="background:#E1F5FE; border:2.5px solid #29B6F6;" onclick="startStoryBook()">
           <div class="landmark-icon">🌧️</div>
@@ -555,6 +569,52 @@
     </div>
 
     <!-- ======================================================= -->
+    <!-- SCENE 11: DAPUR MATEMATIKA TAMBAH & KURANG KONKRET      -->
+    <!-- ======================================================= -->
+    <div id="scene-math-ops" class="scene-view" style="background:#FFFDE7;">
+      <div class="game-header" style="background:rgba(255,253,231,0.95); border-color:rgba(0,0,0,0.06);">
+        <div class="header-left">
+          <button class="squish-btn btn-icon" onclick="exitMathOpsToMap()" title="Kembali ke Peta">🗺️</button>
+          <span style="font-weight:800; font-size:16px; color:#E65100;">➕➖ Dapur Tambah Kurang</span>
+        </div>
+        <div class="header-right">
+          <div class="squish-btn btn-star-badge" onclick="openProfileProgressModal()" title="Buka Rapor Progres">
+            ⭐ <span class="hud-stars-clone">18</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding:10px 16px 20px; flex:1; display:flex; flex-direction:column; overflow-y:auto; -webkit-overflow-scrolling:touch;">
+        <div id="math-ops-stage-container">
+          <!-- Dynamically populated by js/math-ops.js -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- SCENE 12: JAM DINDING KUKUK CETTA (MEMBACA JAM)        -->
+    <!-- ======================================================= -->
+    <div id="scene-clock" class="scene-view" style="background:#E8EAF6;">
+      <div class="game-header" style="background:rgba(232,234,246,0.95); border-color:rgba(0,0,0,0.06);">
+        <div class="header-left">
+          <button class="squish-btn btn-icon" onclick="exitClockToMap()" title="Kembali ke Peta">🗺️</button>
+          <span style="font-weight:800; font-size:16px; color:#283593;">⏰ Jam Dinding Kukuk</span>
+        </div>
+        <div class="header-right">
+          <div class="squish-btn btn-star-badge" onclick="openProfileProgressModal()" title="Buka Rapor Progres">
+            ⭐ <span class="hud-stars-clone">18</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding:10px 16px 20px; flex:1; display:flex; flex-direction:column; overflow-y:auto; -webkit-overflow-scrolling:touch;">
+        <div id="clock-stage-container">
+          <!-- Dynamically populated by js/clock.js -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================= -->
     <!-- MASCOT DIALOGUE BOTTOM BAR (SHARED ACROSS ALL SCENES)   -->
     <!-- ======================================================= -->
     <div class="mascot-bottom-bar">
@@ -848,20 +908,22 @@
   <div id="print-target-paper"></div>
 
   <!-- JavaScript Modular Scripts with Cache-Buster -->
-  <script src="js/data.js?v=9.0"></script>
-  <script src="js/audio.js?v=9.0"></script>
-  <script src="js/state.js?v=9.0"></script>
-  <script src="js/profile.js?v=9.0"></script>
-  <script src="js/stages.js?v=9.0"></script>
-  <script src="js/arena.js?v=9.0"></script>
-  <script src="js/tracing.js?v=9.0"></script>
-  <script src="js/story.js?v=9.0"></script>
-  <script src="js/music.js?v=9.0"></script>
-  <script src="js/habits.js?v=9.0"></script>
-  <script src="js/garden.js?v=9.0"></script>
-  <script src="js/print-sheet.js?v=9.0"></script>
-  <script src="js/screentime.js?v=9.0"></script>
-  <script src="js/app.js?v=9.0"></script>
+  <script src="js/data.js?v=10.0"></script>
+  <script src="js/audio.js?v=10.0"></script>
+  <script src="js/state.js?v=10.0"></script>
+  <script src="js/profile.js?v=10.0"></script>
+  <script src="js/stages.js?v=10.0"></script>
+  <script src="js/arena.js?v=10.0"></script>
+  <script src="js/tracing.js?v=10.0"></script>
+  <script src="js/story.js?v=10.0"></script>
+  <script src="js/music.js?v=10.0"></script>
+  <script src="js/habits.js?v=10.0"></script>
+  <script src="js/garden.js?v=10.0"></script>
+  <script src="js/print-sheet.js?v=10.0"></script>
+  <script src="js/screentime.js?v=10.0"></script>
+  <script src="js/math-ops.js?v=10.0"></script>
+  <script src="js/clock.js?v=10.0"></script>
+  <script src="js/app.js?v=10.0"></script>
 
   <!-- PWA Install & Service Worker Registration Script -->
   <script>

@@ -46,6 +46,10 @@ function goToScene(sceneName) {
     setMascotSpeech("Kebun Impian Cetta! Bintang belajarmu membuat bunga mekar dan hewan bahagia! 🌸🥕🍎");
   } else if (sceneName === 'eye-rest') {
     setMascotSpeech("Waktunya istirahat sayang mata dulu ya! Hoaaamm... 😴🍵🌳");
+  } else if (sceneName === 'math-ops') {
+    setMascotSpeech("Dapur Matematika Cetta! Hitung tambah dan kurang buah lezat! ➕➖🍎");
+  } else if (sceneName === 'clock') {
+    setMascotSpeech("Jam Dinding Kukuk! Ayo lihat jarum jam dan rutinitas harianmu! ⏰🐥");
   }
 }
 
