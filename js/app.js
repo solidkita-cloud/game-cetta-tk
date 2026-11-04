@@ -50,6 +50,14 @@ function goToScene(sceneName) {
     setMascotSpeech("Dapur Matematika Cetta! Hitung tambah dan kurang buah lezat! ➕➖🍎");
   } else if (sceneName === 'clock') {
     setMascotSpeech("Jam Dinding Kukuk! Ayo lihat jarum jam dan rutinitas harianmu! ⏰🐥");
+  } else if (sceneName === 'english') {
+    setMascotSpeech("Hello! Welcome to Halo English! Mari belajar kata bahasa Inggris bersama Pandi! 🇬🇧✨");
+  } else if (sceneName === 'science') {
+    setMascotSpeech("Lab Sains Cetta! Coba tebak: benda ini terapung atau tenggelam ya? 🌊🔬");
+  } else if (sceneName === 'empathy') {
+    setMascotSpeech("Cermin Emosi & 3 Kata Ajaib! Belajar perasaan dan sopan santun! ❤️🤝");
+  } else if (sceneName === 'puzzle') {
+    setMascotSpeech("Puzzle Ceria Cetta! Ayo pasangkan 4 keping puzzle sampai utuh! 🧩✨");
   }
 }
 

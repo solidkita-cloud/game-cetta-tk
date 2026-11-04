@@ -174,6 +174,34 @@
           <div class="landmark-count" style="color:#3949AB;">Kukuk & Rutinitas</div>
         </div>
 
+        <!-- New Wahana: Halo English (Kosa Kata Dwibahasa ID/EN) -->
+        <div class="landmark-card" style="background:#E3F2FD; border:2.5px solid #2196F3;" onclick="openEnglishStudio()">
+          <div class="landmark-icon">🇬🇧</div>
+          <div class="landmark-title" style="color:#1565C0;">Halo English</div>
+          <div class="landmark-count" style="color:#1976D2;">Kosa Kata Cilik</div>
+        </div>
+
+        <!-- New Wahana: Lab Sains Cilik (Terapung atau Tenggelam) -->
+        <div class="landmark-card" style="background:#E0F7FA; border:2.5px solid #00ACC1;" onclick="openScienceStudio()">
+          <div class="landmark-icon">🌊</div>
+          <div class="landmark-title" style="color:#00838F;">Lab Sains Air</div>
+          <div class="landmark-count" style="color:#0097A7;">Terapung / Tenggelam</div>
+        </div>
+
+        <!-- New Wahana: Cermin Emosi & 3 Kata Ajaib -->
+        <div class="landmark-card" style="background:#FFF3E0; border:2.5px solid #FF9800;" onclick="openEmpathyStudio()">
+          <div class="landmark-icon">❤️</div>
+          <div class="landmark-title" style="color:#E65100;">Cermin Emosi</div>
+          <div class="landmark-count" style="color:#F57C00;">Perasaan & 3 Kata Ajaib</div>
+        </div>
+
+        <!-- New Wahana: Puzzle Potongan Gambar Ceria -->
+        <div class="landmark-card" style="background:#F3E5F5; border:2.5px solid #AB47BC;" onclick="openPuzzleStudio()">
+          <div class="landmark-icon">🧩</div>
+          <div class="landmark-title" style="color:#6A1B9A;">Puzzle Ceria</div>
+          <div class="landmark-count" style="color:#7B1FA2;">4 Keping Gambar</div>
+        </div>
+
         <!-- New Wahana: Dongeng Kiko Sahabat Alam -->
         <div class="landmark-card" style="background:#E1F5FE; border:2.5px solid #29B6F6;" onclick="startStoryBook()">
           <div class="landmark-icon">🌧️</div>
@@ -615,6 +643,98 @@
     </div>
 
     <!-- ======================================================= -->
+    <!-- SCENE 13: POJOK HALO ENGLISH (BILINGUAL ID/EN)          -->
+    <!-- ======================================================= -->
+    <div id="scene-english" class="scene-view" style="background:#E3F2FD;">
+      <div class="game-header" style="background:rgba(227,242,253,0.95); border-color:rgba(0,0,0,0.06);">
+        <div class="header-left">
+          <button class="squish-btn btn-icon" onclick="exitEnglishToMap()" title="Kembali ke Peta">🗺️</button>
+          <span style="font-weight:800; font-size:16px; color:#1565C0;">🇬🇧 Halo English</span>
+        </div>
+        <div class="header-right">
+          <div class="squish-btn btn-star-badge" onclick="openProfileProgressModal()" title="Buka Rapor Progres">
+            ⭐ <span class="hud-stars-clone">18</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding:10px 16px 20px; flex:1; display:flex; flex-direction:column; overflow-y:auto; -webkit-overflow-scrolling:touch;">
+        <div id="english-stage-container">
+          <!-- Dynamically populated by js/english.js -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- SCENE 14: LAB SAINS CILIK (TERAPUNG ATAU TENGGELAM)     -->
+    <!-- ======================================================= -->
+    <div id="scene-science" class="scene-view" style="background:#E0F7FA;">
+      <div class="game-header" style="background:rgba(224,247,250,0.95); border-color:rgba(0,0,0,0.06);">
+        <div class="header-left">
+          <button class="squish-btn btn-icon" onclick="exitScienceToMap()" title="Kembali ke Peta">🗺️</button>
+          <span style="font-weight:800; font-size:16px; color:#00838F;">🌊 Lab Sains Air</span>
+        </div>
+        <div class="header-right">
+          <div class="squish-btn btn-star-badge" onclick="openProfileProgressModal()" title="Buka Rapor Progres">
+            ⭐ <span class="hud-stars-clone">18</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding:10px 16px 20px; flex:1; display:flex; flex-direction:column; overflow-y:auto; -webkit-overflow-scrolling:touch;">
+        <div id="science-stage-container">
+          <!-- Dynamically populated by js/science.js -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- SCENE 15: CERMIN EMOSI & 3 KATA AJAIB                   -->
+    <!-- ======================================================= -->
+    <div id="scene-empathy" class="scene-view" style="background:#FFF8E1;">
+      <div class="game-header" style="background:rgba(255,248,225,0.95); border-color:rgba(0,0,0,0.06);">
+        <div class="header-left">
+          <button class="squish-btn btn-icon" onclick="exitEmpathyToMap()" title="Kembali ke Peta">🗺️</button>
+          <span style="font-weight:800; font-size:16px; color:#E65100;">❤️ Cermin Emosi</span>
+        </div>
+        <div class="header-right">
+          <div class="squish-btn btn-star-badge" onclick="openProfileProgressModal()" title="Buka Rapor Progres">
+            ⭐ <span class="hud-stars-clone">18</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding:10px 16px 20px; flex:1; display:flex; flex-direction:column; overflow-y:auto; -webkit-overflow-scrolling:touch;">
+        <div id="empathy-stage-container">
+          <!-- Dynamically populated by js/empathy.js -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- SCENE 16: PUZZLE POTONGAN GAMBAR CERIA                  -->
+    <!-- ======================================================= -->
+    <div id="scene-puzzle" class="scene-view" style="background:#F3E5F5;">
+      <div class="game-header" style="background:rgba(243,229,245,0.95); border-color:rgba(0,0,0,0.06);">
+        <div class="header-left">
+          <button class="squish-btn btn-icon" onclick="exitPuzzleToMap()" title="Kembali ke Peta">🗺️</button>
+          <span style="font-weight:800; font-size:16px; color:#6A1B9A;">🧩 Puzzle Ceria</span>
+        </div>
+        <div class="header-right">
+          <div class="squish-btn btn-star-badge" onclick="openProfileProgressModal()" title="Buka Rapor Progres">
+            ⭐ <span class="hud-stars-clone">18</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding:10px 16px 20px; flex:1; display:flex; flex-direction:column; overflow-y:auto; -webkit-overflow-scrolling:touch;">
+        <div id="puzzle-stage-container">
+          <!-- Dynamically populated by js/puzzle.js -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================= -->
     <!-- MASCOT DIALOGUE BOTTOM BAR (SHARED ACROSS ALL SCENES)   -->
     <!-- ======================================================= -->
     <div class="mascot-bottom-bar">
@@ -908,22 +1028,26 @@
   <div id="print-target-paper"></div>
 
   <!-- JavaScript Modular Scripts with Cache-Buster -->
-  <script src="js/data.js?v=10.0"></script>
-  <script src="js/audio.js?v=10.0"></script>
-  <script src="js/state.js?v=10.0"></script>
-  <script src="js/profile.js?v=10.0"></script>
-  <script src="js/stages.js?v=10.0"></script>
-  <script src="js/arena.js?v=10.0"></script>
-  <script src="js/tracing.js?v=10.0"></script>
-  <script src="js/story.js?v=10.0"></script>
-  <script src="js/music.js?v=10.0"></script>
-  <script src="js/habits.js?v=10.0"></script>
-  <script src="js/garden.js?v=10.0"></script>
-  <script src="js/print-sheet.js?v=10.0"></script>
-  <script src="js/screentime.js?v=10.0"></script>
-  <script src="js/math-ops.js?v=10.0"></script>
-  <script src="js/clock.js?v=10.0"></script>
-  <script src="js/app.js?v=10.0"></script>
+  <script src="js/data.js?v=11.0"></script>
+  <script src="js/audio.js?v=11.0"></script>
+  <script src="js/state.js?v=11.0"></script>
+  <script src="js/profile.js?v=11.0"></script>
+  <script src="js/stages.js?v=11.0"></script>
+  <script src="js/arena.js?v=11.0"></script>
+  <script src="js/tracing.js?v=11.0"></script>
+  <script src="js/story.js?v=11.0"></script>
+  <script src="js/music.js?v=11.0"></script>
+  <script src="js/habits.js?v=11.0"></script>
+  <script src="js/garden.js?v=11.0"></script>
+  <script src="js/print-sheet.js?v=11.0"></script>
+  <script src="js/screentime.js?v=11.0"></script>
+  <script src="js/math-ops.js?v=11.0"></script>
+  <script src="js/clock.js?v=11.0"></script>
+  <script src="js/english.js?v=11.0"></script>
+  <script src="js/science.js?v=11.0"></script>
+  <script src="js/empathy.js?v=11.0"></script>
+  <script src="js/puzzle.js?v=11.0"></script>
+  <script src="js/app.js?v=11.0"></script>
 
   <!-- PWA Install & Service Worker Registration Script -->
   <script>

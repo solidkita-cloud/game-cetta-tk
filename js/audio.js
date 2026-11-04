@@ -210,6 +210,38 @@ function speakNatural(text, callback) {
   }
 }
 
+// 8b. Natural English Speech Synthesis (Clear & Warm)
+function speakEnglish(text, callback) {
+  if (!('speechSynthesis' in window)) {
+    if (callback) callback();
+    return;
+  }
+  try {
+    window.speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-US';
+    u.rate = 0.90;  // slightly slower for ESL preschool learners
+    u.pitch = 1.15;
+    
+    var voices = window.speechSynthesis.getVoices();
+    var enVoice = voices.find(function(v) {
+      return (v.lang === 'en-US' || v.lang === 'en_US' || v.lang.indexOf('en') === 0);
+    });
+    if (enVoice) {
+      u.voice = enVoice;
+    }
+    
+    if (callback) {
+      u.onend = function() { callback(); };
+      u.onerror = function() { callback(); };
+    }
+    window.speechSynthesis.speak(u);
+  } catch (e) {
+    console.warn("TTS English Error:", e);
+    if (callback) callback();
+  }
+}
+
 // 9. Xylophone Note Synthesizer (Bright, tinkly percussive bell tone)
 function playXylophoneKey(freq) {
   try {
