@@ -58,6 +58,8 @@ function goToScene(sceneName) {
     setMascotSpeech("Cermin Emosi & 3 Kata Ajaib! Belajar perasaan dan sopan santun! ❤️🤝");
   } else if (sceneName === 'puzzle') {
     setMascotSpeech("Puzzle Ceria Cetta! Ayo pasangkan 4 keping puzzle sampai utuh! 🧩✨");
+  } else if (sceneName === 'xox') {
+    setMascotSpeech("Arena XOX Cetta! Sambungkan 3 kotak lurus untuk menang! ⭕❌✨");
   }
 }
 

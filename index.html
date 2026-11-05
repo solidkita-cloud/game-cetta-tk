@@ -202,6 +202,13 @@
           <div class="landmark-count" style="color:#7B1FA2;">4 Keping Gambar</div>
         </div>
 
+        <!-- New Wahana: Arena XOX Cetta (Tic-Tac-Toe) -->
+        <div class="landmark-card" style="background:#FFF8E1; border:2.5px solid #FFA000;" onclick="openXoxStudio()">
+          <div class="landmark-icon">⭕❌</div>
+          <div class="landmark-title" style="color:#E65100;">Arena XOX</div>
+          <div class="landmark-count" style="color:#F57C00;">Tic-Tac-Toe & Bot</div>
+        </div>
+
         <!-- New Wahana: Dongeng Kiko Sahabat Alam -->
         <div class="landmark-card" style="background:#E1F5FE; border:2.5px solid #29B6F6;" onclick="startStoryBook()">
           <div class="landmark-icon">🌧️</div>
@@ -735,6 +742,29 @@
     </div>
 
     <!-- ======================================================= -->
+    <!-- SCENE 17: ARENA XOX CETTA (TIC-TAC-TOE & STRATEGI)      -->
+    <!-- ======================================================= -->
+    <div id="scene-xox" class="scene-view" style="background:#FFF9C4;">
+      <div class="game-header" style="background:rgba(255,249,196,0.95); border-color:rgba(0,0,0,0.06);">
+        <div class="header-left">
+          <button class="squish-btn btn-icon" onclick="exitXoxToMap()" title="Kembali ke Peta">🗺️</button>
+          <span style="font-weight:800; font-size:16px; color:#E65100;">⭕❌ Arena XOX Cetta</span>
+        </div>
+        <div class="header-right">
+          <div class="squish-btn btn-star-badge" onclick="openProfileProgressModal()" title="Buka Rapor Progres">
+            ⭐ <span class="hud-stars-clone">18</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding:10px 16px 20px; flex:1; display:flex; flex-direction:column; overflow-y:auto; -webkit-overflow-scrolling:touch;">
+        <div id="xox-stage-container">
+          <!-- Dynamically populated by js/xox.js -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================= -->
     <!-- MASCOT DIALOGUE BOTTOM BAR (SHARED ACROSS ALL SCENES)   -->
     <!-- ======================================================= -->
     <div class="mascot-bottom-bar">
@@ -1028,26 +1058,27 @@
   <div id="print-target-paper"></div>
 
   <!-- JavaScript Modular Scripts with Cache-Buster -->
-  <script src="js/data.js?v=11.0"></script>
-  <script src="js/audio.js?v=11.0"></script>
-  <script src="js/state.js?v=11.0"></script>
-  <script src="js/profile.js?v=11.0"></script>
-  <script src="js/stages.js?v=11.0"></script>
-  <script src="js/arena.js?v=11.0"></script>
-  <script src="js/tracing.js?v=11.0"></script>
-  <script src="js/story.js?v=11.0"></script>
-  <script src="js/music.js?v=11.0"></script>
-  <script src="js/habits.js?v=11.0"></script>
-  <script src="js/garden.js?v=11.0"></script>
-  <script src="js/print-sheet.js?v=11.0"></script>
-  <script src="js/screentime.js?v=11.0"></script>
-  <script src="js/math-ops.js?v=11.0"></script>
-  <script src="js/clock.js?v=11.0"></script>
-  <script src="js/english.js?v=11.0"></script>
-  <script src="js/science.js?v=11.0"></script>
-  <script src="js/empathy.js?v=11.0"></script>
-  <script src="js/puzzle.js?v=11.0"></script>
-  <script src="js/app.js?v=11.0"></script>
+  <script src="js/data.js?v=12.0"></script>
+  <script src="js/audio.js?v=12.0"></script>
+  <script src="js/state.js?v=12.0"></script>
+  <script src="js/profile.js?v=12.0"></script>
+  <script src="js/stages.js?v=12.0"></script>
+  <script src="js/arena.js?v=12.0"></script>
+  <script src="js/tracing.js?v=12.0"></script>
+  <script src="js/story.js?v=12.0"></script>
+  <script src="js/music.js?v=12.0"></script>
+  <script src="js/habits.js?v=12.0"></script>
+  <script src="js/garden.js?v=12.0"></script>
+  <script src="js/print-sheet.js?v=12.0"></script>
+  <script src="js/screentime.js?v=12.0"></script>
+  <script src="js/math-ops.js?v=12.0"></script>
+  <script src="js/clock.js?v=12.0"></script>
+  <script src="js/english.js?v=12.0"></script>
+  <script src="js/science.js?v=12.0"></script>
+  <script src="js/empathy.js?v=12.0"></script>
+  <script src="js/puzzle.js?v=12.0"></script>
+  <script src="js/xox.js?v=12.0"></script>
+  <script src="js/app.js?v=12.0"></script>
 
   <!-- PWA Install & Service Worker Registration Script -->
   <script>
