@@ -60,6 +60,12 @@ function goToScene(sceneName) {
     setMascotSpeech("Puzzle Ceria Cetta! Ayo pasangkan 4 keping puzzle sampai utuh! 🧩✨");
   } else if (sceneName === 'xox') {
     setMascotSpeech("Arena XOX Cetta! Sambungkan 3 kotak lurus untuk menang! ⭕❌✨");
+  } else if (sceneName === 'memory') {
+    setMascotSpeech("Kartu Ingatan Ajaib! Buka dua kartu dan cari pasangan gambarnya ya! 🎴✨");
+  } else if (sceneName === 'catcher') {
+    setMascotSpeech("Tangkap Buah Jatuh! Geser keranjang untuk menangkap buah-buahan segar! 🧺🍎✨");
+  } else if (sceneName === 'detective') {
+    setMascotSpeech("Detektif Cilik! Temukan benda tersembunyi dengan mata jeli kamu! 🔍✨");
   }
 }
 

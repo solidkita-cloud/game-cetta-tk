@@ -790,3 +790,32 @@ html, body {
   box-shadow: 0 0 16px rgba(76, 175, 80, 0.6) !important;
   animation: squishBounce 0.6s infinite alternate ease-in-out !important;
 }
+
+/* ========================================================= */
+/* MINI-GAMES: KARTU INGATAN, TANGKAP BUAH & DETEKTIF CILIK  */
+/* ========================================================= */
+.memory-card-tile {
+  perspective: 800px;
+  border-radius: 18px;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+.memory-card-tile:active {
+  transform: scale(0.94);
+}
+.card-matched {
+  animation: squishBounce 0.5s ease-out;
+}
+
+.detective-target {
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.25s ease;
+}
+.detective-target:active {
+  transform: translate(-50%, -50%) scale(0.92);
+}
+.detective-target.is-found {
+  animation: squishBounce 0.6s ease-out;
+}
+

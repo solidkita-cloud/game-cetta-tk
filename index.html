@@ -209,6 +209,27 @@
           <div class="landmark-count" style="color:#F57C00;">Tic-Tac-Toe & Bot</div>
         </div>
 
+        <!-- New Wahana: Kartu Ingatan Ajaib (Memory Match) -->
+        <div class="landmark-card" style="background:#FFF3E0; border:2.5px solid #FF9800;" onclick="openMemoryStudio()">
+          <div class="landmark-icon">🎴</div>
+          <div class="landmark-title" style="color:#E65100;">Kartu Ingatan</div>
+          <div class="landmark-count" style="color:#F57C00;">Cari Pasangan Kembar</div>
+        </div>
+
+        <!-- New Wahana: Tangkap Buah Jatuh (Fruit Catcher) -->
+        <div class="landmark-card" style="background:#E8F5E9; border:2.5px solid #4CAF50;" onclick="openCatcherStudio()">
+          <div class="landmark-icon">🧺🍎</div>
+          <div class="landmark-title" style="color:#2E7D32;">Tangkap Buah</div>
+          <div class="landmark-count" style="color:#388E3C;">Keranjang Panen</div>
+        </div>
+
+        <!-- New Wahana: Detektif Cilik (Hidden Objects) -->
+        <div class="landmark-card" style="background:#E1F5FE; border:2.5px solid #03A9F4;" onclick="openDetectiveStudio()">
+          <div class="landmark-icon">🔍✨</div>
+          <div class="landmark-title" style="color:#0277BD;">Detektif Cilik</div>
+          <div class="landmark-count" style="color:#0288D1;">Cari Benda Sembunyi</div>
+        </div>
+
         <!-- New Wahana: Dongeng Kiko Sahabat Alam -->
         <div class="landmark-card" style="background:#E1F5FE; border:2.5px solid #29B6F6;" onclick="startStoryBook()">
           <div class="landmark-icon">🌧️</div>
@@ -765,6 +786,75 @@
     </div>
 
     <!-- ======================================================= -->
+    <!-- SCENE 18: KARTU INGATAN AJAIB (MEMORY MATCH)            -->
+    <!-- ======================================================= -->
+    <div id="scene-memory" class="scene-view" style="background:#FFF3E0;">
+      <div class="game-header" style="background:rgba(255,243,224,0.95); border-color:rgba(0,0,0,0.06);">
+        <div class="header-left">
+          <button class="squish-btn btn-icon" onclick="exitMemoryToMap()" title="Kembali ke Peta">🗺️</button>
+          <span style="font-weight:800; font-size:16px; color:#E65100;">🎴 Kartu Ingatan Ajaib</span>
+        </div>
+        <div class="header-right">
+          <div class="squish-btn btn-star-badge" onclick="openProfileProgressModal()" title="Buka Rapor Progres">
+            ⭐ <span class="hud-stars-clone">18</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding:10px 16px 20px; flex:1; display:flex; flex-direction:column; overflow-y:auto; -webkit-overflow-scrolling:touch;">
+        <div id="memory-stage-container">
+          <!-- Dynamically populated by js/memory.js -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- SCENE 19: TANGKAP BUAH JATUH (FRUIT CATCHER)            -->
+    <!-- ======================================================= -->
+    <div id="scene-catcher" class="scene-view" style="background:#E8F5E9;">
+      <div class="game-header" style="background:rgba(232,245,233,0.95); border-color:rgba(0,0,0,0.06);">
+        <div class="header-left">
+          <button class="squish-btn btn-icon" onclick="exitCatcherToMap()" title="Kembali ke Peta">🗺️</button>
+          <span style="font-weight:800; font-size:16px; color:#2E7D32;">🧺 Tangkap Buah Jatuh</span>
+        </div>
+        <div class="header-right">
+          <div class="squish-btn btn-star-badge" onclick="openProfileProgressModal()" title="Buka Rapor Progres">
+            ⭐ <span class="hud-stars-clone">18</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding:10px 16px 20px; flex:1; display:flex; flex-direction:column; overflow-y:auto; -webkit-overflow-scrolling:touch;">
+        <div id="catcher-stage-container">
+          <!-- Dynamically populated by js/catcher.js -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- SCENE 20: DETEKTIF CILIK (HIDDEN OBJECTS)               -->
+    <!-- ======================================================= -->
+    <div id="scene-detective" class="scene-view" style="background:#E1F5FE;">
+      <div class="game-header" style="background:rgba(225,245,254,0.95); border-color:rgba(0,0,0,0.06);">
+        <div class="header-left">
+          <button class="squish-btn btn-icon" onclick="exitDetectiveToMap()" title="Kembali ke Peta">🗺️</button>
+          <span style="font-weight:800; font-size:16px; color:#0277BD;">🔍 Detektif Cilik</span>
+        </div>
+        <div class="header-right">
+          <div class="squish-btn btn-star-badge" onclick="openProfileProgressModal()" title="Buka Rapor Progres">
+            ⭐ <span class="hud-stars-clone">18</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding:10px 16px 20px; flex:1; display:flex; flex-direction:column; overflow-y:auto; -webkit-overflow-scrolling:touch;">
+        <div id="detective-stage-container">
+          <!-- Dynamically populated by js/detective.js -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================= -->
     <!-- MASCOT DIALOGUE BOTTOM BAR (SHARED ACROSS ALL SCENES)   -->
     <!-- ======================================================= -->
     <div class="mascot-bottom-bar">
@@ -1058,27 +1148,30 @@
   <div id="print-target-paper"></div>
 
   <!-- JavaScript Modular Scripts with Cache-Buster -->
-  <script src="js/data.js?v=12.0"></script>
-  <script src="js/audio.js?v=12.0"></script>
-  <script src="js/state.js?v=12.0"></script>
-  <script src="js/profile.js?v=12.0"></script>
-  <script src="js/stages.js?v=12.0"></script>
-  <script src="js/arena.js?v=12.0"></script>
-  <script src="js/tracing.js?v=12.0"></script>
-  <script src="js/story.js?v=12.0"></script>
-  <script src="js/music.js?v=12.0"></script>
-  <script src="js/habits.js?v=12.0"></script>
-  <script src="js/garden.js?v=12.0"></script>
-  <script src="js/print-sheet.js?v=12.0"></script>
-  <script src="js/screentime.js?v=12.0"></script>
-  <script src="js/math-ops.js?v=12.0"></script>
-  <script src="js/clock.js?v=12.0"></script>
-  <script src="js/english.js?v=12.0"></script>
-  <script src="js/science.js?v=12.0"></script>
-  <script src="js/empathy.js?v=12.0"></script>
-  <script src="js/puzzle.js?v=12.0"></script>
-  <script src="js/xox.js?v=12.0"></script>
-  <script src="js/app.js?v=12.0"></script>
+  <script src="js/data.js?v=13.0"></script>
+  <script src="js/audio.js?v=13.0"></script>
+  <script src="js/state.js?v=13.0"></script>
+  <script src="js/profile.js?v=13.0"></script>
+  <script src="js/stages.js?v=13.0"></script>
+  <script src="js/arena.js?v=13.0"></script>
+  <script src="js/tracing.js?v=13.0"></script>
+  <script src="js/story.js?v=13.0"></script>
+  <script src="js/music.js?v=13.0"></script>
+  <script src="js/habits.js?v=13.0"></script>
+  <script src="js/garden.js?v=13.0"></script>
+  <script src="js/print-sheet.js?v=13.0"></script>
+  <script src="js/screentime.js?v=13.0"></script>
+  <script src="js/math-ops.js?v=13.0"></script>
+  <script src="js/clock.js?v=13.0"></script>
+  <script src="js/english.js?v=13.0"></script>
+  <script src="js/science.js?v=13.0"></script>
+  <script src="js/empathy.js?v=13.0"></script>
+  <script src="js/puzzle.js?v=13.0"></script>
+  <script src="js/xox.js?v=13.0"></script>
+  <script src="js/memory.js?v=13.0"></script>
+  <script src="js/catcher.js?v=13.0"></script>
+  <script src="js/detective.js?v=13.0"></script>
+  <script src="js/app.js?v=13.0"></script>
 
   <!-- PWA Install & Service Worker Registration Script -->
   <script>
