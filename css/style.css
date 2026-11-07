@@ -819,3 +819,81 @@ html, body {
   animation: squishBounce 0.6s ease-out;
 }
 
+/* ========================================================= */
+/* ZONA PETUALANGAN TAB FILTER (PETA BERSIH & RINGKAS)      */
+/* ========================================================= */
+.zone-tab-bar {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 6px 16px 10px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  flex-shrink: 0;
+}
+.zone-tab-bar::-webkit-scrollbar {
+  display: none;
+}
+.zone-tab-btn {
+  background: #FFFFFF;
+  color: #455A64;
+  border: 2px solid #CFD8DC;
+  border-radius: 20px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+.zone-tab-btn:active {
+  transform: scale(0.93);
+}
+.zone-tab-btn.active {
+  background: #455A64;
+  color: #FFFFFF;
+  border-color: #263238;
+  box-shadow: 0 4px 12px rgba(69,90,100,0.35);
+  transform: translateY(-2px);
+}
+.zone-tab-btn[data-zone-target="belajar"].active {
+  background: #1976D2;
+  border-color: #0D47A1;
+  box-shadow: 0 4px 12px rgba(25,118,210,0.35);
+}
+.zone-tab-btn[data-zone-target="game"].active {
+  background: #FF6F00;
+  border-color: #E65100;
+  box-shadow: 0 4px 12px rgba(255,111,0,0.35);
+}
+.zone-tab-btn[data-zone-target="kreatif"].active {
+  background: #8E24AA;
+  border-color: #6A1B9A;
+  box-shadow: 0 4px 12px rgba(142,36,170,0.35);
+}
+.zone-tab-btn[data-zone-target="karakter"].active {
+  background: #00897B;
+  border-color: #004D40;
+  box-shadow: 0 4px 12px rgba(0,137,123,0.35);
+}
+.zone-count-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 900;
+  background: rgba(0,0,0,0.08);
+}
+.zone-tab-btn.active .zone-count-badge {
+  background: rgba(255,255,255,0.25);
+  color: #FFFFFF;
+}
+
+

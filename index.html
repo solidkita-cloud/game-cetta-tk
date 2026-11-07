@@ -123,181 +123,200 @@
         🎯 Janji Ibu: <span id="active-reward-display">🍦 Makan Es Krim Bareng</span>
       </div>
 
+            <!-- Category Filter Tabs (Zona Petualangan) -->
+      <div class="zone-tab-bar">
+        <button class="squish-btn zone-tab-btn active" data-zone-target="all" onclick="filterMapZone('all', this)">
+          🌟 Semua <span class="zone-count-badge">27</span>
+        </button>
+        <button class="squish-btn zone-tab-btn" data-zone-target="belajar" onclick="filterMapZone('belajar', this)">
+          📚 Belajar <span class="zone-count-badge">8</span>
+        </button>
+        <button class="squish-btn zone-tab-btn" data-zone-target="game" onclick="filterMapZone('game', this)">
+          🎮 Game Seru <span class="zone-count-badge">8</span>
+        </button>
+        <button class="squish-btn zone-tab-btn" data-zone-target="kreatif" onclick="filterMapZone('kreatif', this)">
+          🎨 Seni & Cerita <span class="zone-count-badge">5</span>
+        </button>
+        <button class="squish-btn zone-tab-btn" data-zone-target="karakter" onclick="filterMapZone('karakter', this)">
+          🌱 Karakter & Sains <span class="zone-count-badge">6</span>
+        </button>
+      </div>
+
       <!-- Scrollable Wahana Grid -->
       <div class="map-scroll-area">
         <!-- New Wahana: Studio Coretan Ceria (Pra-Menulis) -->
-        <div class="landmark-card" style="background:#FFF9C4; border:2.5px solid #FBC02D;" onclick="startTracingStudio('hujan')">
+        <div class="landmark-card" data-zone="kreatif" style="background:#FFF9C4; border:2.5px solid #FBC02D;" onclick="startTracingStudio('hujan')">
           <div class="landmark-icon">✍️</div>
           <div class="landmark-title" style="color:#E65100;">Studio Coretan</div>
           <div class="landmark-count" style="color:#F57F17;">Pra-Tulis & Gambar</div>
         </div>
 
         <!-- New Wahana: Studio Musik Xilofon Pelangi -->
-        <div class="landmark-card" style="background:#FFF3E0; border:2.5px solid #FF9800;" onclick="openMusicStudio()">
+        <div class="landmark-card" data-zone="kreatif" style="background:#FFF3E0; border:2.5px solid #FF9800;" onclick="openMusicStudio()">
           <div class="landmark-icon">🎵</div>
           <div class="landmark-title" style="color:#E65100;">Xilofon Musik</div>
           <div class="landmark-count" style="color:#F57C00;">Lagu Anak & Do-Re-Mi</div>
         </div>
 
         <!-- New Wahana: Bina Diri Sehat (Gigi & Sabun Busa) -->
-        <div class="landmark-card" style="background:#E0F2F1; border:2.5px solid #00897B;" onclick="openHabitsStudio()">
+        <div class="landmark-card" data-zone="karakter" style="background:#E0F2F1; border:2.5px solid #00897B;" onclick="openHabitsStudio()">
           <div class="landmark-icon">🪥</div>
           <div class="landmark-title" style="color:#00695C;">Bina Diri Sehat</div>
           <div class="landmark-count" style="color:#00796B;">Sikat Gigi & Balon Busa</div>
         </div>
 
         <!-- New Wahana: Kebun Impian Cetta (Habitat Bintang) -->
-        <div class="landmark-card" style="background:#E8F5E9; border:2.5px solid #4CAF50;" onclick="openGardenScene()">
+        <div class="landmark-card" data-zone="karakter" style="background:#E8F5E9; border:2.5px solid #4CAF50;" onclick="openGardenScene()">
           <div class="landmark-icon">🌸</div>
           <div class="landmark-title" style="color:#2E7D32;">Kebun Impian</div>
           <div class="landmark-count" style="color:#388E3C;">Bunga, Kelinci & Kolam</div>
         </div>
 
         <!-- New Wahana: Lembar Mewarnai Siap Cetak -->
-        <div class="landmark-card" style="background:#FFF8E1; border:2.5px solid #FFB300;" onclick="openPrintSheetsModal()">
+        <div class="landmark-card" data-zone="kreatif" style="background:#FFF8E1; border:2.5px solid #FFB300;" onclick="openPrintSheetsModal()">
           <div class="landmark-icon">🖨️</div>
           <div class="landmark-title" style="color:#E65100;">Cetak Gambar</div>
           <div class="landmark-count" style="color:#F57C00;">Mewarnai Krayon Asli</div>
         </div>
 
         <!-- New Wahana: Dapur Tambah Kurang (Matematika Konkret) -->
-        <div class="landmark-card" style="background:#FFF9C4; border:2.5px solid #FBC02D;" onclick="openMathOpsStudio()">
+        <div class="landmark-card" data-zone="belajar" style="background:#FFF9C4; border:2.5px solid #FBC02D;" onclick="openMathOpsStudio()">
           <div class="landmark-icon">➕➖</div>
           <div class="landmark-title" style="color:#E65100;">Tambah Kurang</div>
           <div class="landmark-count" style="color:#F57F17;">Buah & Donat Lezat</div>
         </div>
 
         <!-- New Wahana: Jam Dinding Kukuk (Membaca Jam & Rutinitas) -->
-        <div class="landmark-card" style="background:#E8EAF6; border:2.5px solid #5C6BC0;" onclick="openClockStudio()">
+        <div class="landmark-card" data-zone="belajar" style="background:#E8EAF6; border:2.5px solid #5C6BC0;" onclick="openClockStudio()">
           <div class="landmark-icon">⏰</div>
           <div class="landmark-title" style="color:#283593;">Jam Dinding</div>
           <div class="landmark-count" style="color:#3949AB;">Kukuk & Rutinitas</div>
         </div>
 
         <!-- New Wahana: Halo English (Kosa Kata Dwibahasa ID/EN) -->
-        <div class="landmark-card" style="background:#E3F2FD; border:2.5px solid #2196F3;" onclick="openEnglishStudio()">
+        <div class="landmark-card" data-zone="belajar" style="background:#E3F2FD; border:2.5px solid #2196F3;" onclick="openEnglishStudio()">
           <div class="landmark-icon">🇬🇧</div>
           <div class="landmark-title" style="color:#1565C0;">Halo English</div>
           <div class="landmark-count" style="color:#1976D2;">Kosa Kata Cilik</div>
         </div>
 
         <!-- New Wahana: Lab Sains Cilik (Terapung atau Tenggelam) -->
-        <div class="landmark-card" style="background:#E0F7FA; border:2.5px solid #00ACC1;" onclick="openScienceStudio()">
+        <div class="landmark-card" data-zone="karakter" style="background:#E0F7FA; border:2.5px solid #00ACC1;" onclick="openScienceStudio()">
           <div class="landmark-icon">🌊</div>
           <div class="landmark-title" style="color:#00838F;">Lab Sains Air</div>
           <div class="landmark-count" style="color:#0097A7;">Terapung / Tenggelam</div>
         </div>
 
         <!-- New Wahana: Cermin Emosi & 3 Kata Ajaib -->
-        <div class="landmark-card" style="background:#FFF3E0; border:2.5px solid #FF9800;" onclick="openEmpathyStudio()">
+        <div class="landmark-card" data-zone="karakter" style="background:#FFF3E0; border:2.5px solid #FF9800;" onclick="openEmpathyStudio()">
           <div class="landmark-icon">❤️</div>
           <div class="landmark-title" style="color:#E65100;">Cermin Emosi</div>
           <div class="landmark-count" style="color:#F57C00;">Perasaan & 3 Kata Ajaib</div>
         </div>
 
         <!-- New Wahana: Puzzle Potongan Gambar Ceria -->
-        <div class="landmark-card" style="background:#F3E5F5; border:2.5px solid #AB47BC;" onclick="openPuzzleStudio()">
+        <div class="landmark-card" data-zone="game" style="background:#F3E5F5; border:2.5px solid #AB47BC;" onclick="openPuzzleStudio()">
           <div class="landmark-icon">🧩</div>
           <div class="landmark-title" style="color:#6A1B9A;">Puzzle Ceria</div>
           <div class="landmark-count" style="color:#7B1FA2;">4 Keping Gambar</div>
         </div>
 
         <!-- New Wahana: Arena XOX Cetta (Tic-Tac-Toe) -->
-        <div class="landmark-card" style="background:#FFF8E1; border:2.5px solid #FFA000;" onclick="openXoxStudio()">
+        <div class="landmark-card" data-zone="game" style="background:#FFF8E1; border:2.5px solid #FFA000;" onclick="openXoxStudio()">
           <div class="landmark-icon">⭕❌</div>
           <div class="landmark-title" style="color:#E65100;">Arena XOX</div>
           <div class="landmark-count" style="color:#F57C00;">Tic-Tac-Toe & Bot</div>
         </div>
 
         <!-- New Wahana: Kartu Ingatan Ajaib (Memory Match) -->
-        <div class="landmark-card" style="background:#FFF3E0; border:2.5px solid #FF9800;" onclick="openMemoryStudio()">
+        <div class="landmark-card" data-zone="game" style="background:#FFF3E0; border:2.5px solid #FF9800;" onclick="openMemoryStudio()">
           <div class="landmark-icon">🎴</div>
           <div class="landmark-title" style="color:#E65100;">Kartu Ingatan</div>
           <div class="landmark-count" style="color:#F57C00;">Cari Pasangan Kembar</div>
         </div>
 
         <!-- New Wahana: Tangkap Buah Jatuh (Fruit Catcher) -->
-        <div class="landmark-card" style="background:#E8F5E9; border:2.5px solid #4CAF50;" onclick="openCatcherStudio()">
+        <div class="landmark-card" data-zone="game" style="background:#E8F5E9; border:2.5px solid #4CAF50;" onclick="openCatcherStudio()">
           <div class="landmark-icon">🧺🍎</div>
           <div class="landmark-title" style="color:#2E7D32;">Tangkap Buah</div>
           <div class="landmark-count" style="color:#388E3C;">Keranjang Panen</div>
         </div>
 
         <!-- New Wahana: Detektif Cilik (Hidden Objects) -->
-        <div class="landmark-card" style="background:#E1F5FE; border:2.5px solid #03A9F4;" onclick="openDetectiveStudio()">
+        <div class="landmark-card" data-zone="game" style="background:#E1F5FE; border:2.5px solid #03A9F4;" onclick="openDetectiveStudio()">
           <div class="landmark-icon">🔍✨</div>
           <div class="landmark-title" style="color:#0277BD;">Detektif Cilik</div>
           <div class="landmark-count" style="color:#0288D1;">Cari Benda Sembunyi</div>
         </div>
 
         <!-- New Wahana: Dongeng Kiko Sahabat Alam -->
-        <div class="landmark-card" style="background:#E1F5FE; border:2.5px solid #29B6F6;" onclick="startStoryBook()">
+        <div class="landmark-card" data-zone="kreatif" style="background:#E1F5FE; border:2.5px solid #29B6F6;" onclick="startStoryBook()">
           <div class="landmark-icon">🌧️</div>
           <div class="landmark-title" style="color:#0277BD;">Dongeng Kiko</div>
           <div class="landmark-count" style="color:#0288D1;">Sahabat Alam</div>
         </div>
 
-        <div class="landmark-card" onclick="startWahana('huruf', 'Kebun Huruf Fonik')">
+        <div class="landmark-card" data-zone="belajar" onclick="startWahana('huruf', 'Kebun Huruf Fonik')">
           <div class="landmark-icon">🔤</div>
           <div class="landmark-title">Huruf Fonik</div>
           <div class="landmark-count">A-Z Balon</div>
         </div>
 
-        <div class="landmark-card" onclick="startWahana('suku', 'Kereta Suku Kata')">
+        <div class="landmark-card" data-zone="belajar" onclick="startWahana('suku', 'Kereta Suku Kata')">
           <div class="landmark-icon">🚂</div>
           <div class="landmark-title">Suku Kata</div>
           <div class="landmark-count">10 Level SAS</div>
         </div>
 
-        <div class="landmark-card" onclick="startWahana('hitung', 'Pohon Berhitung')">
+        <div class="landmark-card" data-zone="belajar" onclick="startWahana('hitung', 'Pohon Berhitung')">
           <div class="landmark-icon">🍎</div>
           <div class="landmark-title">Pohon Hitung</div>
           <div class="landmark-count">50 Soal Apel</div>
         </div>
 
-        <div class="landmark-card" onclick="startWahana('warna', 'Istana Warna Soft')">
+        <div class="landmark-card" data-zone="kreatif" onclick="startWahana('warna', 'Istana Warna Soft')">
           <div class="landmark-icon">🎨</div>
           <div class="landmark-title">Warna Soft</div>
           <div class="landmark-count">16 Warna</div>
         </div>
 
-        <div class="landmark-card" onclick="startWahana('bentuk', 'Bentuk Geometri')">
+        <div class="landmark-card" data-zone="belajar" onclick="startWahana('bentuk', 'Bentuk Geometri')">
           <div class="landmark-icon">📐</div>
           <div class="landmark-title">Bentuk Kue</div>
           <div class="landmark-count">7 Bentuk</div>
         </div>
 
-        <div class="landmark-card" onclick="startWahana('hewan', 'Kebun Sahabat Hewan')">
+        <div class="landmark-card" data-zone="game" onclick="startWahana('hewan', 'Kebun Sahabat Hewan')">
           <div class="landmark-icon">🦁</div>
           <div class="landmark-title">Tebak Hewan</div>
           <div class="landmark-count">45 Suara</div>
         </div>
 
-        <div class="landmark-card" onclick="startWahana('makan', 'Dapur Hewan Makan Apa')">
+        <div class="landmark-card" data-zone="game" onclick="startWahana('makan', 'Dapur Hewan Makan Apa')">
           <div class="landmark-icon">🥕</div>
           <div class="landmark-title">Makan Apa?</div>
           <div class="landmark-count">10 Hewan</div>
         </div>
 
-        <div class="landmark-card" onclick="startWahana('kendaraan', 'Terminal Kendaraan')">
+        <div class="landmark-card" data-zone="game" onclick="startWahana('kendaraan', 'Terminal Kendaraan')">
           <div class="landmark-icon">✈️</div>
           <div class="landmark-title">Kendaraan</div>
           <div class="landmark-count">Darat & Udara</div>
         </div>
 
-        <div class="landmark-card" onclick="startWahana('sayur', 'Sahabat Sayur Sehat')">
+        <div class="landmark-card" data-zone="karakter" onclick="startWahana('sayur', 'Sahabat Sayur Sehat')">
           <div class="landmark-icon">🥦</div>
           <div class="landmark-title">Sayur Sehat</div>
           <div class="landmark-count">Pasar Cilik</div>
         </div>
 
-        <div class="landmark-card" onclick="startWahana('islam', 'Bintang Islam Ceria')">
+        <div class="landmark-card" data-zone="karakter" onclick="startWahana('islam', 'Bintang Islam Ceria')">
           <div class="landmark-icon">🕌</div>
           <div class="landmark-title">Islam Ceria</div>
           <div class="landmark-count">Rukun & Doa</div>
         </div>
 
-        <div class="landmark-card" onclick="startWahana('langit', 'Teropong Benda Langit')">
+        <div class="landmark-card" data-zone="belajar" onclick="startWahana('langit', 'Teropong Benda Langit')">
           <div class="landmark-icon">🌙</div>
           <div class="landmark-title">Benda Langit</div>
           <div class="landmark-count">Siang & Malam</div>
@@ -1148,30 +1167,30 @@
   <div id="print-target-paper"></div>
 
   <!-- JavaScript Modular Scripts with Cache-Buster -->
-  <script src="js/data.js?v=13.0"></script>
-  <script src="js/audio.js?v=13.0"></script>
-  <script src="js/state.js?v=13.0"></script>
-  <script src="js/profile.js?v=13.0"></script>
-  <script src="js/stages.js?v=13.0"></script>
-  <script src="js/arena.js?v=13.0"></script>
-  <script src="js/tracing.js?v=13.0"></script>
-  <script src="js/story.js?v=13.0"></script>
-  <script src="js/music.js?v=13.0"></script>
-  <script src="js/habits.js?v=13.0"></script>
-  <script src="js/garden.js?v=13.0"></script>
-  <script src="js/print-sheet.js?v=13.0"></script>
-  <script src="js/screentime.js?v=13.0"></script>
-  <script src="js/math-ops.js?v=13.0"></script>
-  <script src="js/clock.js?v=13.0"></script>
-  <script src="js/english.js?v=13.0"></script>
-  <script src="js/science.js?v=13.0"></script>
-  <script src="js/empathy.js?v=13.0"></script>
-  <script src="js/puzzle.js?v=13.0"></script>
-  <script src="js/xox.js?v=13.0"></script>
-  <script src="js/memory.js?v=13.0"></script>
-  <script src="js/catcher.js?v=13.0"></script>
-  <script src="js/detective.js?v=13.0"></script>
-  <script src="js/app.js?v=13.0"></script>
+  <script src="js/data.js?v=14.0"></script>
+  <script src="js/audio.js?v=14.0"></script>
+  <script src="js/state.js?v=14.0"></script>
+  <script src="js/profile.js?v=14.0"></script>
+  <script src="js/stages.js?v=14.0"></script>
+  <script src="js/arena.js?v=14.0"></script>
+  <script src="js/tracing.js?v=14.0"></script>
+  <script src="js/story.js?v=14.0"></script>
+  <script src="js/music.js?v=14.0"></script>
+  <script src="js/habits.js?v=14.0"></script>
+  <script src="js/garden.js?v=14.0"></script>
+  <script src="js/print-sheet.js?v=14.0"></script>
+  <script src="js/screentime.js?v=14.0"></script>
+  <script src="js/math-ops.js?v=14.0"></script>
+  <script src="js/clock.js?v=14.0"></script>
+  <script src="js/english.js?v=14.0"></script>
+  <script src="js/science.js?v=14.0"></script>
+  <script src="js/empathy.js?v=14.0"></script>
+  <script src="js/puzzle.js?v=14.0"></script>
+  <script src="js/xox.js?v=14.0"></script>
+  <script src="js/memory.js?v=14.0"></script>
+  <script src="js/catcher.js?v=14.0"></script>
+  <script src="js/detective.js?v=14.0"></script>
+  <script src="js/app.js?v=14.0"></script>
 
   <!-- PWA Install & Service Worker Registration Script -->
   <script>

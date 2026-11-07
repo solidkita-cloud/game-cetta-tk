@@ -3,7 +3,7 @@
 // Network-First with Cache Fallback for instant updates & offline play
 // =========================================================
 
-const CACHE_NAME = 'cetta-tk-offline-v13';
+const CACHE_NAME = 'cetta-tk-offline-v14';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

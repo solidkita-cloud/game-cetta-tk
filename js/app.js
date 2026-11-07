@@ -279,3 +279,55 @@ window.addEventListener('DOMContentLoaded', function() {
     initScreenTimeSystem();
   }
 });
+
+// ---------------------------------------------------------
+// Zona Petualangan Filtering (Peta Bersih & Ringkas)
+// ---------------------------------------------------------
+var currentMapZone = 'all';
+
+function filterMapZone(zone, btnEl) {
+  if (typeof playTonePop === 'function') {
+    playTonePop();
+  }
+  currentMapZone = zone;
+
+  var tabs = document.querySelectorAll('.zone-tab-btn');
+  tabs.forEach(function(b) {
+    b.classList.remove('active');
+  });
+  if (btnEl) {
+    btnEl.classList.add('active');
+  } else {
+    var match = document.querySelector('.zone-tab-btn[data-zone-target="' + zone + '"]');
+    if (match) match.classList.add('active');
+  }
+
+  var cards = document.querySelectorAll('.map-scroll-area .landmark-card');
+  var visibleCount = 0;
+  cards.forEach(function(card) {
+    var cardZone = card.getAttribute('data-zone');
+    if (zone === 'all' || cardZone === zone) {
+      card.style.display = 'flex';
+      card.style.animation = 'popIn 0.25s ease-out';
+      visibleCount++;
+    } else {
+      card.style.display = 'none';
+    }
+  });
+
+  // Mascot speech feedback
+  var speechMap = {
+    all: "Pilih wahana petualangan yang kamu suka ya! 🗺️✨",
+    belajar: "Zona Belajar Pintar! Ada huruf, angka, jam, dan bahasa Inggris! 📚🔤",
+    game: "Zona Game Seru! Ada kartu ingatan, tangkap buah, dan puzzle! 🎮🧺",
+    kreatif: "Zona Seni & Cerita! Ayo menggambar, bernyanyi, dan dengar dongeng! 🎨🎵",
+    karakter: "Zona Karakter & Sains! Kebiasaan sehat, emosi, dan lab air! 🌱🪥"
+  };
+  if (typeof setMascotSpeech === 'function' && speechMap[zone]) {
+    setMascotSpeech(speechMap[zone]);
+  }
+  if (typeof speakMascot === 'function' && speechMap[zone]) {
+    speakMascot(speechMap[zone]);
+  }
+}
+
