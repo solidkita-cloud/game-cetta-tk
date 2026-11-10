@@ -86,6 +86,14 @@ function updateScreenTimeHudBadge() {
 // Parental Settings Modal
 // ---------------------------------------------------------
 function openScreenTimeModal() {
+  if (typeof requestParentalGate === 'function') {
+    requestParentalGate(openScreenTimeModalActual, "Pengaturan Waktu Layar");
+  } else {
+    openScreenTimeModalActual();
+  }
+}
+
+function openScreenTimeModalActual() {
   playTonePop();
   var m = document.getElementById('modal-screen-time');
   if (m) m.classList.add('modal-active');

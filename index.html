@@ -68,13 +68,16 @@
           MULAI BERMAIN! 🚀
         </button>
 
-        <!-- Bottom Action Buttons (Reward + Install) -->
+        <!-- Bottom Action Buttons (Reward + Install + Parental Hub) -->
         <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
           <button class="squish-btn btn-reward btn-pill" style="font-size:14px;" onclick="openMotherRewardModal()">
             🎁 Peti Hadiah Ibu
           </button>
           <button id="btn-install-app" class="squish-btn btn-pill" style="font-size:14px; background:#E8F5E9; color:#2E7D32; border:2px solid #81C784;" onclick="triggerAppInstall()">
             📲 Pasang di HP/Tablet
+          </button>
+          <button class="squish-btn btn-pill" style="font-size:14px; background:#F1F8E9; color:#2E7D32; border:2px solid #A5D6A7;" onclick="openParentalHub()">
+            🛡️ Ruang Orang Tua
           </button>
         </div>
       </div>
@@ -1051,6 +1054,16 @@
           </button>
         </div>
 
+        <!-- Parental & Privacy Links -->
+        <div style="margin-top:12px; padding-top:10px; border-top:1px dashed #E0E0E0; display:flex; justify-content:center; gap:8px; flex-wrap:wrap;">
+          <button class="squish-btn" style="background:#F1F8E9; color:#2E7D32; font-size:11px; font-weight:800; padding:6px 12px; border-radius:14px; border:1px solid #A5D6A7;" onclick="openParentPrivacyModal()">
+            🔒 Privasi & Keamanan Anak
+          </button>
+          <button class="squish-btn" style="background:#FFEBEE; color:#C62828; font-size:11px; font-weight:800; padding:6px 12px; border-radius:14px; border:1px solid #EF9A9A;" onclick="confirmResetAllData()">
+            🗑️ Reset Progres
+          </button>
+        </div>
+
       </div>
     </div>
 
@@ -1161,36 +1174,194 @@
       </div>
     </div>
 
+    <!-- ======================================================= -->
+    <!-- MODAL: GERBANG ORANG TUA (PARENTAL GATE)                -->
+    <!-- ======================================================= -->
+    <div id="modal-parental-gate" class="game-modal-overlay" style="display:none;" onclick="if(event.target === this) closeParentalGate()">
+      <div class="parent-gate-card">
+        <button onclick="closeParentalGate()" style="position:absolute; top:12px; right:12px; width:34px; height:34px; border-radius:50%; background:#FF5252; color:#FFF; font-size:16px; font-weight:900; border:none; cursor:pointer;">✕</button>
+
+        <div style="font-size:36px; margin-bottom:4px;">🛡️</div>
+        <div id="parent-gate-title" style="font-size:17px; font-weight:900; color:#2E7D32; margin-bottom:4px;">Area Khusus Orang Tua</div>
+        <div style="font-size:13px; color:#546E7A; margin-bottom:14px; line-height:1.4;">
+          Untuk memastikan Anda adalah Ayah/Bunda, silakan pilih jawaban hitung berikut:
+        </div>
+
+        <!-- Question Prompt -->
+        <div id="parent-gate-question" style="background:#E8F5E9; border:2.5px solid #81C784; border-radius:18px; padding:12px; font-size:28px; font-weight:900; color:#1B5E20; margin-bottom:14px; letter-spacing:1px;">
+          7 + 5 = ?
+        </div>
+
+        <!-- 3 Choices -->
+        <div id="parent-gate-choices" style="display:flex; gap:10px; margin-bottom:14px;">
+          <!-- Dynamically populated by js/parental-gate.js -->
+        </div>
+
+        <div id="parent-gate-error" style="display:none; color:#C62828; font-size:12px; font-weight:800; margin-bottom:10px;">
+          Jawaban belum tepat. Coba soal baru ya!
+        </div>
+
+        <!-- Alternative Hold-to-Unlock for busy parents -->
+        <div style="border-top:1.5px dashed #CFD8DC; padding-top:12px; margin-top:6px;">
+          <button class="parent-hold-btn" 
+                  onmousedown="startHoldGate()" onmouseup="cancelHoldGate()" onmouseleave="cancelHoldGate()"
+                  ontouchstart="startHoldGate()" ontouchend="cancelHoldGate()">
+            <div id="parent-gate-hold-bar" class="parent-hold-progress"></div>
+            👆 Atau Sentuh & Tahan Di Sini (3 Detik)
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- MODAL: RUANG ORANG TUA (PARENTAL HUB)                   -->
+    <!-- ======================================================= -->
+    <div id="modal-parental-hub" class="game-modal-overlay" style="display:none;" onclick="if(event.target === this) closeParentalHub()">
+      <div class="game-modal-card" style="max-width:420px; padding:20px; text-align:left;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:28px;">🛡️</span>
+            <div>
+              <div style="font-size:18px; font-weight:900; color:#2E7D32;">Ruang Orang Tua</div>
+              <div style="font-size:12px; color:#558B2F;">Pengaturan, Privasi & Keselamatan Anak</div>
+            </div>
+          </div>
+          <button class="squish-btn btn-icon" style="width:34px; height:34px; font-size:16px;" onclick="closeParentalHub()">✕</button>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:16px;">
+          <!-- Menu 1: Sayang Mata -->
+          <div class="squish-btn" style="background:#E8F5E9; border:2px solid #81C784; border-radius:18px; padding:12px 14px; display:flex; align-items:center; justify-content:space-between; cursor:pointer;" onclick="closeParentalHub(); openScreenTimeModalActual();">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="font-size:24px;">👁️</span>
+              <div>
+                <div style="font-size:14px; font-weight:800; color:#2E7D32;">Batas Waktu Layar (Sayang Mata)</div>
+                <div style="font-size:11px; color:#558B2F;">Atur jeda istirahat mata setelah bermain</div>
+              </div>
+            </div>
+            <span style="font-size:16px; color:#2E7D32;">➔</span>
+          </div>
+
+          <!-- Menu 2: Jaminan Privasi -->
+          <div class="squish-btn" style="background:#E1F5FE; border:2px solid #81D4FA; border-radius:18px; padding:12px 14px; display:flex; align-items:center; justify-content:space-between; cursor:pointer;" onclick="closeParentalHub(); openParentPrivacyModal();">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="font-size:24px;">🔒</span>
+              <div>
+                <div style="font-size:14px; font-weight:800; color:#0277BD;">Jaminan Privasi & Tanpa Iklan</div>
+                <div style="font-size:11px; color:#0288D1;">100% Offline, tanpa pelacak pihak ketiga</div>
+              </div>
+            </div>
+            <span style="font-size:16px; color:#0288D1;">➔</span>
+          </div>
+
+          <!-- Menu 3: Cetak Lembar Mewarnai -->
+          <div class="squish-btn" style="background:#FFF8E1; border:2px solid #FFD54F; border-radius:18px; padding:12px 14px; display:flex; align-items:center; justify-content:space-between; cursor:pointer;" onclick="closeParentalHub(); openPrintSheetsModal();">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="font-size:24px;">🖨️</span>
+              <div>
+                <div style="font-size:14px; font-weight:800; color:#E65100;">Cetak Lembar Mewarnai Fisik</div>
+                <div style="font-size:11px; color:#F57C00;">Cetak PDF untuk mewarnai dengan krayon asli</div>
+              </div>
+            </div>
+            <span style="font-size:16px; color:#E65100;">➔</span>
+          </div>
+
+          <!-- Menu 4: Reset Progres Bersih -->
+          <div class="squish-btn" style="background:#FFEBEE; border:2px solid #EF9A9A; border-radius:18px; padding:12px 14px; display:flex; align-items:center; justify-content:space-between; cursor:pointer;" onclick="closeParentalHub(); confirmResetAllData();">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="font-size:24px;">🗑️</span>
+              <div>
+                <div style="font-size:14px; font-weight:800; color:#C62828;">Atur Ulang / Reset Data Bermain</div>
+                <div style="font-size:11px; color:#E53935;">Mulai dari awal dengan profil bersih</div>
+              </div>
+            </div>
+            <span style="font-size:16px; color:#C62828;">➔</span>
+          </div>
+        </div>
+
+        <button class="squish-btn btn-primary btn-pill" style="width:100%; font-size:13px; padding:10px 0; background:#455A64; border-color:#263238;" onclick="closeParentalHub()">
+          Kembali ke Permainan 👍
+        </button>
+      </div>
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- MODAL: KEBIJAKAN PRIVASI & KESELAMATAN ANAK             -->
+    <!-- ======================================================= -->
+    <div id="modal-parent-privacy" class="game-modal-overlay" style="display:none;" onclick="if(event.target === this) closeParentPrivacyModal()">
+      <div class="game-modal-card" style="max-width:440px; padding:20px; text-align:left; max-height:85vh; overflow-y:auto; -webkit-overflow-scrolling:touch;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:28px;">🔒</span>
+            <div>
+              <div style="font-size:18px; font-weight:900; color:#0277BD;">Privasi & Keselamatan Anak</div>
+              <div style="font-size:11px; color:#546E7A;">Prinsip Ramah & Transparan untuk Orang Tua</div>
+            </div>
+          </div>
+          <button class="squish-btn btn-icon" style="width:34px; height:34px; font-size:16px;" onclick="closeParentPrivacyModal()">✕</button>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:12px; font-size:13px; color:#37474F; line-height:1.5;">
+          <div style="background:#E8F5E9; border-radius:16px; padding:12px; border:1.5px solid #A5D6A7;">
+            <div style="font-weight:900; color:#2E7D32; margin-bottom:3px;">🛡️ 1. Bebas Iklan & Bebas Pembelian (Nol IAP)</div>
+            <div>Aplikasi ini 100% gratis, tanpa iklan komersial, tanpa tautan tersembunyi, dan tanpa transaksi uang virtual atau kotak undian yang mengecoh anak.</div>
+          </div>
+
+          <div style="background:#E1F5FE; border-radius:16px; padding:12px; border:1.5px solid #81D4FA;">
+            <div style="font-weight:900; color:#0277BD; margin-bottom:3px;">📵 2. 100% Offline & Data Lokal di HP</div>
+            <div>Seluruh bintang, kemajuan wahana, dan nama panggilan anak disimpan murni di memori HP Anda (localStorage). Tidak ada data anak yang dikirimkan ke server luar.</div>
+          </div>
+
+          <div style="background:#FFF9C4; border-radius:16px; padding:12px; border:1.5px solid #FFE082;">
+            <div style="font-weight:900; color:#E65100; margin-bottom:3px;">🚫 3. Tanpa Pelacak & Tanpa Akun</div>
+            <div>Kami tidak mengumpulkan nama asli lengkap, nomor telepon, alamat, lokasi GPS, kamera, mikrofon, atau pengenal perangkat iklan.</div>
+          </div>
+
+          <div style="background:#F3E5F5; border-radius:16px; padding:12px; border:1.5px solid #CE93D8;">
+            <div style="font-weight:900; color:#6A1B9A; margin-bottom:3px;">🌱 4. Bermain Tenang & Tanpa Tekanan</div>
+            <div>Tidak ada batas waktu panik atau layar 'Game Over' yang menakutkan. Kesalahan dianggap sebagai proses belajar ('Ayo coba lagi!') dan dilengkapi fitur Pengingat Sayang Mata.</div>
+          </div>
+        </div>
+
+        <div style="margin-top:16px; text-align:center;">
+          <button class="squish-btn btn-primary btn-pill" style="font-size:13px; padding:10px 24px; background:#0288D1; border-color:#01579B;" onclick="closeParentPrivacyModal()">
+            Saya Mengerti, Terima Kasih 👍
+          </button>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- Dedicated Print Target Paper (Displayed only during window.print) -->
   <div id="print-target-paper"></div>
 
   <!-- JavaScript Modular Scripts with Cache-Buster -->
-  <script src="js/data.js?v=14.0"></script>
-  <script src="js/audio.js?v=14.0"></script>
-  <script src="js/state.js?v=14.0"></script>
-  <script src="js/profile.js?v=14.0"></script>
-  <script src="js/stages.js?v=14.0"></script>
-  <script src="js/arena.js?v=14.0"></script>
-  <script src="js/tracing.js?v=14.0"></script>
-  <script src="js/story.js?v=14.0"></script>
-  <script src="js/music.js?v=14.0"></script>
-  <script src="js/habits.js?v=14.0"></script>
-  <script src="js/garden.js?v=14.0"></script>
-  <script src="js/print-sheet.js?v=14.0"></script>
-  <script src="js/screentime.js?v=14.0"></script>
-  <script src="js/math-ops.js?v=14.0"></script>
-  <script src="js/clock.js?v=14.0"></script>
-  <script src="js/english.js?v=14.0"></script>
-  <script src="js/science.js?v=14.0"></script>
-  <script src="js/empathy.js?v=14.0"></script>
-  <script src="js/puzzle.js?v=14.0"></script>
-  <script src="js/xox.js?v=14.0"></script>
-  <script src="js/memory.js?v=14.0"></script>
-  <script src="js/catcher.js?v=14.0"></script>
-  <script src="js/detective.js?v=14.0"></script>
-  <script src="js/app.js?v=14.0"></script>
+  <script src="js/data.js?v=15.0"></script>
+  <script src="js/audio.js?v=15.0"></script>
+  <script src="js/state.js?v=15.0"></script>
+  <script src="js/profile.js?v=15.0"></script>
+  <script src="js/parental-gate.js?v=15.0"></script>
+  <script src="js/stages.js?v=15.0"></script>
+  <script src="js/arena.js?v=15.0"></script>
+  <script src="js/tracing.js?v=15.0"></script>
+  <script src="js/story.js?v=15.0"></script>
+  <script src="js/music.js?v=15.0"></script>
+  <script src="js/habits.js?v=15.0"></script>
+  <script src="js/garden.js?v=15.0"></script>
+  <script src="js/print-sheet.js?v=15.0"></script>
+  <script src="js/screentime.js?v=15.0"></script>
+  <script src="js/math-ops.js?v=15.0"></script>
+  <script src="js/clock.js?v=15.0"></script>
+  <script src="js/english.js?v=15.0"></script>
+  <script src="js/science.js?v=15.0"></script>
+  <script src="js/empathy.js?v=15.0"></script>
+  <script src="js/puzzle.js?v=15.0"></script>
+  <script src="js/xox.js?v=15.0"></script>
+  <script src="js/memory.js?v=15.0"></script>
+  <script src="js/catcher.js?v=15.0"></script>
+  <script src="js/detective.js?v=15.0"></script>
+  <script src="js/app.js?v=15.0"></script>
 
   <!-- PWA Install & Service Worker Registration Script -->
   <script>
