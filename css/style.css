@@ -28,8 +28,9 @@
 }
 
 html, body {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
   overflow: hidden;
   position: fixed;
   font-family: 'Fredoka', 'Quicksand', 'Nunito', 'Comic Sans MS', sans-serif;
@@ -47,17 +48,17 @@ html, body {
   flex-direction: column;
 }
 
-/* Universal Scenes */
+/* Universal Scenes (Flex-First Responsive Viewport) */
 .scene-view {
-  position: absolute;
-  top: 0;
-  left: 0;
+  flex: 1;
+  min-height: 0;
   width: 100%;
-  bottom: 74px; /* Leaves clear space for mascot bottom bar */
+  position: relative;
   display: none;
   flex-direction: column;
   background: transparent;
   z-index: 10;
+  overflow: hidden;
 }
 
 .scene-view.active-scene {
@@ -314,17 +315,17 @@ html, body {
 
 /* Mascot Dialogue Bottom Bar */
 .mascot-bottom-bar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  position: relative;
+  flex-shrink: 0;
   width: 100%;
-  height: 74px;
+  min-height: 66px;
+  height: auto;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(8px);
   border-top: 2px solid rgba(0, 0, 0, 0.08);
   display: flex;
   align-items: center;
-  padding: 8px 16px;
+  padding: 8px 16px calc(8px + env(safe-area-inset-bottom));
   gap: 12px;
   z-index: 100;
 }
@@ -951,6 +952,213 @@ button, .squish-btn, .landmark-card {
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
 }
+
+/* Ensure 8-bar Xylophone always fits container cleanly on any phone width */
+.xylo-bar {
+  min-width: 0 !important;
+}
+
+/* Responsive Scrollable Title Wrapper */
+.title-scroll-wrap {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+  gap: 16px;
+}
+
+@media (max-height: 700px) {
+  .title-scroll-wrap {
+    justify-content: flex-start;
+    padding: 14px 16px 20px;
+  }
+}
+
+/* ========================================================= */
+/* MOBILE SMARTPHONE (HP) PORTRAIT EXPERIENCE POLISH (< 600px)*/
+/* Keeps Tablet/Desktop layout untouched & awesome           */
+/* ========================================================= */
+@media (max-width: 599px) {
+  .hide-on-xs {
+    display: none !important;
+  }
+
+  /* Crisp Single-Line Top Header */
+  .game-header {
+    height: 54px;
+    min-height: 54px;
+    padding: 0 10px;
+  }
+  .header-left, .header-right {
+    gap: 6px;
+  }
+  .header-title {
+    font-size: 15px;
+    gap: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 185px;
+  }
+  .btn-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+  .btn-pill {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+  .btn-star-badge {
+    padding: 4px 10px;
+    font-size: 15px;
+  }
+
+  /* Compact World Status Bar */
+  .world-status-bar {
+    margin: 6px 10px;
+    padding: 6px 8px;
+    font-size: 11px;
+    border-radius: 14px;
+  }
+  .world-status-item {
+    gap: 3px;
+    white-space: nowrap;
+  }
+
+  /* Zona Filter Tabs Sleek on Phone */
+  .zone-tab-bar {
+    padding: 4px 10px 8px;
+    gap: 6px;
+  }
+  .zone-tab-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+    min-height: 36px;
+  }
+
+  /* 2 Spacious Columns on HP (Replaces 3 cramped skinny cards!) */
+  .map-scroll-area {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 6px 12px 18px;
+  }
+  .landmark-card {
+    padding: 12px 8px;
+    gap: 5px;
+    border-radius: 18px;
+    min-height: 104px;
+  }
+  .landmark-icon {
+    font-size: 36px;
+  }
+  .landmark-title {
+    font-size: 13px;
+  }
+  .landmark-count {
+    font-size: 10px;
+    padding: 2px 7px;
+  }
+
+  /* Title Screen Comfortable Mobile Sizing */
+  .title-scroll-wrap {
+    padding: 14px 14px 18px !important;
+    gap: 10px !important;
+  }
+  .title-subtitle-badge {
+    font-size: 11px !important;
+    padding: 5px 12px !important;
+  }
+  .title-main-heading {
+    font-size: 24px !important;
+  }
+  .title-podium-emoji {
+    font-size: 42px !important;
+  }
+  .title-podium-card {
+    padding: 10px 14px !important;
+    border-radius: 20px !important;
+  }
+  .title-start-btn {
+    font-size: 20px !important;
+    padding: 14px 36px !important;
+    width: 100%;
+    max-width: 300px;
+  }
+
+  /* Stage Play Area & Quiz Cards */
+  .stage-main-canvas {
+    padding: 10px 12px;
+  }
+  .stage-question-card {
+    padding: 14px 12px;
+    gap: 12px;
+    border-radius: 22px;
+  }
+  .option-btn {
+    padding: 12px 8px;
+    font-size: 17px;
+    min-height: 54px;
+    border-radius: 16px;
+  }
+
+  /* Responsive Mini-Game Arenas for Mobile Height */
+  #detective-arena {
+    height: clamp(210px, 37dvh, 330px) !important;
+  }
+  #catcher-arena {
+    height: clamp(200px, 35dvh, 280px) !important;
+  }
+  #tracing-canvas-box {
+    min-height: clamp(190px, 34dvh, 280px);
+  }
+  #story-interactive-canvas {
+    min-height: clamp(180px, 32dvh, 240px);
+  }
+  #puzzle-board {
+    width: min(250px, 72vw, 35dvh) !important;
+    height: min(250px, 72vw, 35dvh) !important;
+  }
+  #xox-stage-container [style*="width:280px"] {
+    width: min(260px, 74vw, 36dvh) !important;
+    height: min(260px, 74vw, 36dvh) !important;
+  }
+  .xylo-bar {
+    padding: 8px 0 !important;
+  }
+
+  /* Safe Scrollable Modals on Small Screens */
+  .game-modal-overlay {
+    padding: 12px;
+  }
+  .game-modal-card, .parent-gate-card {
+    max-height: 86dvh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 18px 14px !important;
+    border-radius: 24px;
+  }
+
+  /* Mascot Dialogue Bar Compact Mobile Polish */
+  .mascot-bottom-bar {
+    min-height: 58px;
+    padding: 6px 12px calc(6px + env(safe-area-inset-bottom));
+    gap: 10px;
+  }
+  .mascot-avatar {
+    font-size: 34px;
+  }
+  .mascot-speech-bubble {
+    font-size: 12.5px;
+    line-height: 1.3;
+  }
+}
+
 
 
 
