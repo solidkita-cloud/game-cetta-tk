@@ -48,12 +48,12 @@ var englishState = {
 function openEnglishStudio() {
   goToScene('english');
   setMascotSpeech("Hello! Welcome to Halo English! Ayo belajar bahasa Inggris bersama Pandi! 🇬🇧✨");
-  speakEnglish("Hello! Let's learn English together!");
   englishState.recentWords = [];
   if (englishState.mode === 'quiz') {
     generateNewEnglishQuiz();
   } else {
     renderEnglishStage();
+    speakEnglish("Tap a card to listen!");
   }
 }
 
@@ -68,6 +68,7 @@ function switchEnglishMode(newMode) {
     generateNewEnglishQuiz();
   } else {
     renderEnglishStage();
+    speakEnglish("Tap a card to listen!");
   }
 }
 
@@ -242,7 +243,11 @@ function tapEnglishFlashcard(en, id) {
 function speakEnglishPrompt() {
   var q = englishState.currentQuiz;
   if (!q) return;
-  speakEnglish("Where is the " + q.target.en + "?");
+  if (englishState.activeCategory === 'greetings') {
+    speakEnglish("Can you find " + q.target.en + "?");
+  } else {
+    speakEnglish("Where is the " + q.target.en + "?");
+  }
 }
 
 function handleEnglishAnswer(cardEl, chosenEn) {

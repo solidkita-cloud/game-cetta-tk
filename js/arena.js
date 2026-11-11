@@ -1,7 +1,8 @@
 // =========================================================
-// ARENA.JS - ARENA TANDING GELUD VS BOT KIKO (5 ROUNDS)
-// Dynamic Kid-Friendly Timer (15s Default, 20s, Bebas, 10s, 5s)
-// Bulletproof Modal Dismissal & Instant Map Navigation
+// ARENA.JS - ARENA TANDING CERDAS (VS BOT KIKO & DUEL ANAK VS ANAK)
+// 1. Mode VS Bot Kiko (Dynamic Kid-Friendly Timer)
+// 2. Mode Anak vs Anak (Split-Screen 1 Layar Berhadapan 180°)
+// Zero Spoiler Answers & Procedural Random Math Mixing
 // =========================================================
 
 var VS_DURATIONS = [
@@ -12,13 +13,15 @@ var VS_DURATIONS = [
   { val: 5,  label: "5s (Kilat) 🔴", desc: "Tantangan Cepat" }
 ];
 
+var currentArenaMode = 'bot'; // 'bot' or 'pvp'
+
 var vsBattle = {
   active: false,
   round: 1,
   totalRounds: 5,
   playerScore: 0,
   botScore: 0,
-  duration: 15, // Default 15 seconds
+  duration: 15,
   timeLeft: 15,
   timerInterval: null,
   botTimeout: null,
@@ -27,34 +30,89 @@ var vsBattle = {
   currentQuestion: null
 };
 
+var pvpState = {
+  active: false,
+  round: 1,
+  totalRounds: 5,
+  p1Score: 0,
+  p2Score: 0,
+  p1Cooldown: false,
+  p2Cooldown: false,
+  roundLocked: false,
+  questionPool: [],
+  currentQuestion: null
+};
+
+// Clean Question Master Pool (ZERO star/emoji spoilers!)
 var vsQuestionsPoolMaster = [
   { q: "M-A ditambah T-A dibaca apa?", ans: "MATA 👀", opts: ["MATA 👀", "BAJU 👕", "KUKU 💅", "BOLA ⚽"] },
-  { q: "1 ditambah 2 sama dengan berapa?", ans: "3 ⭐", opts: ["2", "3 ⭐", "4", "5"] },
   { q: "Hewan apa yang bersuara 'Moo moo'?", ans: "Sapi 🐄", opts: ["Ayam 🐔", "Sapi 🐄", "Kucing 🐱", "Kuda 🐴"] },
   { q: "Warna langit cerah di siang hari apa?", ans: "Biru 💧", opts: ["Merah 🍎", "Biru 💧", "Hijau 🌿", "Hitam 🌑"] },
   { q: "Kelinci suka makan sayur apa?", ans: "Wortel 🥕", opts: ["Wortel 🥕", "Batu 🪨", "Kayu 🪵", "Cabai 🌶️"] },
   { q: "B-A ditambah J-U dibaca apa?", ans: "BAJU 👕", opts: ["BOLA ⚽", "BAJU 👕", "ROTI 🍞", "BUKU 📖"] },
   { q: "Kendaraan yang terbang tinggi di awan?", ans: "Pesawat ✈️", opts: ["Mobil 🚗", "Kapal 🚢", "Pesawat ✈️", "Sepeda 🚲"] },
   { q: "Benda langit yang bersinar di malam hari?", ans: "Bulan 🌙", opts: ["Matahari ☀️", "Bulan 🌙", "Pelangi 🌈", "Awan ☁️"] },
-  { q: "2 ditambah 2 sama dengan berapa?", ans: "4 ⭐", opts: ["3", "4 ⭐", "5", "6"] },
   { q: "Hewan apa yang suka makan pisang?", ans: "Monyet 🐒", opts: ["Monyet 🐒", "Singa 🦁", "Ikan 🐟", "Kuda 🐴"] },
   { q: "B-O ditambah L-A dibaca apa?", ans: "BOLA ⚽", opts: ["BOLA ⚽", "BUKU 📚", "BATA 🧱", "BIRU 💧"] },
-  { q: "Warna buah pisang yang matang manis apa?", ans: "Kuning ⭐", opts: ["Kuning ⭐", "Biru 💧", "Hitam 🌑", "Ungu 🍇"] },
+  { q: "Warna buah pisang yang matang manis apa?", ans: "Kuning 🟡", opts: ["Kuning 🟡", "Biru 💧", "Hitam 🌑", "Ungu 🍇"] },
   { q: "Kiblat sholat umat Islam menghadap ke mana?", ans: "Ka'bah 🕋", opts: ["Ka'bah 🕋", "Gunung ⛰️", "Lautan 🌊", "Pohon 🌳"] },
   { q: "R-O ditambah T-I dibaca apa?", ans: "ROTI 🍞", opts: ["ROTI 🍞", "RODA 🛞", "RUSA 🦌", "RAKIT 🪵"] },
   { q: "Hewan yang bersuara 'Kukuruyuk' di pagi hari?", ans: "Ayam Jago 🐓", opts: ["Ayam Jago 🐓", "Bebek 🦆", "Kucing 🐱", "Kambing 🐐"] },
-  { q: "3 ditambah 1 sama dengan berapa?", ans: "4 ⭐", opts: ["2", "3", "4 ⭐", "5"] },
   { q: "Benda langit yang muncul sehabis hujan reda?", ans: "Pelangi 🌈", opts: ["Pelangi 🌈", "Petir ⚡", "Lampu 💡", "Awan Hitam ☁️"] },
   { q: "Kucing suka makan lauk apa?", ans: "Ikan 🐟", opts: ["Ikan 🐟", "Daun 🍃", "Batu 🪨", "Soda 🥤"] },
   { q: "Kendaraan yang berjalan di atas rel besi?", ans: "Kereta Api 🚂", opts: ["Kereta Api 🚂", "Mobil 🚗", "Kapal 🚢", "Pesawat ✈️"] },
   { q: "Sayur berwarna oranye yang menyehatkan mata?", ans: "Wortel 🥕", opts: ["Wortel 🥕", "Permen 🍬", "Cokelat 🍫", "Es Krim 🍦"] },
   { q: "Sebelum makan dan minum kita membaca doa apa?", ans: "Bismillah 🤲", opts: ["Bismillah 🤲", "Horeee 🎉", "Aduh 😮", "Halo 👋"] },
   { q: "Bentuk roda sepeda dan bola adalah apa?", ans: "Lingkaran 🟡", opts: ["Lingkaran 🟡", "Kotak 🟦", "Segitiga 🔺", "Bintang ⭐"] },
-  { q: "5 dikurang 2 sama dengan berapa?", ans: "3 ⭐", opts: ["1", "2", "3 ⭐", "4"] },
   { q: "B-U ditambah K-U dibaca apa?", ans: "BUKU 📚", opts: ["BUKU 📚", "BUSA 🧼", "BULU 🪶", "BUMI 🌍"] },
   { q: "Panda yang lucu suka makan apa?", ans: "Bambu 🎋", opts: ["Bambu 🎋", "Burger 🍔", "Permen 🍬", "Es Krim 🍦"] }
 ];
 
+// Procedural Dynamic Math Question Generator (No Spoilers, Always Fresh!)
+function generateProceduralArenaMath() {
+  var isAdd = Math.random() > 0.4;
+  var ansNum = 0;
+  var qText = '';
+
+  if (isAdd) {
+    var a = Math.floor(Math.random() * 5) + 1; // 1..5
+    var b = Math.floor(Math.random() * 5) + 1; // 1..5
+    ansNum = a + b;
+    qText = a + " ditambah " + b + " sama dengan berapa?";
+  } else {
+    var total = Math.floor(Math.random() * 6) + 3; // 3..8
+    var sub = Math.floor(Math.random() * (total - 1)) + 1;
+    ansNum = total - sub;
+    qText = total + " dikurang " + sub + " sama dengan berapa?";
+  }
+
+  var opts = [String(ansNum)];
+  while (opts.length < 4) {
+    var delta = (Math.random() > 0.5 ? 1 : -1) * (Math.floor(Math.random() * 3) + 1);
+    var cand = ansNum + delta;
+    if (cand >= 0 && cand <= 12 && opts.indexOf(String(cand)) === -1) {
+      opts.push(String(cand));
+    }
+  }
+  opts = shuffleArray(opts);
+  return { q: qText, ans: String(ansNum), opts: opts };
+}
+
+function buildArenaBattleDeck(count) {
+  var deck = [];
+  var generalPool = shuffleArray(vsQuestionsPoolMaster);
+  // Mix 2 fresh procedural math questions + general questions
+  deck.push(generateProceduralArenaMath());
+  deck.push(generateProceduralArenaMath());
+  for (var i = 0; i < count - 2 && i < generalPool.length; i++) {
+    deck.push(generalPool[i]);
+  }
+  return shuffleArray(deck);
+}
+
+// ---------------------------------------------------------
+// Shared Modal & Exit Controls
+// ---------------------------------------------------------
 function closeVsModal() {
   var modal = document.getElementById('modal-vs-finish');
   if (modal) {
@@ -64,15 +122,9 @@ function closeVsModal() {
 }
 
 function exitVsBattleToMap() {
-  // 1. Force close and hide all modals directly
   closeVsModal();
-  var allModals = document.querySelectorAll('.game-modal-overlay');
-  allModals.forEach(function(m) {
-    m.classList.remove('modal-active');
-    m.style.display = 'none';
-  });
+  if (typeof closeAllModals === 'function') closeAllModals();
 
-  // 2. Clear all battle timers and state
   vsBattle.active = false;
   vsBattle.roundLocked = true;
   clearInterval(vsBattle.timerInterval);
@@ -80,38 +132,42 @@ function exitVsBattleToMap() {
   clearTimeout(vsBattle.botTimeout);
   vsBattle.botTimeout = null;
 
-  // 3. Switch scenes immediately to map
-  var scenes = document.querySelectorAll('.scene-view');
-  scenes.forEach(function(s) {
-    s.classList.remove('active-scene');
-  });
-  var mapScene = document.getElementById('scene-map');
-  if (mapScene) {
-    mapScene.classList.add('active-scene');
+  pvpState.active = false;
+  pvpState.roundLocked = true;
+
+  if (typeof goToScene === 'function') {
+    goToScene('map');
   }
-
-  // 4. Reactivate bubbles on map
-  var bubbleLayer = document.getElementById('floating-bubbles-container');
-  if (bubbleLayer) bubbleLayer.style.display = 'block';
-
-  if (typeof playTonePop === 'function') playTonePop();
   if (typeof setMascotSpeech === 'function') {
     setMascotSpeech("Kembali ke Peta Wahana! Pilih permainan lainnya yuk! 🗺️✨");
   }
 }
 
-function startVsBattle() {
-  // Ensure clean exit from any lingering state
+function exitPvpDuelToMap() {
   exitVsBattleToMap();
-  if (typeof playTonePop === 'function') playTonePop();
+}
 
+function replayCurrentArenaMatch() {
+  closeVsModal();
+  if (currentArenaMode === 'pvp') {
+    startPvpDuelBattle();
+  } else {
+    startVsBattle();
+  }
+}
+
+// =========================================================
+// MODE 1: VS BOT KIKO (SINGLE PLAYER)
+// =========================================================
+function startVsBattle() {
+  closeVsModal();
+  currentArenaMode = 'bot';
   vsBattle.active = true;
   vsBattle.round = 1;
   vsBattle.playerScore = 0;
   vsBattle.botScore = 0;
   vsBattle.roundLocked = false;
 
-  // Load saved duration (default 15s)
   var savedDur = localStorage.getItem('cetta_vs_duration');
   if (savedDur !== null) {
     vsBattle.duration = parseInt(savedDur, 10);
@@ -119,23 +175,15 @@ function startVsBattle() {
     vsBattle.duration = 15;
   }
 
-  // Shuffle pool so questions are randomized
-  vsBattle.questionPool = shuffleArray(vsQuestionsPoolMaster);
+  vsBattle.questionPool = buildArenaBattleDeck(vsBattle.totalRounds);
 
-  // Switch to VS scene
-  var scenes = document.querySelectorAll('.scene-view');
-  scenes.forEach(function(s) {
-    s.classList.remove('active-scene');
-  });
-  var vsScene = document.getElementById('scene-vs');
-  if (vsScene) vsScene.classList.add('active-scene');
-
-  var bubbleLayer = document.getElementById('floating-bubbles-container');
-  if (bubbleLayer) bubbleLayer.style.display = 'none';
+  if (typeof goToScene === 'function') {
+    goToScene('vs');
+  }
 
   updateVsScoreboard();
   updateVsDurationBadge();
-  speakNatural("Arena Tanding dimulai! Santai saja ya sayang, pasti bisa!");
+  speakNatural("Arena Tanding melawan Bot Kiko dimulai! Santai saja ya sayang, pasti bisa!");
   renderVsRound();
 }
 
@@ -159,7 +207,6 @@ function cycleVsDuration() {
     }
   }
 
-  // Apply immediately to current round if in battle
   if (vsBattle.active && !vsBattle.roundLocked) {
     applyDurationToActiveRound();
   }
@@ -191,11 +238,7 @@ function updateVsTimerDisplay() {
 }
 
 function getBotDelayForDuration(duration) {
-  if (duration === 0) {
-    // Tanpa batas waktu: Bot Kiko will wait 60 seconds (giving child unlimited time)
-    return 60000;
-  }
-  // Bot gives player at least 70% - 88% of total time before answering!
+  if (duration === 0) return 60000;
   var minDelay = duration * 1000 * 0.72;
   var maxDelay = duration * 1000 * 0.90;
   return minDelay + Math.random() * (maxDelay - minDelay);
@@ -311,7 +354,6 @@ function botAnswersNow() {
   vsBattle.roundLocked = true;
   clearInterval(vsBattle.timerInterval);
 
-  // 70% Bot is correct
   var botCorrect = Math.random() < 0.70;
   if (botCorrect) {
     if (typeof playToneWhistle === 'function') playToneWhistle();
@@ -382,5 +424,202 @@ function finishVsBattle() {
     if (title) title.textContent = (vsBattle.playerScore >= vsBattle.botScore ? "🏆 KAMU JUARANYA!" : "🤝 PERTANDINGAN SERU!");
     var sub = document.getElementById('vs-finish-sub');
     if (sub) sub.textContent = "Skor: " + window.gameState.playerName + " (" + vsBattle.playerScore + ") vs Bot Kiko (" + vsBattle.botScore + ")";
+  }
+}
+
+// =========================================================
+// MODE 2: DUEL ANAK VS ANAK (SPLIT-SCREEN 1 LAYAR BERHADAPAN!)
+// Atas (Terbalik 180°) = Pemain 2 (Tim Oranye 🐱)
+// Bawah (Normal 0°)   = Pemain 1 (Tim Hijau 🐼)
+// =========================================================
+function startPvpDuelBattle() {
+  closeVsModal();
+  currentArenaMode = 'pvp';
+  pvpState.active = true;
+  pvpState.round = 1;
+  pvpState.p1Score = 0;
+  pvpState.p2Score = 0;
+  pvpState.p1Cooldown = false;
+  pvpState.p2Cooldown = false;
+  pvpState.roundLocked = false;
+  pvpState.questionPool = buildArenaBattleDeck(pvpState.totalRounds);
+
+  if (typeof goToScene === 'function') {
+    goToScene('pvp-duel');
+  }
+
+  updatePvpScoreboard();
+  renderPvpRound();
+}
+
+function updatePvpScoreboard() {
+  var p1El = document.getElementById('pvp-p1-score');
+  if (p1El) p1El.textContent = pvpState.p1Score;
+
+  var p2El = document.getElementById('pvp-p2-score');
+  if (p2El) p2El.textContent = pvpState.p2Score;
+
+  var rEl = document.getElementById('pvp-round-num');
+  if (rEl) rEl.textContent = pvpState.round + " / " + pvpState.totalRounds;
+}
+
+function speakPvpQuestion() {
+  if (!pvpState.currentQuestion) return;
+  if (typeof speakNatural === 'function') {
+    speakNatural(pvpState.currentQuestion.q);
+  }
+}
+
+function renderPvpRound() {
+  if (!pvpState.active) return;
+  pvpState.roundLocked = false;
+  pvpState.p1Cooldown = false;
+  pvpState.p2Cooldown = false;
+
+  var pool = pvpState.questionPool;
+  var qItem = pool[(pvpState.round - 1) % pool.length] || vsQuestionsPoolMaster[0];
+  var opts = shuffleArray(qItem.opts);
+
+  pvpState.currentQuestion = {
+    q: qItem.q,
+    ans: qItem.ans,
+    shuffledOpts: opts
+  };
+
+  updatePvpScoreboard();
+
+  // Render Player 1 (Bottom - Normal) & Player 2 (Top - 180deg Rotated)
+  var p1Q = document.getElementById('pvp-p1-question');
+  var p2Q = document.getElementById('pvp-p2-question');
+  if (p1Q) p1Q.textContent = qItem.q;
+  if (p2Q) p2Q.textContent = qItem.q;
+
+  var p1Status = document.getElementById('pvp-p1-status');
+  var p2Status = document.getElementById('pvp-p2-status');
+  if (p1Status) p1Status.textContent = "Siap menjawab!";
+  if (p2Status) p2Status.textContent = "Siap menjawab!";
+
+  var p1Grid = document.getElementById('pvp-p1-grid');
+  var p2Grid = document.getElementById('pvp-p2-grid');
+
+  if (p1Grid) {
+    p1Grid.innerHTML = opts.map(function(opt, idx) {
+      return `
+        <button id="pvp-p1-btn-${idx}" class="squish-btn pvp-ans-btn" onclick="handlePvpAnswer(1, ${idx}, this)">
+          ${opt}
+        </button>
+      `;
+    }).join('');
+  }
+
+  if (p2Grid) {
+    p2Grid.innerHTML = opts.map(function(opt, idx) {
+      return `
+        <button id="pvp-p2-btn-${idx}" class="squish-btn pvp-ans-btn" onclick="handlePvpAnswer(2, ${idx}, this)">
+          ${opt}
+        </button>
+      `;
+    }).join('');
+  }
+
+  speakPvpQuestion();
+}
+
+function handlePvpAnswer(playerNum, optIdx, btnEl) {
+  if (!pvpState.active || pvpState.roundLocked) return;
+  if (playerNum === 1 && pvpState.p1Cooldown) return;
+  if (playerNum === 2 && pvpState.p2Cooldown) return;
+
+  var q = pvpState.currentQuestion;
+  if (!q) return;
+
+  var chosen = q.shuffledOpts[optIdx];
+  var isCorrect = (chosen === q.ans);
+
+  var statusEl = document.getElementById('pvp-p' + playerNum + '-status');
+  var oppNum = (playerNum === 1 ? 2 : 1);
+  var oppStatusEl = document.getElementById('pvp-p' + oppNum + '-status');
+
+  if (isCorrect) {
+    pvpState.roundLocked = true;
+    if (typeof playToneChime === 'function') playToneChime();
+    if (btnEl) btnEl.classList.add('opt-correct');
+
+    if (playerNum === 1) {
+      pvpState.p1Score++;
+    } else {
+      pvpState.p2Score++;
+    }
+    updatePvpScoreboard();
+
+    if (statusEl) statusEl.textContent = "🎉 HEBAT! +1 Poin!";
+    if (oppStatusEl) oppStatusEl.textContent = "👏 Bagus! Siap ronde berikutnya!";
+
+    var teamLabel = (playerNum === 1 ? "Tim Pandi Hijau" : "Tim Miko Oranye");
+    if (typeof speakNatural === 'function') {
+      speakNatural(teamLabel + " benar dan cepat sekali!");
+    }
+
+    setTimeout(function() {
+      pvpState.round++;
+      if (pvpState.round > pvpState.totalRounds) {
+        finishPvpDuel();
+      } else {
+        renderPvpRound();
+      }
+    }, 1500);
+  } else {
+    // Gentle anti-spam cooldown ONLY on the tapping player's side (opponent can still answer!)
+    if (typeof playToneBoing === 'function') playToneBoing();
+    if (btnEl) btnEl.classList.add('opt-wrong');
+
+    if (playerNum === 1) {
+      pvpState.p1Cooldown = true;
+    } else {
+      pvpState.p2Cooldown = true;
+    }
+    if (statusEl) statusEl.textContent = "⏳ Ups, tunggu sebentar ya!";
+
+    setTimeout(function() {
+      if (btnEl) btnEl.classList.remove('opt-wrong');
+      if (playerNum === 1) pvpState.p1Cooldown = false;
+      else pvpState.p2Cooldown = false;
+      if (!pvpState.roundLocked && statusEl) {
+        statusEl.textContent = "Ayo coba lagi!";
+      }
+    }, 1200);
+  }
+}
+
+function finishPvpDuel() {
+  pvpState.active = false;
+  pvpState.roundLocked = true;
+  if (typeof playToneFanfare === 'function') playToneFanfare();
+  if (typeof triggerConfetti === 'function') triggerConfetti();
+  if (typeof addGameStars === 'function') addGameStars(3);
+
+  var titleText = "🏆 DUEL SERU SELESAI!";
+  var speechText = "";
+  if (pvpState.p1Score > pvpState.p2Score) {
+    titleText = "🏆 TIM PANDI 🐼 MENANG!";
+    speechText = "Horeee! Tim Pandi unggul! Kedua pemain hebat sekali dapat tiga bintang!";
+  } else if (pvpState.p2Score > pvpState.p1Score) {
+    titleText = "🏆 TIM MIKO 🐱 MENANG!";
+    speechText = "Horeee! Tim Miko unggul! Kedua pemain hebat sekali dapat tiga bintang!";
+  } else {
+    titleText = "🤝 SERI! DUA-DUANYA JUARA!";
+    speechText = "Wah hebat! Tim Pandi dan Tim Miko seri! Kalian sama-sama cerdas!";
+  }
+
+  if (typeof speakNatural === 'function') speakNatural(speechText);
+
+  var modal = document.getElementById('modal-vs-finish');
+  if (modal) {
+    modal.style.display = 'flex';
+    modal.classList.add('modal-active');
+    var titleEl = document.getElementById('vs-finish-title');
+    if (titleEl) titleEl.textContent = titleText;
+    var subEl = document.getElementById('vs-finish-sub');
+    if (subEl) subEl.textContent = "🐼 Tim Pandi (" + pvpState.p1Score + ") vs 🐱 Tim Miko (" + pvpState.p2Score + ") • +3 Bintang Bersama ⭐";
   }
 }

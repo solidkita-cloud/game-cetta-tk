@@ -15,8 +15,8 @@
   <link rel="icon" type="image/png" href="icons/icon-192.png">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
 
-  <link rel="stylesheet" href="css/style.css?v=16.0">
-  <link rel="stylesheet" href="css/animations.css?v=16.0">
+  <link rel="stylesheet" href="css/style.css?v=17.0">
+  <link rel="stylesheet" href="css/animations.css?v=17.0">
 </head>
 <body>
 
@@ -327,9 +327,12 @@
       </div>
 
       <!-- Big VS Arena Button at Bottom of Map -->
-      <div style="padding: 0 16px 12px; display:flex; justify-content:center;">
-        <button class="squish-btn btn-primary" style="background:linear-gradient(180deg, #FF5252, #D32F2F); border-color:#B71C1C; width:100%; max-width:400px; padding:14px; font-size:18px;" onclick="startVsBattle()">
-          ⚔️ TANDING GELUD VS BOT KIKO! 🤖
+      <div style="padding: 0 12px 10px; display:flex; justify-content:center; gap:8px; flex-wrap:nowrap;">
+        <button class="squish-btn btn-primary" style="flex:1; max-width:220px; background:linear-gradient(180deg, #FF5252, #D32F2F); border-color:#B71C1C; padding:12px 8px; font-size:14px;" onclick="startVsBattle()">
+          🤖 vs Bot Kiko
+        </button>
+        <button class="squish-btn btn-primary" style="flex:1; max-width:240px; background:linear-gradient(180deg, #FF9800, #F57C00); border-color:#E65100; padding:12px 8px; font-size:14px;" onclick="startPvpDuelBattle()">
+          ⚔️ Anak vs Anak (1 Layar!)
         </button>
       </div>
 
@@ -436,6 +439,74 @@
         <button class="squish-btn" style="background:rgba(255,255,255,0.12); color:#ECEFF1; font-size:13px; font-weight:700; padding:8px 18px; border-radius:16px; border:1px solid rgba(255,255,255,0.25); cursor:pointer;" onclick="exitVsBattleToMap()">
           🏁 Selesai & Kembali ke Peta
         </button>
+      </div>
+
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- SCENE 4B: DUEL ANAK VS ANAK (SPLIT-SCREEN 180° 1 LAYAR) -->
+    <!-- ======================================================= -->
+    <div id="scene-pvp-duel" class="scene-view">
+      
+      <!-- PLAYER 2 ZONE (TOP, ROTATED 180° FOR OPPOSITE PLAYER) -->
+      <div class="pvp-duel-zone pvp-p2-flipped">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="font-size:24px;">🐱</span>
+            <div>
+              <div style="font-size:13px; font-weight:900; color:#E65100;">Tim Miko (Pemain 2)</div>
+              <div id="pvp-p2-status" style="font-size:11px; font-weight:700; color:#F57C00;">Siap menjawab!</div>
+            </div>
+          </div>
+          <div style="background:#FFF; padding:4px 12px; border-radius:14px; border:2px solid #FFB74D; font-size:16px; font-weight:900; color:#E65100;">
+            Skor: <span id="pvp-p2-score">0</span>
+          </div>
+        </div>
+
+        <div id="pvp-p2-question" style="background:#FFF; border-radius:16px; padding:8px 12px; font-size:16px; font-weight:800; color:#3E2723; text-align:center; border:2px solid #FFE082; box-shadow:0 2px 6px rgba(0,0,0,0.05);">
+          Siap bertanding...
+        </div>
+
+        <div id="pvp-p2-grid" class="pvp-ans-grid">
+          <!-- Dynamically populated by arena.js -->
+        </div>
+      </div>
+
+      <!-- CENTER DIVIDER STRIP -->
+      <div class="pvp-center-bar">
+        <button class="squish-btn" style="background:#FF5252; color:#FFF; font-size:11px; padding:4px 10px; border-radius:12px; min-height:30px; min-width:30px;" onclick="exitPvpDuelToMap()">
+          ⬅️ Keluar
+        </button>
+        <div style="font-size:13px; font-weight:900; letter-spacing:0.5px;">
+          ⚔️ RONDE <span id="pvp-round-num">1 / 5</span>
+        </div>
+        <button class="squish-btn" style="background:#FFD54F; color:#3E2723; font-size:11px; padding:4px 10px; border-radius:12px; min-height:30px; min-width:30px;" onclick="speakPvpQuestion()">
+          🔊 Baca Soal
+        </button>
+      </div>
+
+      <!-- PLAYER 1 ZONE (BOTTOM, NORMAL 0°) -->
+      <div class="pvp-duel-zone pvp-p1-normal">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="font-size:24px;">🐼</span>
+            <div>
+              <div style="font-size:13px; font-weight:900; color:#1B5E20;">Tim Pandi (Pemain 1)</div>
+              <div id="pvp-p1-status" style="font-size:11px; font-weight:700; color:#388E3C;">Siap menjawab!</div>
+            </div>
+          </div>
+          <div style="background:#FFF; padding:4px 12px; border-radius:14px; border:2px solid #81C784; font-size:16px; font-weight:900; color:#2E7D32;">
+            Skor: <span id="pvp-p1-score">0</span>
+          </div>
+        </div>
+
+        <div id="pvp-p1-question" style="background:#FFF; border-radius:16px; padding:8px 12px; font-size:16px; font-weight:800; color:#1B5E20; text-align:center; border:2px solid #A5D6A7; box-shadow:0 2px 6px rgba(0,0,0,0.05);">
+          Siap bertanding...
+        </div>
+
+        <div id="pvp-p1-grid" class="pvp-ans-grid">
+          <!-- Dynamically populated by arena.js -->
+        </div>
       </div>
 
     </div>
@@ -948,7 +1019,7 @@
         <h2 id="vs-finish-title" style="font-size:24px; color:#FF6F00;">KAMU JUARANYA!</h2>
         <p id="vs-finish-sub" style="font-size:16px; color:#2E3A23; font-weight:800;"></p>
         <div style="display:flex; gap:12px; justify-content:center; margin-top:8px; flex-wrap:wrap;">
-          <button class="squish-btn btn-pill" style="background:#E1F5FE; color:#0288D1; font-weight:800; padding:12px 20px; font-size:16px;" onclick="startVsBattle()">Tanding Lagi ⚔️</button>
+          <button class="squish-btn btn-pill" style="background:#E1F5FE; color:#0288D1; font-weight:800; padding:12px 20px; font-size:16px;" onclick="replayCurrentArenaMatch()">Tanding Lagi ⚔️</button>
           <button class="squish-btn btn-primary btn-pill" style="padding:12px 20px; font-size:16px;" onclick="exitVsBattleToMap()">Peta Wahana 🗺️</button>
         </div>
       </div>
@@ -1337,31 +1408,31 @@
   <div id="print-target-paper"></div>
 
   <!-- JavaScript Modular Scripts with Cache-Buster -->
-  <script src="js/data.js?v=16.0"></script>
-  <script src="js/audio.js?v=16.0"></script>
-  <script src="js/state.js?v=16.0"></script>
-  <script src="js/profile.js?v=16.0"></script>
-  <script src="js/parental-gate.js?v=16.0"></script>
-  <script src="js/stages.js?v=16.0"></script>
-  <script src="js/arena.js?v=16.0"></script>
-  <script src="js/tracing.js?v=16.0"></script>
-  <script src="js/story.js?v=16.0"></script>
-  <script src="js/music.js?v=16.0"></script>
-  <script src="js/habits.js?v=16.0"></script>
-  <script src="js/garden.js?v=16.0"></script>
-  <script src="js/print-sheet.js?v=16.0"></script>
-  <script src="js/screentime.js?v=16.0"></script>
-  <script src="js/math-ops.js?v=16.0"></script>
-  <script src="js/clock.js?v=16.0"></script>
-  <script src="js/english.js?v=16.0"></script>
-  <script src="js/science.js?v=16.0"></script>
-  <script src="js/empathy.js?v=16.0"></script>
-  <script src="js/puzzle.js?v=16.0"></script>
-  <script src="js/xox.js?v=16.0"></script>
-  <script src="js/memory.js?v=16.0"></script>
-  <script src="js/catcher.js?v=16.0"></script>
-  <script src="js/detective.js?v=16.0"></script>
-  <script src="js/app.js?v=16.0"></script>
+  <script src="js/data.js?v=17.0"></script>
+  <script src="js/audio.js?v=17.0"></script>
+  <script src="js/state.js?v=17.0"></script>
+  <script src="js/profile.js?v=17.0"></script>
+  <script src="js/parental-gate.js?v=17.0"></script>
+  <script src="js/stages.js?v=17.0"></script>
+  <script src="js/arena.js?v=17.0"></script>
+  <script src="js/tracing.js?v=17.0"></script>
+  <script src="js/story.js?v=17.0"></script>
+  <script src="js/music.js?v=17.0"></script>
+  <script src="js/habits.js?v=17.0"></script>
+  <script src="js/garden.js?v=17.0"></script>
+  <script src="js/print-sheet.js?v=17.0"></script>
+  <script src="js/screentime.js?v=17.0"></script>
+  <script src="js/math-ops.js?v=17.0"></script>
+  <script src="js/clock.js?v=17.0"></script>
+  <script src="js/english.js?v=17.0"></script>
+  <script src="js/science.js?v=17.0"></script>
+  <script src="js/empathy.js?v=17.0"></script>
+  <script src="js/puzzle.js?v=17.0"></script>
+  <script src="js/xox.js?v=17.0"></script>
+  <script src="js/memory.js?v=17.0"></script>
+  <script src="js/catcher.js?v=17.0"></script>
+  <script src="js/detective.js?v=17.0"></script>
+  <script src="js/app.js?v=17.0"></script>
 
   <!-- PWA Install & Service Worker Registration Script -->
   <script>

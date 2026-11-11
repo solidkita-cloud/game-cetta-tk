@@ -178,14 +178,34 @@ function playToneJuice() {
   }
 }
 
-// 8. Natural Indonesian Speech Synthesis
+// 8. Natural Indonesian & English Speech Synthesis (Mobile-Safe)
+var _speechQueueTimer = null;
+window._activeUtterance = null;
+
+function _safeSpeakUtterance(u) {
+  if (!('speechSynthesis' in window)) return;
+  if (_speechQueueTimer) {
+    clearTimeout(_speechQueueTimer);
+    _speechQueueTimer = null;
+  }
+  window._activeUtterance = u; // Prevent Android Chrome GC mid-speech
+
+  if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
+    window.speechSynthesis.cancel();
+    _speechQueueTimer = setTimeout(function() {
+      try { window.speechSynthesis.speak(u); } catch (err) {}
+    }, 80);
+  } else {
+    try { window.speechSynthesis.speak(u); } catch (err) {}
+  }
+}
+
 function speakNatural(text, callback) {
   if (!('speechSynthesis' in window)) {
     if (callback) callback();
     return;
   }
   try {
-    window.speechSynthesis.cancel();
     var u = new SpeechSynthesisUtterance(text);
     u.lang = 'id-ID';
     u.rate = 0.95;  // gentle teacher speed
@@ -193,7 +213,7 @@ function speakNatural(text, callback) {
     
     var voices = window.speechSynthesis.getVoices();
     var idVoice = voices.find(function(v) {
-      return (v.lang.indexOf('id') !== -1 || v.lang.indexOf('ID') !== -1);
+      return v.lang.toLowerCase().indexOf('id') === 0;
     });
     if (idVoice) {
       u.voice = idVoice;
@@ -203,7 +223,7 @@ function speakNatural(text, callback) {
       u.onend = function() { callback(); };
       u.onerror = function() { callback(); };
     }
-    window.speechSynthesis.speak(u);
+    _safeSpeakUtterance(u);
   } catch (e) {
     console.warn("TTS Error:", e);
     if (callback) callback();
@@ -217,7 +237,6 @@ function speakEnglish(text, callback) {
     return;
   }
   try {
-    window.speechSynthesis.cancel();
     var u = new SpeechSynthesisUtterance(text);
     u.lang = 'en-US';
     u.rate = 0.90;  // slightly slower for ESL preschool learners
@@ -225,7 +244,8 @@ function speakEnglish(text, callback) {
     
     var voices = window.speechSynthesis.getVoices();
     var enVoice = voices.find(function(v) {
-      return (v.lang === 'en-US' || v.lang === 'en_US' || v.lang.indexOf('en') === 0);
+      var l = v.lang.toLowerCase();
+      return (l === 'en-us' || l === 'en_us' || l.indexOf('en') === 0);
     });
     if (enVoice) {
       u.voice = enVoice;
@@ -235,7 +255,7 @@ function speakEnglish(text, callback) {
       u.onend = function() { callback(); };
       u.onerror = function() { callback(); };
     }
-    window.speechSynthesis.speak(u);
+    _safeSpeakUtterance(u);
   } catch (e) {
     console.warn("TTS English Error:", e);
     if (callback) callback();

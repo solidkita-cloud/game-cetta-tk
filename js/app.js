@@ -28,6 +28,12 @@ function goToScene(sceneName) {
     bubbleLayer.style.display = (sceneName === 'title' || sceneName === 'map') ? 'block' : 'none';
   }
 
+  // Hide Mascot Bottom Bar ONLY in symmetric 2-player Split-Screen Duel
+  var mascotBar = document.querySelector('.mascot-bottom-bar');
+  if (mascotBar) {
+    mascotBar.style.display = (sceneName === 'pvp-duel') ? 'none' : 'flex';
+  }
+
   // Update Mascot speech for scene
   var mascotName = (window.gameState.selectedMascot === 'pandi' ? 'Pandi' : 'Miko');
   if (sceneName === 'map') {
